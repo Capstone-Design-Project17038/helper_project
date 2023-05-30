@@ -27,7 +27,7 @@ export default function Git() {
         const accessToken = result.data.split("=")[1].split("&")[0];
         setAccessToken(accessToken);
         setLoginType("GIT");
-        navigate("/");
+        navigate("/MainPage");
       });
     }
   } catch (error) {}

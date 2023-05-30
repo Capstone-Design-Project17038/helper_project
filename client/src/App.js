@@ -12,6 +12,7 @@ import axios from "axios";
 import Git from "./components/callback/Git";
 import Google from "./components/callback/Google";
 import Kakao from "./components/callback/Kakao";
+import MainPage from "./pages/main/MainPage";
 import { UserContext } from "./context/LoginContext";
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path='/MainPage' element={<MainPage />} />
             <Route path="/auth/callback/git" element={<Git />} />
             <Route path="/auth/callback/google" element={<Google />} />
             <Route path="/auth/callback/kakao" element={<Kakao />} />
