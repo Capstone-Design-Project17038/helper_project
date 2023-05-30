@@ -14,12 +14,14 @@ export default function Kakao() {
     try {
     const url = new URL(window.location.href);
     const code = url.searchParams.get("code");
+    const type2 = "kakao;"
     if (code) {
       axios({
         url: "http://localhost:8112/auth/accesstoken",
         method: "post",
         data: {
           code: code,
+          type: type2,
         },
       }).then((result) => {
         const accessToken = result.data.split("=")[1].split("&")[0];
