@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 class main extends React.Component {
   render() {
@@ -8,7 +8,12 @@ class main extends React.Component {
           <div className="hero-content">
             <h2>건강한 삶을 위한 운동을 시작하세요!</h2>
             <p>더 나은 건강과 체력을 위한 운동 프로그램을 찾아보세요.</p>
-            <button className="btn">시작하기</button>
+            <button
+              className="btn"
+              onClick={() => (window.location.href = "../tm.html")}
+            >
+              시작하기
+            </button>
           </div>
           <img src="" alt="운동하는 사람" />
         </section>
