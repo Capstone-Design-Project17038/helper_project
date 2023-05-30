@@ -1,13 +1,15 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./login.css";
 
 export default function Login() {
+  const kakaoid = "b95846f7ffaa2715ee237dd29dbcd482";
+  const kakaoREDIRECT_URI = "http://localhost:3000/auth/callback/kakao";
   const github = () => {
     window
       .open(
         "https://github.com/login/oauth/authorize" +
-          `?client_id=${process.env.REACT_APP_GITHUB_CLIEND_ID}`,
+          `?client_id=${process.env.REACT_APP_GITHUB_CLIENT_ID}`,
         "_self"
       )
   };
@@ -19,9 +21,7 @@ export default function Login() {
   const kakao = () => {
     window
     .open(
-      "https://github.com/login/oauth/authorize" +
-        `?client_id=${process.env.REACT_APP_GITHUB_CLIEND_ID}`,
-      "_self"
+      `https://kauth.kakao.com/oauth/authorize?client_id=${kakaoid}&redirect_uri=${kakaoREDIRECT_URI}&response_type=code`
     )
 
   }
