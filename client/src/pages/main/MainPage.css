@@ -4,7 +4,7 @@
     padding: 20px;
   }
   
-  header {
+  .main-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,12 +58,12 @@
     margin-bottom: 10px;
   }
   
-  footer {
+  .main-footer {
     text-align: center;
     color: #888;
   }
   
-  .footer p {
+  .main-footer p {
     margin: 0;
   }
   .logo-container {

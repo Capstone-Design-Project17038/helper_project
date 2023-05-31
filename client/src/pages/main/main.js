@@ -1,6 +1,10 @@
 import React from "react";
 
 class main extends React.Component {
+  handleClick = () => {
+    window.location.href = "../tm.html";
+  };
+
   render() {
     return (
       <main>
@@ -10,7 +14,7 @@ class main extends React.Component {
             <p>더 나은 건강과 체력을 위한 운동 프로그램을 찾아보세요.</p>
             <button
               className="btn"
-              onClick={() => (window.location.href = "../tm.html")}
+              onClick={this.handleClick}
             >
               시작하기
             </button>
