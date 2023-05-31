@@ -1,16 +1,104 @@
-import React from 'react';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import { FaBars } from "react-icons/fa";
 
-class header extends React.Component {
-  render() {
-    return (
-      <header className='main-header'>
-        <div className="logo-container">
-          <img src="helper.png" alt="로고" className="logo" />
-          <h1>Helper</h1>
-        </div>
-      </header>
-    );
+const StyledHeader = styled.header`
+  background-color: #AAA;
+  width: 100%;
+  padding: 10px 12px 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .nav_logo {
+    padding: 0 12px;
+    margin-left: 20px;
+    .nav-logo-link img{
+      width: 60px;
+      height: 60px;
+    }
   }
-}
+  .menuToggleBtn {
+    display: none;
+    color: white;
+    font-size: 24px;
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    cursor: pointer;
+  }
 
-export default header;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    .menuToggleBtn {
+      display: block;
+    }
+  }
+`;
+const NavManu = styled.ul`
+  list-style: none;
+  display: flex;
+  margin-right: 20px;
+
+  li {
+    &:hover {
+      cursor: pointer;
+      background: #555;
+      border-radius: 4px;
+    }
+  }
+  .nav-menu-list {
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 10px 10px;
+  }
+  @media screen and (max-width: 768px) {
+    display: ${(props) => (props.isToggleOpen ? "block" : "none")};
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+  }
+`;
+
+const Header = () => {
+  const [isToggleOpen, setIsToggleOpen] = useState(false);
+
+  const handleToggleOpen = () => {
+    setIsToggleOpen(!isToggleOpen);
+  };
+  return (
+    <>
+      <StyledHeader>
+        <div className="nav_logo">
+          <Link to={"/"} className="nav-logo-link">
+            <img src="helper.png" alt="logo"/>
+          </Link>
+        </div>
+
+        <NavManu isToggleOpen={isToggleOpen}>
+          <li>
+            <Link to={"/about"} className="nav-menu-list">
+              About
+            </Link>
+          </li>
+          <li>
+            <Link to={"/projects"} className="nav-menu-list">
+              Projects
+            </Link>
+          </li>
+          <li>
+            <Link to={"/diary"} className="nav-menu-list">
+              My Page
+            </Link>
+          </li>
+        </NavManu>
+        <FaBars className="menuToggleBtn" onClick={handleToggleOpen} />
+      </StyledHeader>
+    </>
+  );
+};
+
+export default Header;

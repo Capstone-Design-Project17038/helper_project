@@ -7,7 +7,7 @@ class main extends React.Component {
 
   render() {
     return (
-      <main>
+      <main className="main-main">
         <section className="hero-section">
           <div className="hero-content">
             <h2>건강한 삶을 위한 운동을 시작하세요!</h2>
@@ -19,7 +19,7 @@ class main extends React.Component {
               시작하기
             </button>
           </div>
-          <img src="" alt="운동하는 사람" />
+          <img src="exercise.jpg" alt="운동하는 사람" />
         </section>
         <section className="feature-section">
           <div className="feature">

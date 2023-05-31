@@ -1,4 +1,8 @@
 .main-page {
+  background-color: #555;
+  color: #fff;
+}
+.main-main {
     max-width: 960px;
     margin: 0 auto;
     padding: 20px;

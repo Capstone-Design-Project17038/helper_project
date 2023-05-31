@@ -1,19 +1,17 @@
 import React from "react";
 import './MainPage.css';
-import Header from "../header";
 import Main from "./main";
-import Footer from "../footer";
+import Footer from "../Footer";
+import Header from "../Header";
 
-class MainPage extends React.Component {
-  render() {
+function MainPage() {
     return (
-      <div className="main-page">
-        <Header />
+      <React.Fragment>
+        <Header/>
         <Main />
-        <Footer />
-      </div>
+        <Footer/>
+      </React.Fragment>
     );
   }
-}
 
 export default MainPage;
