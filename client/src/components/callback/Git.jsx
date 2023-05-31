@@ -14,7 +14,7 @@ export default function Git() {
     try {
     const url = new URL(window.location.href);
     const code = url.searchParams.get("code");
-    const type1 = "git;"
+    const type1 = "git"
     if (code) {
       axios({
         url: "http://localhost:8112/auth/accesstoken",
@@ -30,7 +30,9 @@ export default function Git() {
         navigate("/MainPage");
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 
   }, []);
 

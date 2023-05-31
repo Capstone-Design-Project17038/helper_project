@@ -37,6 +37,15 @@ function App() {
         case "GOOGLE":
           break;
         case "KAKAO":
+          axios({
+            url: "https://kapi.kakao.com/v2/user/me",
+            method: "get",
+            headers: {
+              'Authorization': `token ${accessToken}`,
+            }
+          }).then((result) => {
+            console.log("user info from kakao", result);
+          }).catch(error=>{console.log(error)});
           break;
         default:
           break;
