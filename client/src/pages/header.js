@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
 
 const StyledHeader = styled.header`
-  background-color: #AAA;
+  background-color: #aaa;
   width: 100%;
   padding: 10px 12px 8px 12px;
   display: flex;
@@ -13,7 +13,7 @@ const StyledHeader = styled.header`
   .nav_logo {
     padding: 0 12px;
     margin-left: 20px;
-    .nav-logo-link img{
+    .nav-logo-link img {
       width: 60px;
       height: 60px;
     }
@@ -74,7 +74,7 @@ const Header = () => {
       <StyledHeader>
         <div className="nav_logo">
           <Link to={"/"} className="nav-logo-link">
-            <img src="helper.png" alt="logo"/>
+            <img src="helper.png" alt="logo" />
           </Link>
         </div>
 

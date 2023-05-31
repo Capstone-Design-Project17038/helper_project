@@ -27,25 +27,33 @@ function App() {
             url: "https://api.github.com/user",
             method: "get",
             headers: {
-              'Authorization': `token ${accessToken}`,
-            }
-          }).then((result) => {
-            console.log("user info from github", result);
-          }).catch(error=>{console.log(error)});
-    
+              Authorization: `token ${accessToken}`,
+            },
+          })
+            .then((result) => {
+              console.log("user info from github", result);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+
           break;
         case "GOOGLE":
           break;
         case "KAKAO":
           axios({
             url: "https://kapi.kakao.com/v2/user/me",
-            method: "get",
+            method: "POST",
             headers: {
-              'Authorization': `token ${accessToken}`,
-            }
-          }).then((result) => {
-            console.log("user info from kakao", result);
-          }).catch(error=>{console.log(error)});
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+            .then((result) => {
+              console.log("user info from kakao", result);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
           break;
         default:
           break;
@@ -61,7 +69,7 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path='/MainPage' element={<MainPage />} />
+            <Route path="/MainPage" element={<MainPage />} />
             <Route path="/auth/callback/git" element={<Git />} />
             <Route path="/auth/callback/google" element={<Google />} />
             <Route path="/auth/callback/kakao" element={<Kakao />} />
