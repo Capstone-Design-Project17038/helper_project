@@ -1,15 +1,17 @@
 import React from "react";
 import "./MainPage.css";
-import Main from "./main";
 import Footer from "../Footer";
 import Header from "../Header";
+import Main from "./Main";
 
 function MainPage() {
   return (
     <React.Fragment>
-      <Header />
-      <Main />
-      <Footer />
+      <div className="main-page">
+        <Header />
+        <Main/>
+        <Footer />
+      </div>
     </React.Fragment>
   );
 }

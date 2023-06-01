@@ -1,83 +1,41 @@
 .main-page {
-  background-color: #555;
+  background-color: #aaa;
   color: #fff;
 }
-.main-main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+
+h1 {
+  font-size: 32px;
+  margin: 0;
+}
   
-  .main-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-  }
-  
-  h1 {
-    font-size: 32px;
-    margin: 0;
-  }
-  
-  .hero-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 40px;
-  }
-  
-  .hero-content {
-    flex: 1;
-  }
-  
-  .hero-content h2 {
-    font-size: 28px;
-    margin-bottom: 20px;
-  }
-  
-  .btn {
-    padding: 12px 24px;
-    font-size: 18px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .feature-section {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
-  }
-  
-  .feature {
-    text-align: center;
-    margin: 0 20px;
-  }
-  
-  .feature h3 {
-    font-size: 24px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-  
-  .main-footer {
-    text-align: center;
-    color: #888;
-  }
-  
-  .main-footer p {
-    margin: 0;
-  }
-  .logo-container {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    margin-top: 10px;
-  }
+.main-footer {
+  text-align: center;
+}
+
+.main-footer p {
+  margin: 0;
+}
+
+.btn {
+  padding: 12px 12px;
+  font-size: 40px;
+  background-color: transparent;
+  color: #fff;
+  border-radius: 4px;
+  border-color: #aaa;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  top: 300px;
+  left : 200px; 
+}
+
+.btn:hover {
+  background-color: #888;
+}
+
+video {
+  width : 100%;
+  height: 100vh;
+  object-fit: cover; 
+}

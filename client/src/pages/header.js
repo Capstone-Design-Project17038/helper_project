@@ -73,7 +73,7 @@ const Header = () => {
     <>
       <StyledHeader>
         <div className="nav_logo">
-          <Link to={"/"} className="nav-logo-link">
+          <Link to={"/MainPage"} className="nav-logo-link">
             <img src="helper.png" alt="logo" />
           </Link>
         </div>
@@ -85,12 +85,12 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <Link to={"/projects"} className="nav-menu-list">
-              Projects
+            <Link to={"/work"} className="nav-menu-list">
+              Work
             </Link>
           </li>
           <li>
-            <Link to={"/diary"} className="nav-menu-list">
+            <Link to={"/mypage"} className="nav-menu-list">
               My Page
             </Link>
           </li>
