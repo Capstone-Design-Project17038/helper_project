@@ -13,7 +13,6 @@
         <div id="detection">
           <!-- <button type="button" onclick="init()">Start</button> -->
           <div><canvas id="canvas"></canvas></div>
-          <div id="label-container"></div>
         </div>
         <div class="center">
           <div class="headline">Count</div>
@@ -27,6 +26,7 @@
               <circle class="progress" cx="57" cy="57" r="52" />
             </svg>
           </div>
+          <div id="label-container"></div>
         </div>
       </div>
     </div>
@@ -85,10 +85,10 @@
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
         // Prediction 2: run input through teachable machine classification model
         const prediction = await model.predict(posenetOutput);
-        if (prediction[0].probability.toFixed(2) >= 0.95) {
+        if (prediction[0].probability.toFixed(2) >= 0.99) {
           //자세가 squat일 경우
           status = "stand";
-        } else if (prediction[1].probability.toFixed(2) >= 0.95) {
+        } else if (prediction[1].probability.toFixed(2) >= 0.99) {
           //자세가 stand일 경우
           if (status == "stand") {
             count += 1;

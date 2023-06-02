@@ -69,6 +69,7 @@ const Header = () => {
   const handleToggleOpen = () => {
     setIsToggleOpen(!isToggleOpen);
   };
+
   return (
     <>
       <StyledHeader>
