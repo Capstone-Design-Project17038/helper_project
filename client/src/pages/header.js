@@ -81,17 +81,17 @@ const Header = () => {
 
         <NavManu isToggleOpen={isToggleOpen}>
           <li>
-            <Link to={"/about"} className="nav-menu-list">
+            <Link to={"/About"} className="nav-menu-list">
               About
             </Link>
           </li>
           <li>
-            <Link to={"/work"} className="nav-menu-list">
+            <Link to={"/Work"} className="nav-menu-list">
               Work
             </Link>
           </li>
           <li>
-            <Link to={"/mypage"} className="nav-menu-list">
+            <Link to={"/MyPage"} className="nav-menu-list">
               My Page
             </Link>
           </li>

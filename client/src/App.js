@@ -14,6 +14,9 @@ import Google from "./components/callback/Google";
 import Kakao from "./components/callback/Kakao";
 import MainPage from "./pages/main/MainPage";
 import { UserContext } from "./context/LoginContext";
+import MyPage from "./pages/MyPage";
+import About from "./pages/About";
+import Work from "./pages/Work";
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -73,6 +76,9 @@ function App() {
             <Route path="/auth/callback/git" element={<Git />} />
             <Route path="/auth/callback/google" element={<Google />} />
             <Route path="/auth/callback/kakao" element={<Kakao />} />
+            <Route path="/MyPage" element={<MyPage />} />
+            <Route path="/About" element={<About />} />
+            <Route path="/Work" element={<Work />} />
           </Routes>
         </UserContext.Provider>
       </Router>
