@@ -1,10 +1,8 @@
 import "./App.css";
-
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  NavLink,
 } from "react-router-dom";
 import Home from "./pages/home/Home";
 import { useEffect, useState } from "react";
@@ -17,6 +15,7 @@ import { UserContext } from "./context/LoginContext";
 import MyPage from "./pages/MyPage";
 import About from "./pages/About";
 import Work from "./pages/Work";
+import ExerciseChoice from "./pages/ExerciseChoice";
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -65,7 +64,7 @@ function App() {
   }, [accessToken]);
 
   return (
-    <div className="App">
+    <div className="App" style={{ fontFamily: "NanumSquareNeo-Variable" }}>
       <Router>
         <UserContext.Provider
           value={{ accessToken, setAccessToken, loginType, setLoginType }}
@@ -79,6 +78,8 @@ function App() {
             <Route path="/MyPage" element={<MyPage />} />
             <Route path="/About" element={<About />} />
             <Route path="/Work" element={<Work />} />
+            <Route path="/ExerciseChoice" element={<ExerciseChoice />} />
+
           </Routes>
         </UserContext.Provider>
       </Router>
