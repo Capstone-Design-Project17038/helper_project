@@ -8,7 +8,7 @@ export default function Home() {
   let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
-  const counts = 5;
+  const counts = 6;
 
   const squart = () => {
     axios({
@@ -18,6 +18,18 @@ export default function Home() {
         counts: counts,
       },
       withCredentials: true,
+    });
+  };
+
+  const view = () => {
+    axios({
+      url: "http://localhost:8123/view",
+      method: "POST",
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        console.log(result.data);
+      }
     });
   };
 
@@ -34,6 +46,10 @@ export default function Home() {
       url: "http://localhost:8123/refreshtoken",
       method: "GET",
       withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open("/", "_self");
+      }
     });
   };
 
@@ -48,26 +64,6 @@ export default function Home() {
       }
     });
   };
-  /** 
-  const squart = () => {
-    console.log("함수실행");
-    axios({
-      url: "http://localhost:8123/squart",
-      method: "POST",
-      data: {
-        counts: counts,
-      },
-      withCredentials: true,
-    })
-      .then((response) => {
-        // 요청이 성공하면 이 부분이 실행됩니다.
-        console.log("서버 응답:", response.data);
-      })
-      .catch((error) => {
-        // 요청이 실패하면 이 부분이 실행됩니다.
-        console.error("요청 오류:", error);
-      });
-  };*/
 
   useEffect(() => {
     try {
@@ -109,7 +105,10 @@ export default function Home() {
             </button>
 
             <button onClick={squart} className="squart">
-              운동 완료 테스트 버튼
+              운동 스쿼트 했을때 db 들어가는 버튼
+            </button>
+            <button onClick={view} className="view">
+              마이페이지에서 운동 한 양 보는 버튼
             </button>
           </>
         ) : (

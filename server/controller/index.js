@@ -166,35 +166,6 @@ const logout = (req, res) => {
     res.status(500).json(error);
   }
 };
-/*
-const squart = (req, res) => {
-  console.log("1번");
-  try {
-    const { counts } = req.body;
-    const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
-    const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
-    console.log(counts);
-    //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
-    db.query(
-      "INSERT INTO squart (date, counts, user) VALUES (?, ?, ?);",
-      [counts, NOW(), data.UID],
-      // 콜백함수
-      (err, result) => {
-        if (err) {
-          console.log(err);
-          res.status(401).json("squart data not insert DB");
-        } else {
-          console.log("데이터 들어감");
-          res.status(200).json("squart data inserted DB");
-        }
-      }
-    );
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
-
-*/
 
 module.exports = {
   // 작성된 함수를 모듈화해서 내보냄
