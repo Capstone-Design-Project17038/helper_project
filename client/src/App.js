@@ -16,6 +16,7 @@ import MyPage from "./pages/MyPage";
 import About from "./pages/About";
 import Work from "./pages/Work";
 import ExerciseChoice from "./pages/ExerciseChoice";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -79,6 +80,7 @@ function App() {
             <Route path="/About" element={<About />} />
             <Route path="/Work" element={<Work />} />
             <Route path="/ExerciseChoice" element={<ExerciseChoice />} />
+            <Route path="/SignUpPage" element={<SignUpPage />} />
 
           </Routes>
         </UserContext.Provider>

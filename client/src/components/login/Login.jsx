@@ -1,9 +1,11 @@
-import React from "react";
-import { useState } from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
 import axios from "axios";
 
 export default function Login({ setIsLogin, setUser }) {
+  let Navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -47,6 +49,7 @@ export default function Login({ setIsLogin, setUser }) {
           />
         </div>
         <button onClick={login} className="loginButton">Login</button>
+        <button onClick={() => Navigate("/SignUpPage")} className="loginButton">SignUp</button>
       </div>
     </div>
   );
