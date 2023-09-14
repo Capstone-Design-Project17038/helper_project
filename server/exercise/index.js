@@ -10,22 +10,27 @@ const db = mysql.createPool({
 });
 
 const squart = (req, res) => {
+  console.log("1번");
   try {
+    const { counts } = req.body;
     const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
     const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
-    console.log(token);
-    console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
+    console.log(counts);
+    console.log(data);
+    const currentTime = new Date();
+
+    //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
     db.query(
-      "SELECT * FROM user WHERE email=? ",
-      [data.email],
+      "INSERT INTO squart (date, counts, user) VALUES (?, ?, ?);",
+      [currentTime, counts, data.id],
       // 콜백함수
       (err, result) => {
         if (err) {
           console.log(err);
-          res.status(401).json("Not Authorized");
+          res.status(401).json("squart data not insert DB");
         } else {
-          console.log(result[0]);
-          res.status(200).json(result[0]);
+          console.log("데이터 들어감");
+          res.status(200).json("squart data inserted DB");
         }
       }
     );

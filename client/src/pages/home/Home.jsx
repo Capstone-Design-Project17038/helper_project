@@ -1,12 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Login from "../../components/login/Login";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Home() {
+  let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
   const counts = 5;
+
+  const squart = () => {
+    axios({
+      url: "http://localhost:8123/squart",
+      method: "POST",
+      data: {
+        counts: counts,
+      },
+      withCredentials: true,
+    });
+  };
+
   const accessToken = () => {
     axios({
       url: "http://localhost:8123/accesstoken",
@@ -34,17 +48,26 @@ export default function Home() {
       }
     });
   };
-
+  /** 
   const squart = () => {
+    console.log("함수실행");
     axios({
       url: "http://localhost:8123/squart",
-      method: "GET",
+      method: "POST",
       data: {
         counts: counts,
       },
       withCredentials: true,
-    });
-  };
+    })
+      .then((response) => {
+        // 요청이 성공하면 이 부분이 실행됩니다.
+        console.log("서버 응답:", response.data);
+      })
+      .catch((error) => {
+        // 요청이 실패하면 이 부분이 실행됩니다.
+        console.error("요청 오류:", error);
+      });
+  };*/
 
   useEffect(() => {
     try {

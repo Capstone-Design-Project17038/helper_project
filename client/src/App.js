@@ -15,13 +15,6 @@ function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [loginType, setLoginType] = useState("");
 
-  useEffect(() => {
-    if (accessToken) {
-      switch (loginType) {
-      }
-    }
-  }, [accessToken]);
-
   return (
     <div className="App" style={{ fontFamily: "NanumSquareNeo-Variable" }}>
       <Router>
