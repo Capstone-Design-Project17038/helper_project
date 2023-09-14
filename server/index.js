@@ -19,6 +19,8 @@ const {
   logout,
 } = require("./controller"); // 해당 요청이 사용될때 컨트롤러 폴더로 가서 작동됨, index.js로 만들면 폴더만 추가해도 자동으로 설정됨
 
+const { squart, Lunge } = require("./exercise");
+
 const app = express(); //express를 이용해 앱을 만든다
 dotenv.config(); // dotenv 구성
 
@@ -40,6 +42,7 @@ app.get("/accesstoken", accessToken);
 app.get("/refreshtoken", refreshToken);
 app.get("/login/success", loginSuccess);
 app.post("/logout", logout);
+app.post("/squart", squart);
 
 app.listen(process.env.PORT, () => {
   // 서버 열였을때 체크하는용도

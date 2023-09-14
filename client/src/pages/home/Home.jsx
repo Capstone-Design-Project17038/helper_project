@@ -6,7 +6,7 @@ import axios from "axios";
 export default function Home() {
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
-
+  const counts = 5;
   const accessToken = () => {
     axios({
       url: "http://localhost:8123/accesstoken",
@@ -32,6 +32,17 @@ export default function Home() {
       if (result.status === 200) {
         window.open("/", "_self");
       }
+    });
+  };
+
+  const squart = () => {
+    axios({
+      url: "http://localhost:8123/squart",
+      method: "GET",
+      data: {
+        counts: counts,
+      },
+      withCredentials: true,
     });
   };
 
@@ -72,6 +83,10 @@ export default function Home() {
             <h3>{user.nickname} 님이 로그인했습니다.</h3>
             <button onClick={logout} className="loginButton">
               Logout
+            </button>
+
+            <button onClick={squart} className="squart">
+              운동 완료 테스트 버튼
             </button>
           </>
         ) : (
