@@ -11,11 +11,30 @@ const db = mysql.createPool({
 });
 
 //INSERT INTO `helper`.`user` (`UID`, `email`, `password`, `name`, `nickname`) VALUES ('1', 'test', 'test', 'test', 'test');
+
+const signup = (req, res, next) => {
+  const { loginId, password, nickname } = req.body;
+  db.query(
+    "INSERT INTO user (email, password, nickname) VALUES (?, ?, ?);",
+    [loginId, password, nickname],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(403).json("sign up fail");
+      } else {
+        console.log("회원가입 성공: " + result);
+        res.status(201).json({ message: "회원가입이 완료되었습니다." });
+      }
+    }
+  );
+};
+
 const login = (req, res, next) => {
   const { email, password } = req.body; // 로그인시 받은 이메일과 password를 req바디에서 파싱해서 가져옴
   db.query(
     "SELECT * FROM user WHERE email=? AND password=?;",
     [email, password],
+
     //콜백함수
     (err, result) => {
       if (err) {
@@ -156,4 +175,5 @@ module.exports = {
   refreshToken,
   loginSuccess,
   logout,
+  signup,
 };
