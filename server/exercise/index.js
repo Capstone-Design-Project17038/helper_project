@@ -9,6 +9,18 @@ const db = mysql.createPool({
   database: "helper", // 사용할 데이터베이스
 });
 
+/**
+ CREATE TABLE `squart` (
+  `SQUART_ID` int unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `counts` int DEFAULT NULL,
+  `user` int unsigned NOT NULL,
+  PRIMARY KEY (`SQUART_ID`),
+  KEY `user_idx` (`user`),
+  CONSTRAINT `user` FOREIGN KEY (`user`) REFERENCES `user` (`UID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+ */
+
 const squart = (req, res) => {
   console.log("1번");
   try {
