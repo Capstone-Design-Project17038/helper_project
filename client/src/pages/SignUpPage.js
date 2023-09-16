@@ -25,7 +25,7 @@ const SignUpPage = () => {
       // 회원가입 성공 시 처리
       console.log(response.data);
       alert("회원가입 성공");
-      navigate("/LoginPage");
+      navigate("/");
     } catch (error) {
       console.error("회원가입 실패", error);
       alert("회원가입 실패");
