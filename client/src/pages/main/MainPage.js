@@ -17,7 +17,7 @@ function MainPage() {
           >
             GET STARTED
           </button>
-          <video src="exercise2.mp4" muted autoPlay loop></video>
+          <video className="main_background" src="exercise2.mp4" muted autoPlay loop></video>
         </main>
         <Footer />
       </div>
