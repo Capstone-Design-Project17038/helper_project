@@ -5,6 +5,7 @@ import "./Squat.css";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
+  const [count,setCount] = useState(0);
   const [timer, setTimer] = useState(0);
   const [csv, setCSV] = useState([]);
   const [recordFlag, setRecordFlag] = useState(1);
@@ -35,6 +36,7 @@ function Squat() {
     const video = videoRef.current;
     //const ctx = canvasRef.current.getContext("2d");
     const net = await posenet.load();
+    let previousPose = null;
 
     while (true) {
       const pose = await net.estimateSinglePose(video);
@@ -50,8 +52,16 @@ function Squat() {
 
       // 딥러닝 모델을 이용해서 동작 판단 진행
       squat_model(get_keyPoints(pose.keypoints)).then((e) => {
-        if (e[0][0] > e[0][1]) setPredictResult("Predict result= stand");
-        else if (e[0][0] < e[0][1]) setPredictResult("Predict result= squat");
+        if (e[0][0] > e[0][1]) {
+          setPredictResult("stand");
+          if (previousPose === "squat") {
+            setCount((prevCount) => prevCount + 1);
+          }
+          previousPose = "stand";
+        } else if (e[0][0] < e[0][1]) {
+          setPredictResult("squat");
+          previousPose = "squat";
+        }
       });
     }
   };
@@ -175,6 +185,7 @@ function Squat() {
         <p id="keypoints"></p>
         <p id="result">{result}</p>
         <p id="predict_result">{predictResult}</p>
+        <p id="exercise_count">개수 : {count}</p>
         <button id="btn_start" onClick={btn_start_click}>
           Start
         </button>
