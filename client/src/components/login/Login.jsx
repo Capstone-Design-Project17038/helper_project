@@ -20,7 +20,7 @@ export default function Login({ setIsLogin, setUser }) {
       },
     }).then((result) => {
       if (result.status === 200) {
-        window.open('/', '_self')
+        window.open('/MainPage', '_self')
       }
     });
   };
