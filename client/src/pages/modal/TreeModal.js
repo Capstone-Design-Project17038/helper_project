@@ -26,6 +26,7 @@ function TreeModal({ setTreeOpen}) {
                     </ol>     
                 </div>
             </div>
+            <button>운동 시작</button>
         </div>
     );
 }

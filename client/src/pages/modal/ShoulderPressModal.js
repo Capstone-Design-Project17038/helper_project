@@ -25,7 +25,8 @@ function ShoulderPressModal({ setShoulderPressOpen}) {
                         <li>천천히 준비자세로 돌아옵니다.</li>
                     </ol>
                 </div>
-            </div>        
+            </div>
+            <button>운동 시작</button>        
         </div>
     );
 }

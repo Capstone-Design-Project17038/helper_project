@@ -16,7 +16,7 @@ function App() {
   const [loginType, setLoginType] = useState("");
 
   return (
-    <div className="App" style={{ fontFamily: "NanumSquareNeo-Variable" }}>
+    <div className="App">
       <Router>
         <UserContext.Provider
           value={{ accessToken, setAccessToken, loginType, setLoginType }}

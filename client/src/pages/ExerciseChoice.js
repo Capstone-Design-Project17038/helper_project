@@ -29,35 +29,28 @@ function ExerciseChoice() {
   return (
     <>
     <Header></Header>
-    <div className="mainLayout">
-      <div className="rutin_page">
-        <div className="rutin_pageFlex">
-          <div className="rutin_pageInfo">
-            <div className="rutin__img">
-              <div className="rutin__wrap">
-                  <img src="/exercise_img/lungeIcon.png" alt="health__image" onClick={showLunge}/>
-                  {lungeOpen && <LungeModal setLungeOpen={setLungeOpen} />}
-                <div>런지</div>
-              </div>
-              <div className="rutin__wrap">
-                  <img src="/exercise_img/squatIcon.png" alt="health__image" onClick={showSquat}/>
-                  {squatOpen && <SquatModal setSquatOpen={setSquatOpen} />}
-                <div>스쿼트</div>
-              </div>
-              <div className="rutin__wrap">
-                  <img src="/exercise_img/pressIcon.png" alt="health__image" onClick={showShoulderPress}/>
-                  {ShoulderPressOpen && <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />}
-                <div>숄더 프레스</div>
-              </div>
-              <div className="rutin__wrap">
-                  <img src="/exercise_img/treeIcon.png" alt="health__image" onClick={showTree}/>
-                  {treeOpen && <TreeModal setTreeOpen={setTreeOpen} />}
-                <div>나무 자세</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="exer_title">운동 선택</div>
+    <div className="rutin__container">
+    <div className="rutin__wrap">
+      <img src="/exercise_img/lungeIcon.png" alt="health__image" onClick={showLunge}/>
+      {lungeOpen && <LungeModal setLungeOpen={setLungeOpen} />}
+      <div>런지</div>
+    </div>
+    <div className="rutin__wrap">
+      <img src="/exercise_img/squatIcon.png" alt="health__image" onClick={showSquat}/>
+      {squatOpen && <SquatModal setSquatOpen={setSquatOpen} />}
+      <div>스쿼트</div>
+    </div>
+    <div className="rutin__wrap">
+      <img src="/exercise_img/pressIcon.png" alt="health__image" onClick={showShoulderPress}/>
+      {ShoulderPressOpen && <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />}
+      <div>숄더 프레스</div>
+    </div>
+    <div className="rutin__wrap">
+      <img src="/exercise_img/treeIcon.png" alt="health__image" onClick={showTree}/>
+      {treeOpen && <TreeModal setTreeOpen={setTreeOpen} />}
+      <div>나무 자세</div>
+    </div>
     </div>
     </>
   )

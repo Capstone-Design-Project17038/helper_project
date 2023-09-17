@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
 
 const StyledHeader = styled.header`
-  background-color: #aaa;
+  background-color: #a2a2a2;
   width: 100%;
   padding: 10px 12px 8px 12px;
   display: flex;
@@ -78,7 +78,6 @@ const Header = () => {
             <img src="helper.png" alt="logo" />
           </Link>
         </div>
-
         <NavManu isToggleOpen={isToggleOpen}>
           <li>
             <Link to={"/About"} className="nav-menu-list">
@@ -92,7 +91,7 @@ const Header = () => {
           </li>
           <li>
             <Link to={"/MyPage"} className="nav-menu-list">
-              My Page
+              MyPage
             </Link>
           </li>
         </NavManu>

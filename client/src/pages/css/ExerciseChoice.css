@@ -1,107 +1,45 @@
-.exer_wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-  }
+.rutin__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* 요소들을 수평으로 가운데 정렬 */
+  align-items: center; /* 요소들을 수직으로 가운데 정렬 */
+}
+
+/* 루틴 랩 */
+.rutin__wrap {
+  text-align: center; /* 텍스트를 가운데 정렬 */
+  width: 20%;
+  box-sizing: border-box; /* 테두리를 포함한 전체 박스 크기로 설정 (선택사항) */
+  padding: 15px;
+}
+
+.rutin__wrap:hover{
+  border: solid;
+  border-radius: 25px;
+  background-color: #e2e2e2;
+}
+
+/* 이미지 스타일링 */
+.rutin__wrap img {
+  max-width: 250px; /* 이미지의 최대 너비 설정 */
+  height: auto; /* 높이 자동 조정 */
+  display: block; /* 이미지를 블록 요소로 표시하여 가운데 정렬을 쉽게 하기 위해 */
+  margin: 0 auto; /* 수평 가운데 정렬 */
+}
   
-  .rutin_page {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 525px;
-    padding: 30px;
-    background: rgb(255, 255, 255);
-    border-radius: 16px;
-    margin-bottom: 18px;
-    overflow: hidden;
-  }
-  .rutin_pageFlex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .rutin_pageInfo {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .rutin_pageInfo span {
-    font-size: 26px;
-    font-weight: 400;
-    color: rgb(70, 77, 82);
-    margin-bottom: 20px;
-  }
-  
-  .rutin__img {
-    width: 565px;
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .rutin__img .rutin__wrap {
-    width: 210px;
-  }
-  
-  .rutin__img .rutin__wrap p {
+.rutin__wrap div {
     padding: 5px 15px;
-    font-size: 15px;
+    font-size: 25px;
     font-weight: bold;
     text-align: center;
-  }
-  
-  .rutin__img img {
-    width: 100%;
-    padding: 5px 15px;
-    border-radius: 2em !important;
-    cursor: pointer;
-  }
-  
-  .rutin span {
-    font-size: 16px;
-  }
-  
-  p {
-    color: black;
-  }
-  
-  @media only screen and (max-width: 768px) {
-    .mainheader {
-      width: 70%;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-    }
-    .rutin_page {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 83%;
-      padding: 30px;
-      margin: 10px auto;
-    }
-  
-    .rutin__img img {
-      width: 95%;
-    }
-  }
-  
-  @media only screen and (max-width: 540px) {
-    .rutin__img {
-      width: 420px;
-    }
-  }
-  
-  @media only screen and (max-width: 480px) and (min-width: 320px) {
-    .mainLayout {
-      max-width: 510px;
-      margin-bottom: 18px;
-    }
-    .rutin__img {
-      width: 86%;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-    }
-  }
+}
+.rutin__wrap img {
+  cursor: pointer;
+}
+
+.exer_title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 80px;
+}

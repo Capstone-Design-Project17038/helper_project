@@ -25,7 +25,8 @@ function LungeModal({ setLungeOpen}) {
                     <li>굽힌 쪽의 허벅지가 바닥과 평행이 되면 천천히 준비자세로 돌아옵니다.</li>
                 </ol>
                 </div>
-            </div>       
+            </div>
+            <button>운동 시작</button>       
         </div>
     );
 }
