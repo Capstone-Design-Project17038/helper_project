@@ -8,7 +8,7 @@ export default function Home() {
   let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
-  const counts = 6;
+  const counts = 10;
 
   const squart = () => {
     axios({
@@ -24,6 +24,18 @@ export default function Home() {
   const view = () => {
     axios({
       url: "http://localhost:8123/view",
+      method: "POST",
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        console.log(result.data);
+      }
+    });
+  };
+
+  const rank = () => {
+    axios({
+      url: "http://localhost:8123/rank",
       method: "POST",
       withCredentials: true,
     }).then((result) => {
@@ -109,6 +121,9 @@ export default function Home() {
             </button>
             <button onClick={view} className="view">
               마이페이지에서 운동 한 양 보는 버튼
+            </button>
+            <button onClick={rank} className="rank">
+              랭킹보기 버튼
             </button>
           </>
         ) : (

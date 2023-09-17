@@ -20,7 +20,13 @@ const {
   signup,
 } = require("./controller"); // 해당 요청이 사용될때 컨트롤러 폴더로 가서 작동됨, index.js로 만들면 폴더만 추가해도 자동으로 설정됨
 
-const { squart, view, Lunge } = require("./exercise");
+const { squart, 
+  view,
+  rank,
+   lunge,
+   tree,
+   shoulder_press,
+   } = require("./exercise");
 
 const app = express(); //express를 이용해 앱을 만든다
 dotenv.config(); // dotenv 구성
@@ -46,7 +52,11 @@ app.post("/logout", logout);
 app.post("/signup", signup);
 
 app.post("/squart", squart);
+app.post("/squart", tree);
+app.post("/squart", lunge);
+app.post("/squart", shoulder_press);
 app.post("/view", view);
+app.post("/rank", rank);
 
 app.listen(process.env.PORT, () => {
   // 서버 열였을때 체크하는용도
