@@ -136,7 +136,7 @@ function Squat() {
     const input_data = tf.tensor([data]);
 
     const model = await tf.loadLayersModel(
-      "http://localhost:5000/models/model.json"
+      "http://localhost:8123/models/model.json"
     );
     const predict = model.predict(input_data);
     const result = await predict.array();
