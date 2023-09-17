@@ -5,7 +5,7 @@ import "./Squat.css";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
-  const [count,setCount] = useState(0);
+  const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(0);
   const [csv, setCSV] = useState([]);
   const [recordFlag, setRecordFlag] = useState(1);
@@ -40,6 +40,7 @@ function Squat() {
 
     while (true) {
       const pose = await net.estimateSinglePose(video);
+      console.log(tf.memory());
       // Clear the canvas
       //ctx.clearRect(0, 0, video.width, video.height);
 
@@ -51,18 +52,20 @@ function Squat() {
       print_result(pose.keypoints);
 
       // 딥러닝 모델을 이용해서 동작 판단 진행
-      squat_model(get_keyPoints(pose.keypoints)).then((e) => {
-        if (e[0][0] > e[0][1]) {
-          setPredictResult("stand");
-          if (previousPose === "squat") {
-            setCount((prevCount) => prevCount + 1);
+      if (pose.score >= 0.8) {
+        squat_model(get_keyPoints(pose.keypoints)).then((e) => {
+          if (e[0][0] > e[0][1]) {
+            setPredictResult("stand");
+            if (previousPose === "squat") {
+              setCount((prevCount) => prevCount + 1);
+            }
+            previousPose = "stand";
+          } else if (e[0][0] < e[0][1]) {
+            setPredictResult("squat");
+            previousPose = "squat";
           }
-          previousPose = "stand";
-        } else if (e[0][0] < e[0][1]) {
-          setPredictResult("squat");
-          previousPose = "squat";
-        }
-      });
+        });
+      }
     }
   };
 
@@ -147,10 +150,14 @@ function Squat() {
     const input_data = tf.tensor([data]);
 
     const model = await tf.loadLayersModel(
-      "http://localhost:8123/models/model.json"
+      "http://localhost:8112/models/model.json"
     );
     const predict = model.predict(input_data);
     const result = await predict.array();
+
+    input_data.dispose();
+    model.dispose();
+    predict.dispose();
 
     return result;
   };
