@@ -10,15 +10,47 @@ const db = mysql.createPool({
 });
 
 /**
- CREATE TABLE `squart` (
-  `SQUART_ID` int unsigned NOT NULL AUTO_INCREMENT,
+ CREATE TABLE `squat` (
+  `SQUAT_ID` int unsigned NOT NULL AUTO_INCREMENT,
   `date` datetime DEFAULT NULL,
   `counts` int DEFAULT NULL,
   `user` int unsigned NOT NULL,
-  PRIMARY KEY (`SQUART_ID`),
+  PRIMARY KEY (`SQUAT_ID`),
   KEY `user_idx` (`user`),
   CONSTRAINT `user` FOREIGN KEY (`user`) REFERENCES `user` (`UID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)
+
+ CREATE TABLE `tree` (
+  `TREE_ID` int unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `counts` int DEFAULT NULL,
+  `user` int unsigned NOT NULL,
+  PRIMARY KEY (`TREE_ID`),
+  KEY `user_idx` (`user`),
+  CONSTRAINT `user1` FOREIGN KEY (`user`) REFERENCES `user` (`UID`)
+)
+
+ CREATE TABLE `lunge` (
+  `LUNGE_ID` int unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `counts` int DEFAULT NULL,
+  `user` int unsigned NOT NULL,
+  PRIMARY KEY (`LUNGE_ID`),
+  KEY `user_idx` (`user`),
+  CONSTRAINT `user2` FOREIGN KEY (`user`) REFERENCES `user` (`UID`)
+)
+
+ CREATE TABLE `shoulder_press` (
+  `SHOULDER_PRESS_ID` int unsigned NOT NULL AUTO_INCREMENT,
+  `date` datetime DEFAULT NULL,
+  `counts` int DEFAULT NULL,
+  `user` int unsigned NOT NULL,
+  PRIMARY KEY (`SHOULDER_PRESS_ID`),
+  KEY `user_idx` (`user`),
+  CONSTRAINT `user3` FOREIGN KEY (`user`) REFERENCES `user` (`UID`)
+)
+
+
  */
 
 const squart = (req, res) => {
@@ -33,16 +65,16 @@ const squart = (req, res) => {
 
     //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
     db.query(
-      "INSERT INTO squart (date, counts, user) VALUES (?, ?, ?);",
+      "INSERT INTO squat (date, counts, user) VALUES (?, ?, ?);",
       [currentTime, counts, data.id],
       // 콜백함수
       (err, result) => {
         if (err) {
           console.log(err);
-          res.status(401).json("squart data not insert DB");
+          res.status(401).json("squat data not insert DB");
         } else {
           console.log("데이터 들어감");
-          res.status(200).json("squart data inserted DB");
+          res.status(200).json("squat data inserted DB");
         }
       }
     );
