@@ -1,6 +1,8 @@
 import styles from './Modal.module.css';
+import { useNavigate } from "react-router-dom";
 
 function SquatModal({ setSquatOpen}) {
+    const Navigate = useNavigate();
     // 모달 끄기 
     const closeModal = () => {
         setSquatOpen(false);
@@ -26,7 +28,7 @@ function SquatModal({ setSquatOpen}) {
             </ol>
             </div>
             </div>
-            <button>운동 시작</button>         
+            <button onClick={()=>Navigate("/Squat")}>운동 시작</button>         
         </div>
     );
 }

@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Work from "./pages/Work";
 import ExerciseChoice from "./pages/ExerciseChoice";
 import SignUpPage from "./pages/SignUpPage";
+import Squat from "./pages/exercise/Squat";
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -29,6 +30,7 @@ function App() {
             <Route path="/Work" element={<Work />} />
             <Route path="/ExerciseChoice" element={<ExerciseChoice />} />
             <Route path="/SignUpPage" element={<SignUpPage />} />
+            <Route path="/Squat" element={<Squat />} />
           </Routes>
         </UserContext.Provider>
       </Router>
