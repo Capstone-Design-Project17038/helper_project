@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
-import { drawKeypoints, drawSkeleton } from "./Draw";
+import "./Squat.css";
+//import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
   const [timer, setTimer] = useState(0);
@@ -10,11 +11,11 @@ function Squat() {
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
   const videoRef = useRef(null);
-  const canvasRef = useRef(null);
+  //const canvasRef = useRef(null);
 
   const setupCamera = async () => {
     const video = videoRef.current;
-    const canvas = canvasRef.current;
+    //const canvas = canvasRef.current;
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: true,
@@ -22,27 +23,27 @@ function Squat() {
     video.srcObject = stream;
     video.play();
 
-    video.onloadedmetadata = () => {
-      canvas.width = video.width;
-      canvas.height = video.height;
-    };
+    // video.onloadedmetadata = () => {
+    //   canvas.width = video.width;
+    //   canvas.height = video.height;
+    // };
     console.log("camera set up success");
   };
 
   const detectPose = async () => {
     console.log("start pose estimate");
     const video = videoRef.current;
-    const ctx = canvasRef.current.getContext("2d");
+    //const ctx = canvasRef.current.getContext("2d");
     const net = await posenet.load();
 
     while (true) {
       const pose = await net.estimateSinglePose(video);
       // Clear the canvas
-      ctx.clearRect(0, 0, video.width, video.height);
+      //ctx.clearRect(0, 0, video.width, video.height);
 
       // Draw the pose
-      drawKeypoints(pose.keypoints, 0.6, ctx);
-      drawSkeleton(pose.keypoints, 0.6, ctx);
+      //drawKeypoints(pose.keypoints, 0.6, ctx);
+      //drawSkeleton(pose.keypoints, 0.6, ctx);
 
       // 추정된 관절부 출력
       print_result(pose.keypoints);
@@ -163,10 +164,9 @@ function Squat() {
   }, []); // 빈 배열을 전달하여 페이지가 처음 로드될 때만 실행
 
   return (
-    <div>
+    <div id="squat_div">
       <div id="estimate_div">
         <video id="video" width={640} height={480} ref={videoRef}></video>
-        <canvas id="output" ref={canvasRef}></canvas>
       </div>
       <div id="result_div">
         <p>
