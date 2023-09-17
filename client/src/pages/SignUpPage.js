@@ -66,10 +66,10 @@ const SignUpPage = () => {
             onChange={(e) => setNickname(e.target.value)}
           />
           <br />
-          <button onClick={handleSignup} className="loginButton">
-            회원가입
-          </button>
         </form>
+        <SignUpBtn onClick={handleSignup} className="loginButton">
+            회원가입
+        </SignUpBtn>
       </TContainer>
     </>
   );
@@ -123,8 +123,8 @@ const TContainer = styled(Container)`
   margin: 100px 0px 0px 0px;
   justify-content: center;
   align-items: center;
-
   display: flex;
+  flex-direction: column;
 
   @media (min-width: 768px) {
   }
@@ -135,7 +135,8 @@ const SignUpBtn = styled.div`
   justify-content: center;
   align-items: center;
   color: #f2f0ef;
-  font-weight: 800;
+  font-weight: 800px;
+  width: 22%;
 
   font-size: 10px;
   cursor: pointer;

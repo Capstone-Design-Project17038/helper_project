@@ -8,7 +8,6 @@
 /* 루틴 랩 */
 .rutin__wrap {
   text-align: center; /* 텍스트를 가운데 정렬 */
-  width: 20%;
   box-sizing: border-box; /* 테두리를 포함한 전체 박스 크기로 설정 (선택사항) */
   padding: 15px;
 }
@@ -17,6 +16,7 @@
   border: solid;
   border-radius: 25px;
   background-color: #e2e2e2;
+  transition : all 0.5s ease-out;
 }
 
 /* 이미지 스타일링 */
