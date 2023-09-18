@@ -2,16 +2,21 @@ import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
+import { useNavigate } from "react-router-dom";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
+  let Navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(0);
   const [csv, setCSV] = useState([]);
-  const [recordFlag, setRecordFlag] = useState(1);
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
+  const [startFlag, setStartFlag] = useState(null);
   const videoRef = useRef(null);
+  const intervalRef = useRef(null);
+  const timerRef = useRef(0);
+
   //const canvasRef = useRef(null);
 
   const setupCamera = async () => {
@@ -28,46 +33,48 @@ function Squat() {
     //   canvas.width = video.width;
     //   canvas.height = video.height;
     // };
+
     console.log("camera set up success");
   };
 
-  const detectPose = async () => {
-    console.log("start pose estimate");
-    const video = videoRef.current;
-    //const ctx = canvasRef.current.getContext("2d");
-    const net = await posenet.load();
-    let previousPose = null;
+  // 버튼 내부 함수로 이동시킴
+  // const detectPose = async () => {
+  //   console.log("start pose estimate");
+  //   const video = videoRef.current;
+  //   //const ctx = canvasRef.current.getContext("2d");
+  //   const net = await posenet.load();
+  //   let previousPose = null;
 
-    while (true) {
-      const pose = await net.estimateSinglePose(video);
-      console.log(tf.memory());
-      // Clear the canvas
-      //ctx.clearRect(0, 0, video.width, video.height);
+  //   // while (true) {
+  //   const pose = await net.estimateSinglePose(video);
+  //   console.log(tf.memory());
+  //   // Clear the canvas
+  //   //ctx.clearRect(0, 0, video.width, video.height);
 
-      // Draw the pose
-      //drawKeypoints(pose.keypoints, 0.6, ctx);
-      //drawSkeleton(pose.keypoints, 0.6, ctx);
+  //   // Draw the pose
+  //   //drawKeypoints(pose.keypoints, 0.6, ctx);
+  //   //drawSkeleton(pose.keypoints, 0.6, ctx);
 
-      // 추정된 관절부 출력
-      print_result(pose.keypoints);
+  //   // 추정된 관절부 출력
+  //   print_result(pose.keypoints);
 
-      // 딥러닝 모델을 이용해서 동작 판단 진행
-      if (pose.score >= 0.8) {
-        squat_model(get_keyPoints(pose.keypoints)).then((e) => {
-          if (e[0][0] > e[0][1]) {
-            setPredictResult("stand");
-            if (previousPose === "squat") {
-              setCount((prevCount) => prevCount + 1);
-            }
-            previousPose = "stand";
-          } else if (e[0][0] < e[0][1]) {
-            setPredictResult("squat");
-            previousPose = "squat";
-          }
-        });
-      }
-    }
-  };
+  //   // 딥러닝 모델을 이용해서 동작 판단 진행
+  //   if (pose.score >= 0.8) {
+  //     squat_model(get_keyPoints(pose.keypoints)).then((e) => {
+  //       if (e[0][0] > e[0][1]) {
+  //         setPredictResult("stand");
+  //         if (previousPose === "squat") {
+  //           setCount((prevCount) => prevCount + 1);
+  //         }
+  //         previousPose = "stand";
+  //       } else if (e[0][0] < e[0][1]) {
+  //         setPredictResult("squat");
+  //         previousPose = "squat";
+  //       }
+  //     });
+  //   }
+  //   // }
+  // };
 
   const print_result = (keypoints) => {
     const keypoint_list = [
@@ -162,23 +169,64 @@ function Squat() {
     return result;
   };
 
-  const btn_start_click = () => {
-    setRecordFlag(0);
+  const btn_start_click = async () => {
+    console.log("start pose estimate");
+    setStartFlag("start");
+    const video = videoRef.current;
+    //const ctx = canvasRef.current.getContext("2d");
+    const net = await posenet.load();
+    let previousPose = null;
+    intervalRef.current = setInterval(async () => {
+      const pose = await net.estimateSinglePose(video);
+      console.log(tf.memory());
+
+      // Clear the canvas
+      //ctx.clearRect(0, 0, video.width, video.height);
+
+      // Draw the pose
+      //drawKeypoints(pose.keypoints, 0.6, ctx);
+      //drawSkeleton(pose.keypoints, 0.6, ctx);
+
+      // 추정된 관절부 출력
+      print_result(pose.keypoints);
+
+      // 딥러닝 모델을 이용해서 동작 판단 진행
+      if (pose.score >= 0.8) {
+        squat_model(get_keyPoints(pose.keypoints)).then((e) => {
+          if (e[0][0] > e[0][1]) {
+            setPredictResult("stand");
+            if (previousPose === "squat") {
+              setCount((prevCount) => prevCount + 1);
+            }
+            previousPose = "stand";
+          } else if (e[0][0] < e[0][1]) {
+            setPredictResult("squat");
+            previousPose = "squat";
+          }
+        });
+      }
+    }, 100);
   };
 
   const btn_stop_click = () => {
-    setRecordFlag(1);
-  };
-
-  const btn_save_click = () => {
-    save_CSV(csv);
+    setStartFlag("stop");
+    clearInterval(intervalRef.current);
   };
 
   useEffect(() => {
-    setupCamera().then(() => {
-      detectPose();
-    });
+    setupCamera();
   }, []); // 빈 배열을 전달하여 페이지가 처음 로드될 때만 실행
+
+  // 타이머 useEffect
+  useEffect(() => {
+    if (startFlag === "start") {
+      timerRef.current = setInterval(() => {
+        setTimer((prevTimer) => prevTimer + 1);
+      }, 1000);
+    } else {
+      clearInterval(timerRef.current);
+    }
+  }, [startFlag]);
 
   return (
     <div id="squat_div">
@@ -186,9 +234,7 @@ function Squat() {
         <video id="video" width={640} height={480} ref={videoRef}></video>
       </div>
       <div id="result_div">
-        <p>
-          Timer={timer}, Flag={recordFlag}
-        </p>
+        <p>Timer={timer}</p>
         <p id="keypoints"></p>
         <p id="result">{result}</p>
         <p id="predict_result">{predictResult}</p>
@@ -199,7 +245,7 @@ function Squat() {
         <button id="btn_stop" onClick={btn_stop_click}>
           Stop
         </button>
-        <button id="btn_save" onClick={btn_save_click}>
+        <button id="btn_save" onClick={() => Navigate("/MainPage")}>
           Save
         </button>
       </div>
