@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 function Squat() {
   let Navigate = useNavigate();
   const [count, setCount] = useState(0);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(30);
   const [csv, setCSV] = useState([]);
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
