@@ -6,7 +6,7 @@ import "./Squat.css";
 
 function Squat() {
   const [count, setCount] = useState(0);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(30);
   const [csv, setCSV] = useState([]);
   const [recordFlag, setRecordFlag] = useState(1);
   const [result, setResult] = useState("Result");
@@ -180,6 +180,13 @@ function Squat() {
     });
   }, []); // 빈 배열을 전달하여 페이지가 처음 로드될 때만 실행
 
+  useEffect(() => { //타이머 useEffect
+    const id = setInterval(() => {
+      setTimer(c => c - 1);
+    }, 1000);
+    return () => clearInterval(id);
+  }, []); 
+
   return (
     <div id="squat_div">
       <div id="estimate_div">
@@ -187,7 +194,8 @@ function Squat() {
       </div>
       <div id="result_div">
         <p>
-          Timer={timer}, Flag={recordFlag}
+          Timer = {timer}
+          Flag={recordFlag}
         </p>
         <p id="keypoints"></p>
         <p id="result">{result}</p>
