@@ -88,6 +88,17 @@ export default function Home() {
       }
     });
   };
+  const sum = () => {
+    axios({
+      url: "http://localhost:8123/sum",
+      method: "POST",
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        console.log(result.data);
+      }
+    });
+  };
 
   useEffect(() => {
     try {
@@ -131,6 +142,9 @@ export default function Home() {
             </button>
             <button onClick={week} className="week">
               일주일치 보는 버튼
+            </button>
+            <button onClick={sum} className="sum">
+              누적 갯수 순위 버튼
             </button>
             <button onClick={rank} className="rank">
               랭킹보기 버튼

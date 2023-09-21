@@ -43,6 +43,7 @@ const {
    tree,
    shoulder_press,
    week_record,
+   sum,
    } = require("./exercise");
 
 
@@ -65,6 +66,7 @@ app.post("/shoulder_press", shoulder_press);
 app.post("/view", view);
 app.post("/rank", rank);
 app.post("/week", week_record);
+app.post("/sum", sum);
 
 app.listen(process.env.PORT, () => {
   // 서버 열였을때 체크하는용도

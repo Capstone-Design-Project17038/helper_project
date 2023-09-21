@@ -58,10 +58,9 @@ const squat = (req, res) => {
     const { counts } = req.body;
     const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
     const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
-    //console.log(counts);
+    console.log(counts);
     console.log(data.id);
     const currentTime = new Date();
-    console.log(oneWeekAgo)
 
     //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
     db.query(
@@ -257,6 +256,30 @@ const week_record = (req, res) => {
   }
 };
 
+const sum = (req, res) => { 
+  try {
+    const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
+    const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
+
+    db.query(
+      //"SELECT user ,COUNT(counts) FROM SQUAT WHERE user = (?) ORDER BY count(counts);"
+      "SELECT user, COUNT(counts) FROM SQUAT GROUP BY user ORDER BY COUNT(counts) DESC;",
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(401).json("불러오기 실패");
+        } else {
+          console.log("불러오기 성공");
+          console.log(result);
+          res.status(200).json(result);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 module.exports = {
   // 작성된 함수를 모듈화해서 내보냄
   squat,
@@ -266,4 +289,5 @@ module.exports = {
   tree,
   shoulder_press,
   week_record,
+  sum,
 };
