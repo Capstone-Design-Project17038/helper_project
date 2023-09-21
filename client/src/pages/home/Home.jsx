@@ -10,9 +10,9 @@ export default function Home() {
   const [user, setUser] = useState({});
   const counts = 10;
 
-  const squart = () => {
+  const squat = () => {
     axios({
-      url: "http://localhost:8123/squart",
+      url: "http://localhost:8123/squat",
       method: "POST",
       data: {
         counts: counts,
@@ -103,12 +103,7 @@ export default function Home() {
     <div>
       <header className="App-header">
         <img src="helper.png" className="App-logo" alt="logo" />
-        <a onClick={accessToken} className="App-link">
-          get Access Token
-        </a>
-        <a onClick={refreshToken} className="App-link">
-          get Refresh Token
-        </a>
+        
         {isLogin ? (
           <>
             <h3>{user.nickname} 님이 로그인했습니다.</h3>
@@ -116,7 +111,7 @@ export default function Home() {
               Logout
             </button>
 
-            <button onClick={squart} className="squart">
+            <button onClick={squat} className="squart">
               운동 스쿼트 했을때 db 들어가는 버튼
             </button>
             <button onClick={view} className="view">

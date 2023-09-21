@@ -5,7 +5,7 @@ const db = mysql.createPool({
   //db 설정
   host: "127.0.0.1", // 호스트
   user: "root", // 데이터베이스 계정
-  password: "1121", // 데이터베이스 비밀번호
+  password: "root", // 데이터베이스 비밀번호
   database: "helper", // 사용할 데이터베이스
 });
 
@@ -53,14 +53,14 @@ const db = mysql.createPool({
 
  */
 
-const squart = (req, res) => {
+const squat = (req, res) => {
   console.log("1번");
   try {
     const { counts } = req.body;
     const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
     const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
     //console.log(counts);
-    //console.log(data);
+    console.log(data.id);
     const currentTime = new Date();
 
     //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
@@ -231,7 +231,7 @@ const rank = (req, res) => {
 
 module.exports = {
   // 작성된 함수를 모듈화해서 내보냄
-  squart,
+  squat,
   view,
   rank,
   lunge,

@@ -3,12 +3,13 @@ import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
   let Navigate = useNavigate();
   const [count, setCount] = useState(0);
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(0);
   const [csv, setCSV] = useState([]);
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
@@ -157,7 +158,7 @@ function Squat() {
     const input_data = tf.tensor([data]);
 
     const model = await tf.loadLayersModel(
-      "http://localhost:8112/models/model.json"
+      "http://localhost:8123/models/model.json"
     );
     const predict = model.predict(input_data);
     const result = await predict.array();
@@ -169,6 +170,20 @@ function Squat() {
     return result;
   };
 
+    const squat = () => {
+    axios({
+      url: "http://localhost:8123/squat",
+      method: "POST",
+      data: {
+        counts: count,
+      },
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open('/MainPage', '_self')
+      }
+    });
+  };
   const btn_start_click = async () => {
     console.log("start pose estimate");
     setStartFlag("start");
@@ -245,7 +260,7 @@ function Squat() {
         <button id="btn_stop" onClick={btn_stop_click}>
           Stop
         </button>
-        <button id="btn_save" onClick={() => Navigate("/MainPage")}>
+        <button id="btn_save" onClick={squat}>
           Save
         </button>
       </div>

@@ -35,7 +35,8 @@ const {
   signup,
 } = require("./controller"); // 해당 요청이 사용될때 컨트롤러 폴더로 가서 작동됨, index.js로 만들면 폴더만 추가해도 자동으로 설정됨
 
-const { squart, 
+const { 
+  squat, 
   view,
   rank,
    lunge,
@@ -56,10 +57,10 @@ app.get("/login/success", loginSuccess);
 app.post("/logout", logout);
 app.post("/signup", signup);
 
-app.post("/squart", squart);
-app.post("/squart", tree);
-app.post("/squart", lunge);
-app.post("/squart", shoulder_press);
+app.post("/squat", squat);
+app.post("/tree", tree);
+app.post("/lunge", lunge);
+app.post("/shoulder_press", shoulder_press);
 app.post("/view", view);
 app.post("/rank", rank);
 
