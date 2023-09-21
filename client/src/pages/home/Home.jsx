@@ -77,6 +77,18 @@ export default function Home() {
     });
   };
 
+  const week = () => {
+    axios({
+      url: "http://localhost:8123/week",
+      method: "POST",
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        console.log(result.data);
+      }
+    });
+  };
+
   useEffect(() => {
     try {
       axios({
@@ -116,6 +128,9 @@ export default function Home() {
             </button>
             <button onClick={view} className="view">
               마이페이지에서 운동 한 양 보는 버튼
+            </button>
+            <button onClick={week} className="week">
+              일주일치 보는 버튼
             </button>
             <button onClick={rank} className="rank">
               랭킹보기 버튼

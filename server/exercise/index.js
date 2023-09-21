@@ -54,7 +54,6 @@ const db = mysql.createPool({
  */
 
 const squat = (req, res) => {
-  console.log("1번");
   try {
     const { counts } = req.body;
     const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
@@ -62,6 +61,7 @@ const squat = (req, res) => {
     //console.log(counts);
     console.log(data.id);
     const currentTime = new Date();
+    console.log(oneWeekAgo)
 
     //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
     db.query(
@@ -185,7 +185,7 @@ const view = (req, res) => {
     //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
 
     db.query(
-      "SELECT * FROM SQUART WHERE user=? ORDER BY date;",
+      "SELECT * FROM SQUAT WHERE user=? ORDER BY date;",
       [data.id],
       // 콜백함수
       (err, result) => {
@@ -211,8 +211,36 @@ const rank = (req, res) => {
   try {
     console.log("성공");
     db.query(
-      "SELECT * FROM SQUART ORDER BY COUNTS DESC LIMIT 6;",
+      "SELECT * FROM SQUAT ORDER BY COUNTS DESC LIMIT 6;",
+      [],
       // 콜백함수
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(401).json("불러오기 실패");
+        } else {
+          console.log("불러오기 성공");
+          console.log(result);
+          res.status(200).json(result);
+        }
+      }
+    );
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const week_record = (req, res) => { 
+  try {
+    const currentTime = new Date();
+    const oneWeekAgo = new Date(currentTime);
+    const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
+    const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
+
+    oneWeekAgo.setDate(currentTime.getDate() - 7);
+    db.query(
+      "SELECT * FROM SQUAT WHERE DATE>(?) and user = (?) ORDER BY date;",
+      [oneWeekAgo,data.id],
       (err, result) => {
         if (err) {
           console.log(err);
@@ -237,4 +265,5 @@ module.exports = {
   lunge,
   tree,
   shoulder_press,
+  week_record,
 };
