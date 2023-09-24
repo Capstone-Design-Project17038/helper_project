@@ -54,7 +54,7 @@ const login = (req, res, next) => {
             {
               // 유효기간 및 발행자 설정
               expiresIn: "24h",
-              issuer: "About Tech",
+              issuer: "Youn Byung Hyuk",
             }
           );
           // 클라이언트에 토큰 전송

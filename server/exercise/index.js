@@ -235,6 +235,7 @@ const week_record = (req, res) => {
     const oneWeekAgo = new Date(currentTime);
     const token = req.cookies.accessToken; // req의 쿠키에서 엑세스 토큰에 접근
     const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
+    console.log(data.id)
 
     oneWeekAgo.setDate(currentTime.getDate() - 7);
     db.query(
@@ -263,7 +264,7 @@ const sum = (req, res) => {
 
     db.query(
       //"SELECT user ,COUNT(counts) FROM SQUAT WHERE user = (?) ORDER BY count(counts);"
-      "SELECT user, COUNT(counts) FROM SQUAT GROUP BY user ORDER BY COUNT(counts) DESC;",
+      "SELECT user, sum(counts) FROM SQUAT GROUP BY user ORDER BY COUNT(counts) DESC;",
       (err, result) => {
         if (err) {
           console.log(err);
