@@ -5,7 +5,7 @@ const db = mysql.createPool({
   //db 설정
   host: "127.0.0.1", // 호스트
   user: "root", // 데이터베이스 계정
-  password: "root", // 데이터베이스 비밀번호
+  password: "1121", // 데이터베이스 비밀번호
   database: "helper", // 사용할 데이터베이스
 });
 
@@ -60,7 +60,10 @@ const squat = (req, res) => {
     const data = jwt.verify(token, process.env.ACCESS_SECRET); // verify 해줌
     console.log(counts);
     console.log(data.id);
-    const currentTime = new Date();
+
+    const offset = 1000 * 60 * 60 * 9;
+    const koreaNow = new Date((new Date()).getTime() + offset);
+    const currentTime = koreaNow.toISOString().replace("T", " ").split('.')[0];
 
     //console.log(data); //여기다가 데이터 삽입 테이블을 집어넣으면됨
     db.query(

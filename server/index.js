@@ -65,7 +65,7 @@ app.post("/lunge", lunge);
 app.post("/shoulder_press", shoulder_press);
 app.post("/view", view);
 app.post("/rank", rank);
-app.post("/week", week_record);
+app.get("/week", week_record);
 app.post("/sum", sum);
 
 app.listen(process.env.PORT, () => {
