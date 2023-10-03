@@ -24,7 +24,7 @@ const db = mysql.createPool({
   database: "helper", // 사용할 데이터베이스
 });
 
-app.use("/models", express.static("public"));
+app.use("/models", express.static("public/models/"));
 
 const {
   login,
@@ -35,20 +35,18 @@ const {
   signup,
 } = require("./controller"); // 해당 요청이 사용될때 컨트롤러 폴더로 가서 작동됨, index.js로 만들면 폴더만 추가해도 자동으로 설정됨
 
-const { 
-  squat, 
+const {
+  squat,
   view,
   rank,
-   lunge,
-   tree,
-   shoulder_press,
-   week_record,
-   sum,
-   } = require("./exercise");
-
+  lunge,
+  tree,
+  shoulder_press,
+  week_record,
+  sum,
+} = require("./exercise");
 
 dotenv.config(); // dotenv 구성
-
 
 // 위까지 했을때 클라이언트에서 서버로 요청이 가능해짐
 

@@ -158,7 +158,7 @@ function Squat() {
     const input_data = tf.tensor([data]);
 
     const model = await tf.loadLayersModel(
-      "http://localhost:8123/models/model.json"
+      "http://localhost:8123/models/squat/model.json"
     );
     const predict = model.predict(input_data);
     const result = await predict.array();
@@ -170,7 +170,7 @@ function Squat() {
     return result;
   };
 
-    const squat = () => {
+  const squat = () => {
     axios({
       url: "http://localhost:8123/squat",
       method: "POST",
@@ -180,7 +180,7 @@ function Squat() {
       withCredentials: true,
     }).then((result) => {
       if (result.status === 200) {
-        window.open('/MainPage', '_self')
+        window.open("/MainPage", "_self");
       }
     });
   };
