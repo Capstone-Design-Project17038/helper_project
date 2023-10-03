@@ -215,7 +215,7 @@ const rank = (req, res) => {
   try {
     console.log("성공");
     db.query(
-      "SELECT * FROM SQUAT FULL JOIN USER  ORDER BY COUNTS DESC LIMIT 10;",
+      "SELECT  SQUAT.counts,SQUAT.date, USER.nickname  FROM SQUAT LEFT OUTER JOIN USER ON SQUAT.user = USER.UID UNION SELECT  SQUAT.counts,SQUAT.date, USER.nickname  FROM SQUAT RIGHT OUTER JOIN USER ON SQUAT.user = USER.UID ORDER BY counts DESC LIMIT 10; ",
       [],
       // 콜백함수
       (err, result) => {
