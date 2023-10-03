@@ -8,7 +8,7 @@ export default function Home() {
   let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
-  const counts = 10;
+  const counts = 100;
 
   const squat = () => {
     axios({

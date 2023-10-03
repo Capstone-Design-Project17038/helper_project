@@ -1,11 +1,13 @@
 const jwt = require("jsonwebtoken"); // jwt 토큰 사용을 위한 모듈 설정
 const mysql = require("mysql"); // DB가져옴
+const dotenv = require("dotenv"); //dotenc 설정
+dotenv.config(); 
 
 const db = mysql.createPool({
   //db 설정
   host: "127.0.0.1", // 호스트
   user: "root", // 데이터베이스 계정
-  password: "1121", // 데이터베이스 비밀번호
+  password: "root", // 데이터베이스 비밀번호
   database: "helper", // 사용할 데이터베이스
 });
 
@@ -213,7 +215,7 @@ const rank = (req, res) => {
   try {
     console.log("성공");
     db.query(
-      "SELECT * FROM SQUAT ORDER BY COUNTS DESC LIMIT 6;",
+      "SELECT * FROM SQUAT FULL JOIN USER  ORDER BY COUNTS DESC LIMIT 10;",
       [],
       // 콜백함수
       (err, result) => {

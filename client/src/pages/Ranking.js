@@ -17,6 +17,7 @@ function Ranking() {
     }).then((result) => {
       if (result.status === 200) {
         setRank(result.data);
+        console.log(result.data)
       }
     });
   }, []);
@@ -44,7 +45,7 @@ function Ranking() {
               return (
                 <TBodyRow key={data.time}>
                   <Rank>🥇 {index + 1}등</Rank>
-                  <RankerUserName>{data.user}</RankerUserName>
+                  <RankerUserName>{data.nickname}</RankerUserName>
                   <RankerPoint>
                     {data.counts}개
                   </RankerPoint>
@@ -55,7 +56,7 @@ function Ranking() {
               return (
                 <TBodyRow key={data.time}>
                   <Rank>🥈 {index + 1}등</Rank>
-                  <RankerUserName>{data.user}</RankerUserName>
+                  <RankerUserName>{data.nickname}</RankerUserName>
                   <RankerPoint>
                   {data.counts}개
                   </RankerPoint>
@@ -66,7 +67,7 @@ function Ranking() {
               return (
                 <TBodyRow key={data.time}>
                   <Rank>🥉 {index + 1}등</Rank>
-                  <RankerUserName>{data.user}</RankerUserName>
+                  <RankerUserName>{data.nickname}</RankerUserName>
                   <RankerPoint>
                     {data.counts}개
                   </RankerPoint>
@@ -76,7 +77,7 @@ function Ranking() {
             return (
               <TBodyRow key={data.time}>
                 <Rank>{index + 1}등</Rank>
-                <UserName>{data.user}</UserName>
+                <UserName>{data.nickname}</UserName>
                 <RankerPoint>
                   {data.counts}개
                 </RankerPoint>
