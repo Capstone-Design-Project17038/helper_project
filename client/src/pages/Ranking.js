@@ -23,13 +23,17 @@ function Ranking() {
   return (
     <>
     <Header></Header>
-    <div>랭킹</div>
+    <Container>
+    <TitleContaienr>
+          <Title>랭킹</Title>
+          <SubTitle>랭킹은 1위부터 6위까지만 표시됩니다.</SubTitle>
+          <SubTitle>랭킹은 주기적으로 초기화합니다. (보통 일주일 단위)</SubTitle>
+        </TitleContaienr>
     <Table>
         <THead>
           <THeadRow>
             <Rank>랭킹</Rank>
             <UserName>이름</UserName>
-            <Stage>단계</Stage>
             <Point>점수</Point>
           </THeadRow>
         </THead>
@@ -41,7 +45,6 @@ function Ranking() {
                 <TBodyRow key={data.time}>
                   <Rank>🥇 {index + 1}등</Rank>
                   <RankerUserName>{data.user}</RankerUserName>
-                  <Stage>{data.stage}</Stage>
                   <RankerPoint>
                     {data.counts}개
                   </RankerPoint>
@@ -53,7 +56,6 @@ function Ranking() {
                 <TBodyRow key={data.time}>
                   <Rank>🥈 {index + 1}등</Rank>
                   <RankerUserName>{data.user}</RankerUserName>
-                  <Stage>{data.stage}</Stage>
                   <RankerPoint>
                   {data.counts}개
                   </RankerPoint>
@@ -65,7 +67,6 @@ function Ranking() {
                 <TBodyRow key={data.time}>
                   <Rank>🥉 {index + 1}등</Rank>
                   <RankerUserName>{data.user}</RankerUserName>
-                  <Stage>{data.stage}</Stage>
                   <RankerPoint>
                     {data.counts}개
                   </RankerPoint>
@@ -76,7 +77,6 @@ function Ranking() {
               <TBodyRow key={data.time}>
                 <Rank>{index + 1}등</Rank>
                 <UserName>{data.user}</UserName>
-                <Stage>{data.stage}</Stage>
                 <RankerPoint>
                   {data.counts}개
                 </RankerPoint>
@@ -85,6 +85,7 @@ function Ranking() {
           })}
         </TBody>
       </Table>
+      </Container>
     <Footer></Footer>
     </>
   )
@@ -181,11 +182,6 @@ const UserName = styled.td`
   border-left: 1px solid #eeeeee;
 `;
 
-const Stage = styled.td`
-  width: 15%;
-  padding: 20px 0px;
-  border-left: 1px solid #eeeeee;
-`;
 
 const Point = styled.td`
   width: 40%;

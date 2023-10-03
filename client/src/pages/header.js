@@ -86,7 +86,7 @@ const Header = () => {
           </li>
           <li>
             <Link to={"/Ranking"} className="nav-menu-list">
-              Work
+              Ranking
             </Link>
           </li>
           <li>
