@@ -38,45 +38,6 @@ function Squat() {
     console.log("camera set up success");
   };
 
-  // 버튼 내부 함수로 이동시킴
-  // const detectPose = async () => {
-  //   console.log("start pose estimate");
-  //   const video = videoRef.current;
-  //   //const ctx = canvasRef.current.getContext("2d");
-  //   const net = await posenet.load();
-  //   let previousPose = null;
-
-  //   // while (true) {
-  //   const pose = await net.estimateSinglePose(video);
-  //   console.log(tf.memory());
-  //   // Clear the canvas
-  //   //ctx.clearRect(0, 0, video.width, video.height);
-
-  //   // Draw the pose
-  //   //drawKeypoints(pose.keypoints, 0.6, ctx);
-  //   //drawSkeleton(pose.keypoints, 0.6, ctx);
-
-  //   // 추정된 관절부 출력
-  //   print_result(pose.keypoints);
-
-  //   // 딥러닝 모델을 이용해서 동작 판단 진행
-  //   if (pose.score >= 0.8) {
-  //     squat_model(get_keyPoints(pose.keypoints)).then((e) => {
-  //       if (e[0][0] > e[0][1]) {
-  //         setPredictResult("stand");
-  //         if (previousPose === "squat") {
-  //           setCount((prevCount) => prevCount + 1);
-  //         }
-  //         previousPose = "stand";
-  //       } else if (e[0][0] < e[0][1]) {
-  //         setPredictResult("squat");
-  //         previousPose = "squat";
-  //       }
-  //     });
-  //   }
-  //   // }
-  // };
-
   const print_result = (keypoints) => {
     const keypoint_list = [
       "nose",
@@ -105,43 +66,6 @@ function Squat() {
       keypoints_arr.push(`${keypoint_list[i]}: (${x}, ${y}) `);
     }
     setResult(keypoints_arr);
-  };
-
-  const get_CSV = (keypoints) => {
-    const row = [];
-    let toggle_saving = 0;
-
-    if (csv.length === 0) {
-      for (let i = 0; i < 17; i++) {
-        row.push(keypoints[i].part + "_x");
-        row.push(keypoints[i].part + "_y");
-      }
-      setCSV((prevCSV) => [...prevCSV, row]);
-    }
-
-    if (toggle_saving === 0) {
-      row.length = 0;
-      for (let i = 0; i < 17; i++) {
-        row.push(keypoints[i].position.x);
-        row.push(keypoints[i].position.y);
-      }
-      setCSV((prevCSV) => [...prevCSV, row]);
-    }
-  };
-
-  const save_CSV = () => {
-    console.log("saving...");
-    const csv_content =
-      "data:text/csv;charset=utf-8,\uFEFF" +
-      csv.map((e) => e.join(",")).join("\n");
-
-    const encodedUri = encodeURI(csv_content);
-
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "sample_data.csv");
-    document.body.appendChild(link);
-    link.click();
   };
 
   const get_keyPoints = (keypoints) => {
