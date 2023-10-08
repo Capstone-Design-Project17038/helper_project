@@ -8,7 +8,7 @@ export default function Home() {
   let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
-  const counts = 10;
+  const counts = 4;
 
   const squat = () => {
     axios({
@@ -126,7 +126,7 @@ export default function Home() {
     <div>
       <header className="App-header">
         <img src="helper.png" className="App-logo" alt="logo" />
-        
+
         {isLogin ? (
           <>
             <h3>{user.nickname} 님이 로그인했습니다.</h3>
