@@ -37,7 +37,6 @@ const {
 
 const {
   squat,
-  view,
   rank,
   shoulder_press,
   week_record,
@@ -46,10 +45,19 @@ const {
   sum,
 } = require("./exercise");
 
+const {
+  view_squat_month,
+  view_crunch_month,
+  view_shoulder_month,
+  view_lateral_raise_month,
+  view_squat_daily,
+} = require("./view");
+
 dotenv.config(); // dotenv 구성
 
 // 위까지 했을때 클라이언트에서 서버로 요청이 가능해짐
 
+//로그인 로직
 app.post("/login", login); // 각각의 라우터에 요청에 대한 경우를 만듬
 app.get("/accesstoken", accessToken);
 app.get("/refreshtoken", refreshToken);
@@ -57,16 +65,21 @@ app.get("/login/success", loginSuccess);
 app.post("/logout", logout);
 app.post("/signup", signup);
 
+// 데이터 삽입 로직
 app.post("/squat", squat);
 app.post("/shoulder_press", shoulder_press);
-app.post("/view", view);
-app.post("/rank", rank);
-app.get("/week", week_record);
-app.post("/sum", sum);
-app.get("/week", side_lateral_raise);
-app.get("/week", side_crunch);
+app.post("/side_lateral_raise", side_lateral_raise);
+app.post("/side_crunch", side_crunch);
 
-app.listen(process.env.PORT, () => {
+
+//데이터 보기 로직
+app.post("/view", view_squat_month);
+app.post("/rank", rank);
+app.post("/week", week_record);
+app.post("/sum", sum);
+
+
+app.listen(process.env.PORT, () => { 
   // 서버 열였을때 체크하는용도
   console.log(`server is on ${process.env.PORT}`);
 });
