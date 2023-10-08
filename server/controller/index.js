@@ -9,6 +9,7 @@ const db = mysql.createPool({
   database: "helper", // 사용할 데이터베이스
 });
 
+
 //INSERT INTO `helper`.`user` (`UID`, `email`, `password`, `name`, `nickname`) VALUES ('1', 'test', 'test', 'test', 'test');
 
 const signup = (req, res, next) => {
@@ -54,7 +55,7 @@ const login = (req, res, next) => {
             {
               // 유효기간 및 발행자 설정
               expiresIn: "24h",
-              issuer: "About Tech",
+              issuer: "Youn Byung Hyuk",
             }
           );
           // 클라이언트에 토큰 전송

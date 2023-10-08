@@ -8,7 +8,8 @@ export default function Home() {
   let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
-  const counts = 4;
+
+  const counts = 100;
 
   const squat = () => {
     axios({
@@ -84,7 +85,7 @@ export default function Home() {
       withCredentials: true,
     }).then((result) => {
       if (result.status === 200) {
-        console.log(result.data);
+        console.log(result.data[0]);
       }
     });
   };
@@ -134,7 +135,7 @@ export default function Home() {
               Logout
             </button>
 
-            <button onClick={squat} className="squart">
+            <button onClick={squat} className="squat">
               운동 스쿼트 했을때 db 들어가는 버튼
             </button>
             <button onClick={view} className="view">

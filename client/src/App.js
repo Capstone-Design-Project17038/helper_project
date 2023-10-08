@@ -7,7 +7,7 @@ import MainPage from "./pages/main/MainPage";
 import { UserContext } from "./context/LoginContext";
 import MyPage from "./pages/MyPage";
 import About from "./pages/About";
-import Work from "./pages/Work";
+import Ranking from "./pages/Ranking";
 import ExerciseChoice from "./pages/ExerciseChoice";
 import SignUpPage from "./pages/SignUpPage";
 import Squat from "./pages/exercise/Squat";
@@ -27,7 +27,7 @@ function App() {
             <Route path="/MainPage" element={<MainPage />} />
             <Route path="/MyPage" element={<MyPage />} />
             <Route path="/About" element={<About />} />
-            <Route path="/Work" element={<Work />} />
+            <Route path="/Ranking" element={<Ranking />} />
             <Route path="/ExerciseChoice" element={<ExerciseChoice />} />
             <Route path="/SignUpPage" element={<SignUpPage />} />
             <Route path="/Squat" element={<Squat />} />

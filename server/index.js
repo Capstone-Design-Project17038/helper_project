@@ -20,11 +20,11 @@ app.use(
 const db = mysql.createPool({
   host: "127.0.0.1", // 호스트
   user: "root", // 데이터베이스 계정
-  password: "root", // 데이터베이스 비밀번호
+  password: "1121", // 데이터베이스 비밀번호
   database: "helper", // 사용할 데이터베이스
 });
 
-app.use("/models", express.static("public"));
+app.use("/models", express.static("public/models/"));
 
 const {
   login,
@@ -35,20 +35,18 @@ const {
   signup,
 } = require("./controller"); // 해당 요청이 사용될때 컨트롤러 폴더로 가서 작동됨, index.js로 만들면 폴더만 추가해도 자동으로 설정됨
 
-const { 
-  squat, 
+const {
+  squat,
   view,
   rank,
-   lunge,
-   tree,
-   shoulder_press,
-   week_record,
-   sum,
-   } = require("./exercise");
-
+  shoulder_press,
+  week_record,
+  side_lateral_raise,
+  side_crunch,
+  sum,
+} = require("./exercise");
 
 dotenv.config(); // dotenv 구성
-
 
 // 위까지 했을때 클라이언트에서 서버로 요청이 가능해짐
 
@@ -60,13 +58,13 @@ app.post("/logout", logout);
 app.post("/signup", signup);
 
 app.post("/squat", squat);
-app.post("/tree", tree);
-app.post("/lunge", lunge);
 app.post("/shoulder_press", shoulder_press);
 app.post("/view", view);
 app.post("/rank", rank);
-app.post("/week", week_record);
+app.get("/week", week_record);
 app.post("/sum", sum);
+app.get("/week", side_lateral_raise);
+app.get("/week", side_crunch);
 
 app.listen(process.env.PORT, () => {
   // 서버 열였을때 체크하는용도
