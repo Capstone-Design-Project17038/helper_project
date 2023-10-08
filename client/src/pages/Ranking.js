@@ -27,7 +27,7 @@ function Ranking() {
     <Container>
     <TitleContaienr>
           <Title>랭킹</Title>
-          <SubTitle>랭킹은 1위부터 6위까지만 표시됩니다.</SubTitle>
+          <SubTitle>랭킹은 1위부터 100위까지만 표시됩니다.</SubTitle>
           <SubTitle>랭킹은 주기적으로 초기화합니다. (보통 일주일 단위)</SubTitle>
         </TitleContaienr>
     <Table>
