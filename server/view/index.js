@@ -210,4 +210,7 @@ module.exports = {
   view_shoulder_month,
   view_lateral_raise_month,
   view_squat_daily,
+  view_crunch_daily,
+  view_shoulder_daily,
+  view_lateral_raise_daily,
 };

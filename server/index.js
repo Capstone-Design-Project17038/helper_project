@@ -51,11 +51,15 @@ const {
   view_shoulder_month,
   view_lateral_raise_month,
   view_squat_daily,
+  view_crunch_daily,
+  view_shoulder_daily,
+  view_lateral_raise_daily
+
 } = require("./view");
 
 dotenv.config(); // dotenv 구성
-
 // 위까지 했을때 클라이언트에서 서버로 요청이 가능해짐
+
 
 //로그인 로직
 app.post("/login", login); // 각각의 라우터에 요청에 대한 경우를 만듬
@@ -73,7 +77,17 @@ app.post("/side_crunch", side_crunch);
 
 
 //데이터 보기 로직
-app.post("/view", view_squat_month);
+app.post("/view_squat_month", view_squat_month);
+app.post("/view_crunch_month", view_crunch_month);
+app.post("/view_shoulder_month", view_shoulder_month);
+app.post("/view_lateral_raise_month", view_lateral_raise_month);
+app.post("/view_squat_daily", view_squat_daily);
+app.post("/view_crunch_daily", view_crunch_daily);
+app.post("/view_shoulder_daily", view_shoulder_daily);
+app.post("/view_lateral_raise_daily", view_lateral_raise_daily);
+
+
+// 랭킹 데이터 조회 로직
 app.post("/rank", rank);
 app.post("/week", week_record);
 app.post("/sum", sum);
