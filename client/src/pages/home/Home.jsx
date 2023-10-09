@@ -1,11 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import Login from "../../components/login/Login";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function Home() {
-  let Navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
 
