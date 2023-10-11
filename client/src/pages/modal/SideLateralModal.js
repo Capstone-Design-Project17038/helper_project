@@ -1,9 +1,11 @@
 import styles from './Modal.module.css';
+import { useNavigate } from "react-router-dom";
 
-function LungeModal({ setLungeOpen}) {
+function SideLateralModal({ setsidelateralOpen}) {
+    const Navigate = useNavigate();
     // 모달 끄기 
     const closeModal = () => {
-        setLungeOpen(false);
+        setsidelateralOpen(false);
     };
 
     return (
@@ -11,10 +13,10 @@ function LungeModal({ setLungeOpen}) {
             <button className={styles.close} onClick={closeModal}>
                 X
             </button>
-            <h1>Lunge</h1>
+            <h1>Side Lateral Raise</h1>
             <div className= {styles.exercise}>
                 <div className={styles.exercise_img}>
-                    <img src='/exercise_img/lunge.gif'/>
+                    <img src='/exercise_img/sidelateral.gif'/>
                 </div>
                 <div className={styles.exercise_des}>
                 <ol>
@@ -26,8 +28,8 @@ function LungeModal({ setLungeOpen}) {
                 </ol>
                 </div>
             </div>
-            <button>운동 시작</button>       
+            <button onClick={()=>Navigate("/SideLateralRaise")}>운동 시작</button>       
         </div>
     );
 }
-export default LungeModal;
+export default SideLateralModal;

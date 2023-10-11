@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import MainPage from "./pages/main/MainPage";
 import { UserContext } from "./context/LoginContext";
 import MyPage from "./pages/MyPage";
@@ -11,6 +10,10 @@ import Ranking from "./pages/Ranking";
 import ExerciseChoice from "./pages/ExerciseChoice";
 import SignUpPage from "./pages/SignUpPage";
 import Squat from "./pages/exercise/Squat";
+import SideLateralRaise from "./pages/exercise/SideLateralRaise";
+import SideCrunch from "./pages/exercise/SideCrunch";
+import ShoulderPress from "./pages/exercise/ShoulderPress";
+
 
 function App() {
   const [accessToken, setAccessToken] = useState(null);
@@ -31,6 +34,9 @@ function App() {
             <Route path="/ExerciseChoice" element={<ExerciseChoice />} />
             <Route path="/SignUpPage" element={<SignUpPage />} />
             <Route path="/Squat" element={<Squat />} />
+            <Route path="/SideLateralRaise" element={<SideLateralRaise />} />
+            <Route path="/ShoulderPress" element={<ShoulderPress />} />
+            <Route path="/SideCrunch" element={<SideCrunch />} />
           </Routes>
         </UserContext.Provider>
       </Router>
