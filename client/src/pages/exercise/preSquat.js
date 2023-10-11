@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
-function SideLateralRaise() {
+function Squat() {
   let Navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(0);
+  const [csv, setCSV] = useState([]);
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
   const [startFlag, setStartFlag] = useState(null);
@@ -17,14 +18,22 @@ function SideLateralRaise() {
   const intervalRef = useRef(null);
   const timerRef = useRef(0);
 
+  //const canvasRef = useRef(null);
+
   const setupCamera = async () => {
     const video = videoRef.current;
+    //const canvas = canvasRef.current;
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: true,
     });
     video.srcObject = stream;
     video.play();
+
+    // video.onloadedmetadata = () => {
+    //   canvas.width = video.width;
+    //   canvas.height = video.height;
+    // };
 
     console.log("camera set up success");
   };
@@ -69,11 +78,11 @@ function SideLateralRaise() {
     return row;
   };
 
-  const sideLetaralRaise_model = async (data) => {
+  const squat_model = async (data) => {
     const input_data = tf.tensor([data]);
 
     const model = await tf.loadLayersModel(
-      "http://localhost:8123/models/side_lateral_raise/model.json"
+      "http://localhost:8123/models/squat/model.json"
     );
     const predict = model.predict(input_data);
     const result = await predict.array();
@@ -85,9 +94,9 @@ function SideLateralRaise() {
     return result;
   };
 
-  const side_lateral_raise = () => {
+  const squat = () => {
     axios({
-      url: "http://localhost:8123/side_lateral_raise",
+      url: "http://localhost:8123/squat",
       method: "POST",
       data: {
         counts: count,
@@ -103,32 +112,38 @@ function SideLateralRaise() {
     console.log("start pose estimate");
     setStartFlag("start");
     const video = videoRef.current;
+    //const ctx = canvasRef.current.getContext("2d");
     const net = await posenet.load();
     let previousPose = null;
     intervalRef.current = setInterval(async () => {
       const pose = await net.estimateSinglePose(video);
       console.log(tf.memory());
 
+      // Clear the canvas
+      //ctx.clearRect(0, 0, video.width, video.height);
+
+      // Draw the pose
+      //drawKeypoints(pose.keypoints, 0.6, ctx);
+      //drawSkeleton(pose.keypoints, 0.6, ctx);
+
       // 추정된 관절부 출력
       print_result(pose.keypoints);
 
-      /* 딥러닝 모델을 이용해서 동작 판단 진행
-         Stand = 0 (e[0][0]), Raise = 1 (e[0][1]) */
-
+      // 딥러닝 모델을 이용해서 동작 판단 진행
       if (pose.score >= 0.8) {
-        sideLetaralRaise_model(get_keyPoints(pose.keypoints)).then((e) => {
+        squat_model(get_keyPoints(pose.keypoints)).then((e) => {
           if (e[0][0] > e[0][1]) {
             setPredictResult("stand");
-            if (previousPose === "raise") {
+            if (previousPose === "squat") {
               setCount((prevCount) => prevCount + 1);
             }
             previousPose = "stand";
           } else if (e[0][0] < e[0][1]) {
-            setPredictResult("raise");
-            previousPose = "raise";
+            setPredictResult("squat");
+            previousPose = "squat";
           }
         });
-      } else setPredictResult("unknown");
+      }
     }, 100);
   };
 
@@ -169,7 +184,7 @@ function SideLateralRaise() {
         <button id="btn_stop" onClick={btn_stop_click}>
           Stop
         </button>
-        <button id="btn_save" onClick={side_lateral_raise}>
+        <button id="btn_save" onClick={squat}>
           Save
         </button>
       </div>
@@ -178,4 +193,4 @@ function SideLateralRaise() {
   );
 }
 
-export default SideLateralRaise;
+export default Squat;

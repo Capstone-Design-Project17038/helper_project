@@ -10,7 +10,6 @@ function SideCrunch() {
   let Navigate = useNavigate();
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(0);
-  const [csv, setCSV] = useState([]);
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
   const [startFlag, setStartFlag] = useState(null);
@@ -18,22 +17,14 @@ function SideCrunch() {
   const intervalRef = useRef(null);
   const timerRef = useRef(0);
 
-  //const canvasRef = useRef(null);
-
   const setupCamera = async () => {
     const video = videoRef.current;
-    //const canvas = canvasRef.current;
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: true,
     });
     video.srcObject = stream;
     video.play();
-
-    // video.onloadedmetadata = () => {
-    //   canvas.width = video.width;
-    //   canvas.height = video.height;
-    // };
 
     console.log("camera set up success");
   };
@@ -112,38 +103,38 @@ function SideCrunch() {
     console.log("start pose estimate");
     setStartFlag("start");
     const video = videoRef.current;
-    //const ctx = canvasRef.current.getContext("2d");
     const net = await posenet.load();
     let previousPose = null;
     intervalRef.current = setInterval(async () => {
       const pose = await net.estimateSinglePose(video);
       console.log(tf.memory());
 
-      // Clear the canvas
-      //ctx.clearRect(0, 0, video.width, video.height);
-
-      // Draw the pose
-      //drawKeypoints(pose.keypoints, 0.6, ctx);
-      //drawSkeleton(pose.keypoints, 0.6, ctx);
-
       // 추정된 관절부 출력
       print_result(pose.keypoints);
 
-      // 딥러닝 모델을 이용해서 동작 판단 진행
+      /* 딥러닝 모델을 이용해서 동작 판단 진행
+         Stand = 0 (e[0][0]), Left Bent = 1 (e[0][1]), Right Bent = 2 (e[0][2]) */
+
       if (pose.score >= 0.8) {
         sideCrunch_model(get_keyPoints(pose.keypoints)).then((e) => {
-          if (e[0][0] > e[0][1]) {
-            setPredictResult("standBy");
-            if (previousPose === "press") {
+          if (e[0][0] > e[0][1] && e[0][0] > e[0][2]) {
+            setPredictResult("stand");
+            if (
+              previousPose === "left Crunch" ||
+              previousPose === "right Crunch"
+            ) {
               setCount((prevCount) => prevCount + 1);
             }
-            previousPose = "standBy";
-          } else if (e[0][0] < e[0][1]) {
-            setPredictResult("press");
-            previousPose = "press";
+            previousPose = "stand";
+          } else if (e[0][1] > e[0][0] && e[0][1] > e[0][2]) {
+            setPredictResult("left Crunch");
+            previousPose = "stand";
+          } else if (e[0][2] > e[0][0] && e[0][2] > e[0][1]) {
+            setPredictResult("right Crunch");
+            previousPose = "stand";
           }
         });
-      }
+      } else setPredictResult("unknown");
     }, 100);
   };
 

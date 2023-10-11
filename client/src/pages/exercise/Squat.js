@@ -4,25 +4,38 @@ import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Counter from "./Counter";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
   let Navigate = useNavigate();
+
+  /*------------------------------------- 변수 선언부 -------------------------------------*/
+  //결과값 출력 변수
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(0);
-  const [csv, setCSV] = useState([]);
   const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
-  const [startFlag, setStartFlag] = useState(null);
+
+  //시작되었는지 확인하는 Flag 변수
+  const [startFlag, setStartFlag] = useState(false);
+
+  //CSS 관리를 위한 변수
+  const [resultVisible, setResultVisible] = useState(false);
+  const [countVisible, setCountVisible] = useState(true);
+
+  //타이머 관련 변수
+  const [countDownProp, setCountDownProp] = useState("");
+  const [countDown, setCountDown] = useState(0);
+  const [timerFlag, setTimerFlag] = useState(false);
   const videoRef = useRef(null);
-  const intervalRef = useRef(null);
+  const predictRef = useRef(null);
   const timerRef = useRef(0);
+  /*-------------------------------------------------------------------------------------*/
 
-  //const canvasRef = useRef(null);
-
+  /*------------------------------------- 카메라 세팅 -------------------------------------*/
   const setupCamera = async () => {
     const video = videoRef.current;
-    //const canvas = canvasRef.current;
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: false,
       video: true,
@@ -30,14 +43,11 @@ function Squat() {
     video.srcObject = stream;
     video.play();
 
-    // video.onloadedmetadata = () => {
-    //   canvas.width = video.width;
-    //   canvas.height = video.height;
-    // };
-
     console.log("camera set up success");
   };
+  /*-------------------------------------------------------------------------------------*/
 
+  /*------------------------------------- 모델 관련 함수 -------------------------------------*/
   const print_result = (keypoints) => {
     const keypoint_list = [
       "nose",
@@ -68,6 +78,7 @@ function Squat() {
     setResult(keypoints_arr);
   };
 
+  //모든 관절부 데이터
   const get_keyPoints = (keypoints) => {
     const row = [];
     for (let i = 0; i < 17; i++) {
@@ -76,6 +87,59 @@ function Squat() {
     }
 
     return row;
+  };
+
+  //상체 관절부 계산 함수
+  const get_upper_keyPoints = (keypoints) => {
+    const row = [];
+    for (let i = 5; i < 13; i++) {
+      row.push(keypoints[i].position.x);
+      row.push(keypoints[i].position.y);
+    }
+
+    return row;
+  };
+
+  //하체 관절부 계산 함수
+  const get_lower_keyPoints = (keypoints) => {
+    const row = [];
+
+    for (let i = 5; i < 7; i++) {
+      row.push(keypoints[i].position.x);
+      row.push(keypoints[i].position.y);
+    }
+    for (let i = 11; i < 17; i++) {
+      row.push(keypoints[i].position.x);
+      row.push(keypoints[i].position.y);
+    }
+
+    return row;
+  };
+
+  //관절 각도 계산 함수
+  const calc_angle = (pivot, fst_loc, snd_loc) => {
+    const vector1 = [fst_loc[0] - pivot[0], fst_loc[1] - pivot[1]];
+    const vector2 = [snd_loc[0] - pivot[0], snd_loc[1] - pivot[1]];
+
+    const dot_product = vector1[0] * vector2[0] + vector1[1] * vector2[1];
+    const magnitude1 = Math.sqrt(vector1[0] ** 2 + vector1[1] ** 2);
+    const magnitude2 = Math.sqrt(vector2[0] ** 2 + vector2[1] ** 2);
+    const angle_rad = Math.acos(dot_product / (magnitude1 * magnitude2));
+
+    const angle_deg = Math.degrees(angle_rad);
+
+    return angle_deg;
+  };
+
+  const data_concatenate = (data) => {
+    const left_shoulder = [data[0], data[1]];
+    const right_shoulder = [data[2], data[3]];
+    const left_hip = [data[4], data[5]];
+    const right_hip = [data[6], data[7]];
+    const left_knee = [data[8], data[9]];
+    const right_knee = [data[10], data[11]];
+    const left_ankle = [data[12], data[13]];
+    const right_ankle = [data[14], data[15]];
   };
 
   const squat_model = async (data) => {
@@ -93,6 +157,7 @@ function Squat() {
 
     return result;
   };
+  /*-------------------------------------------------------------------------------------*/
 
   const squat = () => {
     axios({
@@ -108,48 +173,76 @@ function Squat() {
       }
     });
   };
+
+  const toggleResultVisible = () => {
+    setResultVisible(!resultVisible);
+  };
+
+  const toggleCountVisible = () => {
+    setCountVisible(!countVisible);
+  };
+
   const btn_start_click = async () => {
-    console.log("start pose estimate");
-    setStartFlag("start");
-    const video = videoRef.current;
-    //const ctx = canvasRef.current.getContext("2d");
-    const net = await posenet.load();
-    let previousPose = null;
-    intervalRef.current = setInterval(async () => {
-      const pose = await net.estimateSinglePose(video);
-      console.log(tf.memory());
+    if (startFlag === false) {
+      setStartFlag(true);
+      setCountDownProp(true);
+      let countdown = 5; // 카운트 다운 시작 값
+      setCountDown(countdown);
+      const countdownInterval = setInterval(() => {
+        // console.log(`Countdown: ${countdown}`);
+        countdown -= 1;
+        setCountDown((prevCount) => prevCount - 1);
+        if (countdown === 0) {
+          toggleCountVisible();
+          clearInterval(countdownInterval);
+          startPoseEstimation(); // 5초 후 pose estimate 시작
+        }
+      }, 1000); // 1초마다 카운트 다운
 
-      // Clear the canvas
-      //ctx.clearRect(0, 0, video.width, video.height);
+      const startPoseEstimation = async () => {
+        setTimerFlag(true);
+        const video = videoRef.current;
+        const net = await posenet.load();
+        let previousPose = null;
+        toggleResultVisible();
 
-      // Draw the pose
-      //drawKeypoints(pose.keypoints, 0.6, ctx);
-      //drawSkeleton(pose.keypoints, 0.6, ctx);
+        predictRef.current = setInterval(async () => {
+          const pose = await net.estimateSinglePose(video);
+          console.log(pose.keypoints);
 
-      // 추정된 관절부 출력
-      print_result(pose.keypoints);
+          // 추정된 관절부 출력
+          print_result(pose.keypoints);
 
-      // 딥러닝 모델을 이용해서 동작 판단 진행
-      if (pose.score >= 0.8) {
-        squat_model(get_keyPoints(pose.keypoints)).then((e) => {
-          if (e[0][0] > e[0][1]) {
-            setPredictResult("stand");
-            if (previousPose === "squat") {
-              setCount((prevCount) => prevCount + 1);
-            }
-            previousPose = "stand";
-          } else if (e[0][0] < e[0][1]) {
-            setPredictResult("squat");
-            previousPose = "squat";
-          }
-        });
-      }
-    }, 100);
+          /* 딥러닝 모델을 이용해서 동작 판단 진행
+             Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
+          if (pose.score) {
+            console.log(get_upper_keyPoints(pose.keypoints));
+            squat_model(get_keyPoints(pose.keypoints)).then((e) => {
+              if (e[0][0] - e[0][1] >= 0.5) {
+                setPredictResult("stand");
+                if (previousPose === "squat") {
+                  setCount((prevCount) => prevCount + 1);
+                }
+                previousPose = "stand";
+              } else if (e[0][0] - e[0][1] >= 0.5) {
+                setPredictResult("squat");
+                previousPose = "squat";
+              }
+            });
+          } else setPredictResult("unknown");
+        }, 100);
+      };
+    }
   };
 
   const btn_stop_click = () => {
-    setStartFlag("stop");
-    clearInterval(intervalRef.current);
+    if (startFlag === true) {
+      setStartFlag(false);
+      setTimerFlag(false);
+      toggleResultVisible();
+      toggleCountVisible();
+      clearInterval(predictRef.current);
+    }
   };
 
   useEffect(() => {
@@ -158,26 +251,34 @@ function Squat() {
 
   // 타이머 useEffect
   useEffect(() => {
-    if (startFlag === "start") {
+    if (timerFlag) {
       timerRef.current = setInterval(() => {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
     } else {
       clearInterval(timerRef.current);
     }
-  }, [startFlag]);
+  }, [timerFlag]);
 
   return (
-    <div id="squat_div">
-      <div id="estimate_div">
-        <video id="video" width={640} height={480} ref={videoRef}></video>
+    <div id="container">
+      <div id="screen">
+        <video id="video" ref={videoRef}></video>
       </div>
-      <div id="result_div">
-        <p>Timer={timer}</p>
-        <p id="keypoints"></p>
-        <p id="result">{result}</p>
-        <p id="predict_result">{predictResult}</p>
-        <p id="exercise_count">개수 : {count}</p>
+      {/* <div id="countDown" style={countDownStyle}>
+        <p>{countDown}</p>
+      </div> */}
+      {/* {countVisible && <Counter startFlag={startFlag} />} */}
+      {resultVisible && (
+        <div id="showResult">
+          <p>Timer={timer}</p>
+          <p id="keypoints"></p>
+          <p id="result">{result}</p>
+          <p id="predict_result">{predictResult}</p>
+          <p id="exercise_count">개수 : {count}</p>
+        </div>
+      )}
+      <div id="Buttons">
         <button id="btn_start" onClick={btn_start_click}>
           Start
         </button>

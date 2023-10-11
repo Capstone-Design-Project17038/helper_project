@@ -1,0 +1,30 @@
+1. video.play() 함수 밑 부분에
+    const canvasRef = useRef(null);
+
+    변수 선언
+    
+    video.onloadedmetadata = () => {
+      canvas.width = video.width;
+      canvas.height = video.height;
+    };
+
+    위의 코드 붙여넣기
+
+2. btn_start_click 함수 내부에
+    const ctx = canvasRef.current.getContext("2d");
+  
+    변수 선언
+
+    // Clear the canvas
+    ctx.clearRect(0, 0, video.width, video.height);
+
+    // Draw the pose
+    drawKeypoints(pose.keypoints, 0.6, ctx);
+    drawSkeleton(pose.keypoints, 0.6, ctx);
+
+    위의 코드 붙여넣기
+
+3. setupCamera 함수 내부에
+    const canvas = canvasRef.current;
+
+    변수 선언
