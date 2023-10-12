@@ -4,7 +4,6 @@ import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { math } from "@tensorflow/tfjs";
 import Counter from "./Counter";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
@@ -155,8 +154,6 @@ function Squat() {
     const angles = {};
 
     for (let i = 0; i < keypoint_list.length; i++) {
-      // arr.append(data[i]);
-      // arr.append(data[i + 1]);
       keypoints[keypoint_list[i]] = [data[i * 2], data[i * 2 + 1]];
     }
 
@@ -249,6 +246,7 @@ function Squat() {
       }, 1000); // 1초마다 카운트 다운
 
       const startPoseEstimation = async () => {
+        console.log("start pose estimate");
         setTimerFlag(true);
         const video = videoRef.current;
         const net = await posenet.load();
