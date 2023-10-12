@@ -9,7 +9,10 @@ h1 {
 }
 
 .main-footer {
-  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 .main-footer p {

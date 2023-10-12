@@ -6,7 +6,7 @@ import Header from "./header";
 import Footer from "./footer";
 import SquatChart from './chart/SquatChart';
 import ShoulderChart from './chart/ShoulderChart';
-import LungeChart from './chart/LungeChart';
+import SideCrunchChart from './chart/SideCrunchChart';
 
 function MyPage(){
 
@@ -21,13 +21,13 @@ function MyPage(){
   const exercises = [
     { name: "SquatChart", id: "스쿼트"},
     { name: "ShoulderChar", id: "숄더프레스"},
-    { name: "LungeChart", id: "런지"},
+    { name: "SideCrunchChart", id: "사이드크런치"},
   ];
 
   const selectComponent = {
     스쿼트: <SquatChart />,
     숄더프레스: <ShoulderChart />,
-    런지: <LungeChart />,
+    사이드크런치: <SideCrunchChart />,
   };
 
   return(

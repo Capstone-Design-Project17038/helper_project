@@ -1,6 +1,8 @@
 import styles from './Modal.module.css';
+import { useNavigate } from "react-router-dom";
 
 function ShoulderPressModal({ setShoulderPressOpen}) {
+    const Navigate = useNavigate();
     // 모달 끄기 
     const closeModal = () => {
         setShoulderPressOpen(false);
@@ -26,7 +28,7 @@ function ShoulderPressModal({ setShoulderPressOpen}) {
                     </ol>
                 </div>
             </div>
-            <button>운동 시작</button>        
+            <button onClick={()=>Navigate("/ShoulderPress")}>운동 시작</button>        
         </div>
     );
 }

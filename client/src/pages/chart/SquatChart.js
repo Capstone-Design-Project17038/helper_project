@@ -18,6 +18,7 @@ ChartJS.register(
 
 function SquatChart() {
   const [day, setDay] = useState([]); // 모든 날짜 운동 데이터
+  const [month, setMonth] = useState([]); // 한달간에 운동 데이터
   const [user, setUser] = useState([]);
 
   useEffect(() => {
@@ -28,6 +29,18 @@ function SquatChart() {
     }).then((result) => {
       if (result.status === 200) {
         setDay(result.data);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    axios({
+      url: 'http://localhost:8123/view_squat_month',
+      method: 'POST',
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        setMonth(result.data);
       }
     });
   }, []);
@@ -54,24 +67,79 @@ function SquatChart() {
     return formattedDate;
   });
 
-  const count_data = [];
-  for (let a of day) {
-    count_data.push(a.total_count);
-  }
-
-  const options1 = {
-    responsive: false,
-  }; //막대 그래프
-  const options2 = {
-    responsive: false,
+  console.log(month);
+  const day_count = day.map((element)=> element.total_count); // day객체의 total_count 추출
+  const month_count = month.map((element) => element.total_count);
+  const month_date = month.map((element) => element.month);
+  
+  const bar_options = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Date',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Count',
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false, // You can change this to true if you want to display the legend
+      },
+    },
+    animation: {
+      duration: 1000, // Animation duration in milliseconds
+    },
+  };
+  
+  const line_options = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Month',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Count',
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false, // You can change this to true if you want to display the legend
+      },
+    },
+    animation: {
+      duration: 1000, // Animation duration in milliseconds
+    },
   };
 
-  const labels = formattedDateData;
-  const data = {
-    labels,
+
+  const bar_data = {
+    labels: formattedDateData,
     datasets: [
       {
-        data: count_data,
+        data: day_count,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+
+  const line_data = {
+    labels: month_date,
+    datasets: [
+      {
+        data: month_count,
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
     ],
@@ -90,9 +158,9 @@ function SquatChart() {
       <ChartDiv>
         <i className="fas fa-chart-line fa-2x"></i>
         <h2>월간 정보</h2>
-        <Line options={options2} data={data} style={{ position: 'relative', height: '200px' }} />
+        <Line options={line_options} data={line_data}/>
         <h2>스쿼트 정보</h2>
-        <Bar options={options1} data={data} style={{ position: 'relative', height: '200px' }} />
+        <Bar options={bar_options} data={bar_data}/>
       </ChartDiv>
     </Wrapper>
   );
@@ -130,7 +198,9 @@ const ChartDiv = styled.div`
   margin-top: 20px;
 
   canvas {
-    max-width: 80%;
+    max-width: 100%;
+    width: 800px;
+    height: 400px;
   }
 `;
 

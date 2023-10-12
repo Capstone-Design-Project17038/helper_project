@@ -1,9 +1,11 @@
 import styles from './Modal.module.css';
+import { useNavigate } from "react-router-dom";
 
-function TreeModal({ setTreeOpen}) {
+function SideCrunchModalModal({ setsidecrunchOpen}) {
+    const Navigate = useNavigate();
     // 모달 끄기 
     const closeModal = () => {
-        setTreeOpen(false);
+        setsidecrunchOpen(false);
     };
 
     return (
@@ -11,10 +13,10 @@ function TreeModal({ setTreeOpen}) {
             <button className={styles.close} onClick={closeModal}>
                 X
             </button>
-            <h1>Tree</h1>
+            <h1>Side Crunch</h1>
             <div className= {styles.exercise}>
                 <div className={styles.exercise_img}>
-                    <img src='/exercise_img/tree.png'/>
+                    <img src='/exercise_img/sidecrunch.gif'/>
                 </div>
                 <div className={styles.exercise_des}>
                     <ol>
@@ -26,8 +28,8 @@ function TreeModal({ setTreeOpen}) {
                     </ol>     
                 </div>
             </div>
-            <button>운동 시작</button>
+            <button onClick={()=>Navigate("/SideCrunch")}>운동 시작</button>
         </div>
     );
 }
-export default TreeModal;
+export default SideCrunchModalModal;
