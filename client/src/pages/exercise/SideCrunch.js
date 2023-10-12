@@ -130,7 +130,7 @@ function SideCrunch() {
     return angle_deg;
   };
 
-  const calc_lower_body_angle = (data) => {
+  const calc_body_angle = (data) => {
     const keypoint_list = [
       "left_shoulder",
       "right_shoulder",
@@ -262,11 +262,9 @@ function SideCrunch() {
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
           if (pose.score >= 0.8) {
             sideCrunch_model(
-              calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
+              calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
-              console.log(
-                calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
-              );
+              console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
               if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
                 if (previousPose === "squat") {
