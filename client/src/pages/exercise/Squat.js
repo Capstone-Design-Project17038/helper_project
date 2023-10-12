@@ -4,6 +4,7 @@ import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { math } from "@tensorflow/tfjs";
 import Counter from "./Counter";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
@@ -80,40 +81,40 @@ function Squat() {
 
   //모든 관절부 데이터
   const get_keyPoints = (keypoints) => {
-    const row = [];
+    const arr = [];
     for (let i = 0; i < 17; i++) {
-      row.push(keypoints[i].position.x);
-      row.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x);
+      arr.push(keypoints[i].position.y);
     }
 
-    return row;
+    return arr;
   };
 
   //상체 관절부 계산 함수
   const get_upper_keyPoints = (keypoints) => {
-    const row = [];
+    const arr = [];
     for (let i = 5; i < 13; i++) {
-      row.push(keypoints[i].position.x);
-      row.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x);
+      arr.push(keypoints[i].position.y);
     }
 
-    return row;
+    return arr;
   };
 
   //하체 관절부 계산 함수
   const get_lower_keyPoints = (keypoints) => {
-    const row = [];
+    const arr = [];
 
     for (let i = 5; i < 7; i++) {
-      row.push(keypoints[i].position.x);
-      row.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x);
+      arr.push(keypoints[i].position.y);
     }
     for (let i = 11; i < 17; i++) {
-      row.push(keypoints[i].position.x);
-      row.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x);
+      arr.push(keypoints[i].position.y);
     }
 
-    return row;
+    return arr;
   };
 
   //관절 각도 계산 함수
@@ -126,20 +127,68 @@ function Squat() {
     const magnitude2 = Math.sqrt(vector2[0] ** 2 + vector2[1] ** 2);
     const angle_rad = Math.acos(dot_product / (magnitude1 * magnitude2));
 
-    const angle_deg = Math.degrees(angle_rad);
+    const angle_deg = (angle_rad * 180) / Math.PI;
 
     return angle_deg;
   };
 
-  const data_concatenate = (data) => {
-    const left_shoulder = [data[0], data[1]];
-    const right_shoulder = [data[2], data[3]];
-    const left_hip = [data[4], data[5]];
-    const right_hip = [data[6], data[7]];
-    const left_knee = [data[8], data[9]];
-    const right_knee = [data[10], data[11]];
-    const left_ankle = [data[12], data[13]];
-    const right_ankle = [data[14], data[15]];
+  const calc_lower_body_angle = (data) => {
+    const keypoint_list = [
+      "left_shoulder",
+      "right_shoulder",
+      "left_hip",
+      "right_hip",
+      "left_knee",
+      "right_knee",
+      "left_ankle",
+      "right_ankle",
+    ];
+    const angle_keypoint_list = [
+      "angle_leftHip",
+      "angle_rightHip",
+      "angle_leftKnee",
+      "angle_rightKnee",
+    ];
+
+    const arr = data;
+    const keypoints = {};
+    const angles = {};
+
+    for (let i = 0; i < keypoint_list.length; i++) {
+      // arr.append(data[i]);
+      // arr.append(data[i + 1]);
+      keypoints[keypoint_list[i]] = [data[i * 2], data[i * 2 + 1]];
+    }
+
+    angles[angle_keypoint_list[0]] = calc_angle(
+      keypoints["left_hip"],
+      keypoints["left_shoulder"],
+      keypoints["left_knee"]
+    );
+
+    angles[angle_keypoint_list[1]] = calc_angle(
+      keypoints["right_hip"],
+      keypoints["right_shoulder"],
+      keypoints["right_knee"]
+    );
+
+    angles[angle_keypoint_list[2]] = calc_angle(
+      keypoints["left_knee"],
+      keypoints["left_hip"],
+      keypoints["left_ankle"]
+    );
+
+    angles[angle_keypoint_list[3]] = calc_angle(
+      keypoints["right_knee"],
+      keypoints["right_hip"],
+      keypoints["right_ankle"]
+    );
+
+    for (let i = 0; i < 4; i++) {
+      arr.push(angles[angle_keypoint_list[i]]);
+    }
+
+    return arr;
   };
 
   const squat_model = async (data) => {
@@ -186,10 +235,10 @@ function Squat() {
     if (startFlag === false) {
       setStartFlag(true);
       setCountDownProp(true);
-      let countdown = 5; // 카운트 다운 시작 값
+      let countdown = 1; // 카운트 다운 시작 값
       setCountDown(countdown);
       const countdownInterval = setInterval(() => {
-        // console.log(`Countdown: ${countdown}`);
+        console.log(`Countdown: ${countdown}`);
         countdown -= 1;
         setCountDown((prevCount) => prevCount - 1);
         if (countdown === 0) {
@@ -208,23 +257,26 @@ function Squat() {
 
         predictRef.current = setInterval(async () => {
           const pose = await net.estimateSinglePose(video);
-          console.log(pose.keypoints);
 
           // 추정된 관절부 출력
           print_result(pose.keypoints);
 
           /* 딥러닝 모델을 이용해서 동작 판단 진행
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
-          if (pose.score) {
-            console.log(get_upper_keyPoints(pose.keypoints));
-            squat_model(get_keyPoints(pose.keypoints)).then((e) => {
+          if (pose.score >= 0.8) {
+            squat_model(
+              calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
+            ).then((e) => {
+              console.log(
+                calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
+              );
               if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
                 if (previousPose === "squat") {
                   setCount((prevCount) => prevCount + 1);
                 }
                 previousPose = "stand";
-              } else if (e[0][0] - e[0][1] >= 0.5) {
+              } else if (e[0][1] - e[0][0] >= 0.5) {
                 setPredictResult("squat");
                 previousPose = "squat";
               }
@@ -263,7 +315,7 @@ function Squat() {
   return (
     <div id="container">
       <div id="screen">
-        <video id="video" ref={videoRef}></video>
+        <video id="video" width={640} height={480} ref={videoRef}></video>
       </div>
       {/* <div id="countDown" style={countDownStyle}>
         <p>{countDown}</p>
