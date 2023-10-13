@@ -261,7 +261,7 @@ function Squat() {
 
           /* 딥러닝 모델을 이용해서 동작 판단 진행
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
-          if (pose.score >= 0.8) {
+          if (pose.score >= 0.5) {
             squat_model(
               calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {

@@ -4,6 +4,7 @@ import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./SideCrunch.css";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function SideCrunch() {
@@ -265,15 +266,21 @@ function SideCrunch() {
               calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
               console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
-              if (e[0][0] - e[0][1] >= 0.5) {
+              if (e[0][0] - e[0][1] >= 0.3 && e[0][0] - e[0][2] >= 0.3) {
                 setPredictResult("stand");
-                if (previousPose === "squat") {
+                if (
+                  previousPose === "left Crunch" ||
+                  previousPose === "right Crunch"
+                ) {
                   setCount((prevCount) => prevCount + 1);
                 }
                 previousPose = "stand";
-              } else if (e[0][1] - e[0][0] >= 0.5) {
-                setPredictResult("squat");
-                previousPose = "squat";
+              } else if (e[0][1] - e[0][0] >= 0.3 && e[0][1] - e[0][2] >= 0.3) {
+                setPredictResult("left Crunch");
+                previousPose = "stand";
+              } else if (e[0][2] - e[0][0] >= 0.3 && e[0][2] - e[0][1] >= 0.3) {
+                setPredictResult("right Crunch");
+                previousPose = "stand";
               }
             });
           } else setPredictResult("unknown");

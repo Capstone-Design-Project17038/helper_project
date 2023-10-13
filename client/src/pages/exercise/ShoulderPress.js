@@ -18,7 +18,7 @@ function ShoulderPress() {
   const [predictResult, setPredictResult] = useState("Predict result");
 
   //시작되었는지 확인하는 Flag 변수
-  const [startFlag, setStartFlag] = useState(null);
+  const [startFlag, setStartFlag] = useState(false);
 
   //CSS 관리를 위한 변수
   const [resultVisible, setResultVisible] = useState(false);
