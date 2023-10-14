@@ -82,8 +82,8 @@ function Squat() {
   const get_keyPoints = (keypoints) => {
     const arr = [];
     for (let i = 0; i < 17; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -93,8 +93,8 @@ function Squat() {
   const get_upper_keyPoints = (keypoints) => {
     const arr = [];
     for (let i = 5; i < 13; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -105,12 +105,12 @@ function Squat() {
     const arr = [];
 
     for (let i = 5; i < 7; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
     for (let i = 11; i < 17; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -126,12 +126,12 @@ function Squat() {
     const magnitude2 = Math.sqrt(vector2[0] ** 2 + vector2[1] ** 2);
     const angle_rad = Math.acos(dot_product / (magnitude1 * magnitude2));
 
-    const angle_deg = (angle_rad * 180) / Math.PI;
+    const angle_deg = (angle_rad * 180) / Math.PI / 180;
 
     return angle_deg;
   };
 
-  const calc_lower_body_angle = (data) => {
+  const calc_body_angle = (data) => {
     const keypoint_list = [
       "left_shoulder",
       "right_shoulder",
@@ -263,11 +263,9 @@ function Squat() {
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
           if (pose.score >= 0.8) {
             squat_model(
-              calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
+              calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
-              console.log(
-                calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
-              );
+              console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
               if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
                 if (previousPose === "squat") {

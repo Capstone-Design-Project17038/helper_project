@@ -4,6 +4,7 @@ import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./SideCrunch.css";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function SideCrunch() {
@@ -81,8 +82,8 @@ function SideCrunch() {
   const get_keyPoints = (keypoints) => {
     const arr = [];
     for (let i = 0; i < 17; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -92,8 +93,8 @@ function SideCrunch() {
   const get_upper_keyPoints = (keypoints) => {
     const arr = [];
     for (let i = 5; i < 13; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -104,12 +105,12 @@ function SideCrunch() {
     const arr = [];
 
     for (let i = 5; i < 7; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
     for (let i = 11; i < 17; i++) {
-      arr.push(keypoints[i].position.x);
-      arr.push(keypoints[i].position.y);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -125,12 +126,12 @@ function SideCrunch() {
     const magnitude2 = Math.sqrt(vector2[0] ** 2 + vector2[1] ** 2);
     const angle_rad = Math.acos(dot_product / (magnitude1 * magnitude2));
 
-    const angle_deg = (angle_rad * 180) / Math.PI;
+    const angle_deg = (angle_rad * 180) / Math.PI / 180;
 
     return angle_deg;
   };
 
-  const calc_lower_body_angle = (data) => {
+  const calc_body_angle = (data) => {
     const keypoint_list = [
       "left_shoulder",
       "right_shoulder",
@@ -200,6 +201,8 @@ function SideCrunch() {
     model.dispose();
     predict.dispose();
 
+    console.log(result);
+
     return result;
   };
   /*-------------------------------------------------------------------------------------*/
@@ -262,20 +265,24 @@ function SideCrunch() {
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
           if (pose.score >= 0.8) {
             sideCrunch_model(
-              calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
+              calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
-              console.log(
-                calc_lower_body_angle(get_lower_keyPoints(pose.keypoints))
-              );
-              if (e[0][0] - e[0][1] >= 0.5) {
+              console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
+              if (e[0][0] - e[0][1] >= 0.3 && e[0][0] - e[0][2] >= 0.3) {
                 setPredictResult("stand");
-                if (previousPose === "squat") {
+                if (
+                  previousPose === "left Crunch" ||
+                  previousPose === "right Crunch"
+                ) {
                   setCount((prevCount) => prevCount + 1);
                 }
                 previousPose = "stand";
-              } else if (e[0][1] - e[0][0] >= 0.5) {
-                setPredictResult("squat");
-                previousPose = "squat";
+              } else if (e[0][1] - e[0][0] >= 0.3 && e[0][1] - e[0][2] >= 0.3) {
+                setPredictResult("left Crunch");
+                previousPose = "stand";
+              } else if (e[0][2] - e[0][0] >= 0.3 && e[0][2] - e[0][1] >= 0.3) {
+                setPredictResult("right Crunch");
+                previousPose = "stand";
               }
             });
           } else setPredictResult("unknown");
