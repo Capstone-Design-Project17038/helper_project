@@ -56,6 +56,13 @@ const {
   view_lateral_raise_daily,
 } = require("./view");
 
+const {
+  view_squat_rank,
+  view_crunch_rank,
+  view_lateral_raise_rank,
+  view_shoulder_rank,
+} = require("./rank");
+
 dotenv.config(); // dotenv 구성
 // 위까지 했을때 클라이언트에서 서버로 요청이 가능해짐
 
@@ -83,10 +90,12 @@ app.post("/view_crunch_daily", view_crunch_daily);
 app.post("/view_shoulder_daily", view_shoulder_daily);
 app.post("/view_lateral_raise_daily", view_lateral_raise_daily);
 
-// 랭킹 데이터 조회 로직
-app.post("/rank", rank);
-app.post("/week", week_record);
-app.post("/sum", sum);
+
+// 운동별 랭킹 데이터 조회
+app.post("/view_squat_rank", view_squat_rank);
+app.post("/view_crunch_rank", view_crunch_rank);
+app.post("/view_lateral_raise_rank", view_lateral_raise_rank);
+app.post("/view_shoulder_rank", view_shoulder_rank);
 
 app.listen(process.env.PORT, () => {
   // 서버 열였을때 체크하는용도

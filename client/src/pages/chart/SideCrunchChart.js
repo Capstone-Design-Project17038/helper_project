@@ -1,9 +1,9 @@
 import React from 'react'
 
-function LungeChart() {
+function SideCrunchChart() {
   return (
-    <div>LungeChart</div>
+    <div>SideCrunchChart</div>
   )
 }
 
-export default LungeChart
+export default SideCrunchChart;

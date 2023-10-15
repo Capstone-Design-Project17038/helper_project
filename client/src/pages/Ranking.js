@@ -4,14 +4,30 @@ import Footer from "./footer";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import styled from 'styled-components';
+import Select from 'react-select';
 
 
 function Ranking() {
   const [rank, setRank] = useState([]);
+  const [selected, setSelected] = useState('view_squat_rank');
+  const [title, setTitle] = useState('');
+  const placeholder = '선택해주세요';
+
+  const options = [
+    { value: 'view_squat_rank', label: '스쿼트'},
+    { value: 'view_shoulder_rank', label: '숄더프레스'},
+  ];
+
+  const onChangeSelect = (e) => {
+    if(e) {
+      setSelected(e.value);
+      setTitle(e.label);
+    }
+  }
 
   useEffect(() => {
     axios({
-      url: "http://localhost:8123/rank",
+      url: `http://localhost:8123/${selected}`, //클릭하면 선택한 운동의 랭킹 데이터 가져오기
       method: "POST",
       withCredentials: true,
     }).then((result) => {
@@ -21,15 +37,23 @@ function Ranking() {
       }
     });
   }, []);
+
   return (
     <>
     <Header></Header>
     <Container>
+    <SelectContainer>
+      <Select
+        options={options}
+        onChange={onChangeSelect}
+        placeholder= {placeholder}
+      />
+    </SelectContainer>
     <TitleContaienr>
-          <Title>랭킹</Title>
+          <Title>{title} 랭킹</Title>
           <SubTitle>랭킹은 1위부터 100위까지만 표시됩니다.</SubTitle>
           <SubTitle>랭킹은 주기적으로 초기화합니다. (보통 일주일 단위)</SubTitle>
-        </TitleContaienr>
+    </TitleContaienr>
     <Table>
         <THead>
           <THeadRow>
@@ -41,7 +65,6 @@ function Ranking() {
         <TBody>
           {rank.map((data, index) => {
             if (index + 1 === 1) {
-              console.log(data);
               return (
                 <TBodyRow key={data.time}>
                   <Rank>🥇 {index + 1}등</Rank>
@@ -101,6 +124,13 @@ const Container = styled.div`
   width: 100vw;
 `;
 
+const SelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+`;
 
 const TitleContaienr = styled.div`
   display: flex;
