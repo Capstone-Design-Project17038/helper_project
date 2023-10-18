@@ -1,30 +1,71 @@
+/* Squat.css */
 #container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
 }
 
-#video_div {
-  width: 1280px;
-  height: 960px;
-  flex: 1;
-  margin-right: 20px; /* Adjust as needed */
+#screen {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+}
+
+#video {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 #showResult {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 20px;
+  text-align: center;
 }
 
-#result_info {
-  margin-bottom: 20px; /* Adjust as needed */
+#keypoints {
+  font-size: 14px;
+  margin-top: 10px;
 }
 
-#buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Adjust as needed */
+#predict_result {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff; /* Blue color for prediction result */
+  margin: 10px 0;
 }
+
+#exercise_count {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+#Buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#btn_start,
+#btn_stop,
+#btn_save {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+#btn_start:hover,
+#btn_stop:hover,
+#btn_save:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Add any other styling as needed */

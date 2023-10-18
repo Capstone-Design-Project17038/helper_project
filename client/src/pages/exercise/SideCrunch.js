@@ -268,21 +268,15 @@ function SideCrunch() {
               calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
               console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
-              if (e[0][0] - e[0][1] >= 0.3 && e[0][0] - e[0][2] >= 0.3) {
+              if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
-                if (
-                  previousPose === "left Crunch" ||
-                  previousPose === "right Crunch"
-                ) {
+                if (previousPose === "crunch") {
                   setCount((prevCount) => prevCount + 1);
                 }
                 previousPose = "stand";
-              } else if (e[0][1] - e[0][0] >= 0.3 && e[0][1] - e[0][2] >= 0.3) {
-                setPredictResult("left Crunch");
-                previousPose = "stand";
-              } else if (e[0][2] - e[0][0] >= 0.3 && e[0][2] - e[0][1] >= 0.3) {
-                setPredictResult("right Crunch");
-                previousPose = "stand";
+              } else if (e[0][1] - e[0][0] >= 0.5) {
+                setPredictResult("crunch");
+                previousPose = "crunch";
               }
             });
           } else setPredictResult("unknown");

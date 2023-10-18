@@ -4,7 +4,6 @@ import * as posenet from "@tensorflow-models/posenet";
 import "./Squat.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Counter from "./Counter";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
@@ -14,7 +13,6 @@ function Squat() {
   //결과값 출력 변수
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(0);
-  const [result, setResult] = useState("Result");
   const [predictResult, setPredictResult] = useState("Predict result");
 
   //시작되었는지 확인하는 Flag 변수
@@ -22,15 +20,14 @@ function Squat() {
 
   //CSS 관리를 위한 변수
   const [resultVisible, setResultVisible] = useState(false);
-  const [countVisible, setCountVisible] = useState(true);
 
   //타이머 관련 변수
-  const [countDownProp, setCountDownProp] = useState("");
-  const [countDown, setCountDown] = useState(0);
   const [timerFlag, setTimerFlag] = useState(false);
   const videoRef = useRef(null);
   const predictRef = useRef(null);
   const timerRef = useRef(0);
+  const [curValue, setCurValue] = useState(5);
+  const inputRef = useRef(null);
   /*-------------------------------------------------------------------------------------*/
 
   /*------------------------------------- 카메라 세팅 -------------------------------------*/
@@ -75,7 +72,6 @@ function Squat() {
       const y = Math.round(keypoints[i].position.y);
       keypoints_arr.push(`${keypoint_list[i]}: (${x}, ${y}) `);
     }
-    setResult(keypoints_arr);
   };
 
   //모든 관절부 데이터
@@ -224,22 +220,14 @@ function Squat() {
     setResultVisible(!resultVisible);
   };
 
-  const toggleCountVisible = () => {
-    setCountVisible(!countVisible);
-  };
-
   const btn_start_click = async () => {
     if (startFlag === false) {
       setStartFlag(true);
-      setCountDownProp(true);
-      let countdown = 1; // 카운트 다운 시작 값
-      setCountDown(countdown);
+      let countdown = 6; // 카운트 다운 시작 값
       const countdownInterval = setInterval(() => {
         console.log(`Countdown: ${countdown}`);
         countdown -= 1;
-        setCountDown((prevCount) => prevCount - 1);
         if (countdown === 0) {
-          toggleCountVisible();
           clearInterval(countdownInterval);
           startPoseEstimation(); // 5초 후 pose estimate 시작
         }
@@ -287,9 +275,69 @@ function Squat() {
     if (startFlag === true) {
       setStartFlag(false);
       setTimerFlag(false);
+      setCurValue(5);
       toggleResultVisible();
-      toggleCountVisible();
       clearInterval(predictRef.current);
+    }
+  };
+
+  useEffect(() => {
+    if (startFlag && !resultVisible && curValue > 1) {
+      const timerId = setInterval(() => {
+        console.log(curValue);
+        handleCountdown();
+      }, 1000);
+
+      return () => {
+        clearInterval(timerId);
+      };
+    }
+  }, [startFlag, curValue]);
+
+  const changeValue = (newValue) => {
+    setCurValue(newValue !== 100 ? newValue : 99);
+  };
+
+  const handleValueChange = (newValue, isField) => {
+    newValue = parseInt(newValue, 10);
+
+    if (!newValue) {
+      if (isField) {
+        newValue = "";
+      } else {
+        newValue = 0;
+      }
+    }
+    if (newValue < 0) {
+      newValue = 1;
+    }
+
+    if (!isField) {
+      inputRef.current.style.transform =
+        newValue > curValue ? "translateY(-100%)" : "translateY(100%)";
+      inputRef.current.style.opacity = 0;
+
+      setTimeout(() => {
+        inputRef.current.style.transitionDuration = "0s";
+        inputRef.current.style.transform =
+          newValue > curValue ? "translateY(100%)" : "translateY(-100%)";
+        inputRef.current.style.opacity = 0;
+        changeValue(newValue);
+
+        setTimeout(() => {
+          inputRef.current.style.transitionDuration = "0.3s";
+          inputRef.current.style.transform = "translateY(0)";
+          inputRef.current.style.opacity = 1;
+        }, 20);
+      }, 250);
+    } else {
+      changeValue(newValue);
+    }
+  };
+
+  const handleCountdown = () => {
+    if (curValue >= 0) {
+      handleValueChange(curValue - 1);
     }
   };
 
@@ -313,19 +361,31 @@ function Squat() {
       <div id="screen">
         <video id="video" width={640} height={480} ref={videoRef}></video>
       </div>
-      {/* <div id="countDown" style={countDownStyle}>
-        <p>{countDown}</p>
-      </div> */}
-      {/* {countVisible && <Counter startFlag={startFlag} />} */}
       {resultVisible && (
         <div id="showResult">
           <p>Timer={timer}</p>
           <p id="keypoints"></p>
-          <p id="result">{result}</p>
           <p id="predict_result">{predictResult}</p>
           <p id="exercise_count">개수 : {count}</p>
         </div>
       )}
+      {!resultVisible && (
+        <div className="counter">
+          <div className="input-wrapper">
+            <input
+              className="input"
+              onChange={(e) => {
+                e.preventDefault();
+                handleValueChange(e.target.value, true);
+              }}
+              ref={inputRef}
+              type="text"
+              value={curValue}
+            />
+          </div>
+        </div>
+      )}
+
       <div id="Buttons">
         <button id="btn_start" onClick={btn_start_click}>
           Start
