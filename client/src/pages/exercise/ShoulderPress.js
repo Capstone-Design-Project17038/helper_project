@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
-import "./Squat.css";
+import "./Exercise.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Counter from "./Counter";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function ShoulderPress() {

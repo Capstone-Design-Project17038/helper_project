@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
-import "./Squat.css";
+import "./Exercise.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Header from "../header";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
@@ -357,48 +358,51 @@ function Squat() {
   }, [timerFlag]);
 
   return (
-    <div id="container">
-      <div id="screen">
-        <video id="video" width={640} height={480} ref={videoRef}></video>
-      </div>
-      {resultVisible && (
-        <div id="showResult">
-          <p>Timer={timer}</p>
-          <p id="keypoints"></p>
-          <p id="predict_result">{predictResult}</p>
-          <p id="exercise_count">개수 : {count}</p>
+    <>
+      <Header />
+      <div id="container">
+        <div id="screen">
+          <video id="video" width={640} height={480} ref={videoRef}></video>
         </div>
-      )}
-      {!resultVisible && (
-        <div className="counter">
-          <div className="input-wrapper">
-            <input
-              className="input"
-              onChange={(e) => {
-                e.preventDefault();
-                handleValueChange(e.target.value, true);
-              }}
-              ref={inputRef}
-              type="text"
-              value={curValue}
-            />
+        {resultVisible && (
+          <div id="showResult">
+            <p>Timer={timer}</p>
+            <p id="keypoints"></p>
+            <p id="predict_result">{predictResult}</p>
+            <p id="exercise_count">개수 : {count}</p>
           </div>
-        </div>
-      )}
+        )}
+        {!resultVisible && (
+          <div className="counter">
+            <div className="input-wrapper">
+              <input
+                disabled
+                className="input"
+                onChange={(e) => {
+                  e.preventDefault();
+                  handleValueChange(e.target.value, true);
+                }}
+                ref={inputRef}
+                type="text"
+                value={curValue}
+              />
+            </div>
+          </div>
+        )}
 
-      <div id="Buttons">
-        <button id="btn_start" onClick={btn_start_click}>
-          Start
-        </button>
-        <button id="btn_stop" onClick={btn_stop_click}>
-          Stop
-        </button>
-        <button id="btn_save" onClick={squat}>
-          Save
-        </button>
+        <div id="Buttons">
+          <button id="btn_start" onClick={btn_start_click}>
+            Start
+          </button>
+          <button id="btn_stop" onClick={btn_stop_click}>
+            Stop
+          </button>
+          <button id="btn_save" onClick={squat}>
+            Save
+          </button>
+        </div>
       </div>
-      <link rel="stylesheet" href="index.css" />
-    </div>
+    </>
   );
 }
 
