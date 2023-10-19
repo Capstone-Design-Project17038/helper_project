@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import "./Calendar.css";
 import styled from 'styled-components';
 import axios from 'axios';
+import Calender from 'react-calendar';
+import moment from "moment";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Legend, BarElement, Tooltip } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
 
@@ -146,6 +149,13 @@ function SquatChart() {
   };
 
   return (
+    <>
+    <Calender
+      tileContent = {({ date }) => {
+        if (formattedDateData.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
+          return "mark";
+        }
+      }}/>
     <Wrapper>
       <InfoDiv>
         <i className="fas fa-user fa-2x"></i>
@@ -163,6 +173,7 @@ function SquatChart() {
         <Bar options={bar_options} data={bar_data}/>
       </ChartDiv>
     </Wrapper>
+    </>
   );
 }
 

@@ -22,6 +22,7 @@ function MyPage(){
     { name: "SquatChart", id: "스쿼트"},
     { name: "ShoulderChar", id: "숄더프레스"},
     { name: "SideCrunchChart", id: "사이드크런치"},
+    { name: "SideCrunchChart", id: "사이드레터럴레이즈"}
   ];
 
   const selectComponent = {

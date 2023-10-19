@@ -16,6 +16,8 @@ function Ranking() {
   const options = [
     { value: 'view_squat_rank', label: '스쿼트'},
     { value: 'view_shoulder_rank', label: '숄더프레스'},
+    { value: 'view_crunch_rank', label: '사이드크런치'},
+    { value: 'view_lateral_raise_rank', label: '사이드레터럴레이즈'},
   ];
 
   const onChangeSelect = (e) => {
