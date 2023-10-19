@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/home/Home";
+import Home from "./pages/Home";
 import { useEffect, useState } from "react";
 import MainPage from "./pages/main/MainPage";
 import { UserContext } from "./context/LoginContext";
@@ -14,7 +14,6 @@ import SideLateralRaise from "./pages/exercise/SideLateralRaise";
 import SideCrunch from "./pages/exercise/SideCrunch";
 import ShoulderPress from "./pages/exercise/ShoulderPress";
 
-
 function App() {
   const [accessToken, setAccessToken] = useState(null);
   const [loginType, setLoginType] = useState("");
@@ -22,9 +21,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <UserContext.Provider
-          value={{ accessToken, setAccessToken, loginType, setLoginType }}
-        >
+        <UserContext.Provider value={{ accessToken, setAccessToken, loginType, setLoginType }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/MainPage" element={<MainPage />} />
