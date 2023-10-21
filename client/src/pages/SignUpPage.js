@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import styled, { createGlobalStyle, css } from "styled-components";
+import styled from "styled-components";
 import { Container } from "react-bootstrap";
 import Header from "./header";
 
@@ -35,87 +35,32 @@ const SignUpPage = () => {
   return (
     <>
       <Header></Header>
-      <GlobalStyle></GlobalStyle>
       <TContainer>
-        <form>
-          <LogInForm
-            type="text"
-            placeholder="아이디"
-            value={loginId}
-            onChange={(e) => setLoginId(e.target.value)}
-          />
-          <br />
+        <Title>환영합니다!</Title>
+        <SubTitle>기본 회원 정보를 등록해주세요</SubTitle>
+        <SignUpContainer>
+          <LogInForm type="text" placeholder="아이디" value={loginId} onChange={(e) => setLoginId(e.target.value)} />
           <LogInForm
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <br />
           <LogInForm
             type="password"
             placeholder="비밀번호 확인"
             value={passwordCheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
           />
-          <br />
-          <LogInForm
-            type="text"
-            placeholder="닉네임"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
-          <br />
-        </form>
-        <SignUpBtn onClick={handleSignup} className="loginButton">
+          <LogInForm type="text" placeholder="닉네임" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+          <SignUpBtn onClick={handleSignup} className="loginButton">
             회원가입
-        </SignUpBtn>
+          </SignUpBtn>
+        </SignUpContainer>
       </TContainer>
     </>
   );
 };
-
-const GlobalStyle = createGlobalStyle`
-${css`
-  ::-webkit-scrollbar {
-    width: 0px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background-color: #352e29;
-    border-radius: 50px;
-    width: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #352e29;
-  }
-`}
-   
-@media (min-width: 768px) {
-   ${css`
-     ::-webkit-scrollbar {
-       width: 5px;
-     }
-
-     ::-webkit-scrollbar-track {
-       background-color: transparent;
-     }
-
-     ::-webkit-scrollbar-thumb {
-       background-color: transparent;
-     }
-
-     ::-webkit-scrollbar-thumb:hover {
-       background-color: transparent;
-     }
-   `}
- }
-`;
 
 const TContainer = styled(Container)`
   width: 100%;
@@ -130,53 +75,54 @@ const TContainer = styled(Container)`
   }
 `;
 
-const SignUpBtn = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #f2f0ef;
-  font-weight: 800px;
-  width: 22%;
+const Title = styled.div`
+  width: 466px;
+  height: 94px;
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 47px;
+`;
+const SubTitle = styled.div`
+  width: 466px;
+  height: 94px;
+  font-size: 30px;
+  line-height: 47px;
+`;
 
-  font-size: 10px;
-  cursor: pointer;
-  gap: 10px;
+const SignUpContainer = styled.div`
+  width: 466px;
+`;
 
-  background-color: #352e29;
-  border: 3px solid #352e29;
-  border-radius: 80px;
-  padding: 4px 16px;
-  margin-bottom: 10px;
-
-  transition: all 0.5s ease;
-
-  @media (min-width: 768px) {
-    font-size: 25px;
-  }
+const SignUpBtn = styled.button`
+  width: 80%;
+  height: 45px;
+  background-color: #0095f6;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
 
   &:hover {
-    background-color: #f2f0ef;
-    color: #352e29;
+    cursor: pointer;
+    background-color: #b9dffc;
   }
 `;
 
 const LogInForm = styled.input`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #352e29;
-  font-weight: 800;
+  width: 80%;
+  height: 30px;
+  padding: 10px;
+  margin: 30px;
+  display: block;
+  border: 0;
+  border-bottom: 1px solid #e1e2e3;
+  color: #777;
 
-  font-size: 10px;
-  gap: 10px;
-
-  background-color: #f2f0ef;
-  border: 3px solid #352e29;
-  border-radius: 80px;
-  padding: 4px 16px;
-  margin-bottom: 10px;
-
-  transition: all 0.5s ease;
+  &:focus {
+    border-bottom: 2px solid black;
+    outline: none;
+  }
 
   @media (min-width: 768px) {
     font-size: 25px;

@@ -2,9 +2,12 @@ import React from "react";
 import Login from "./Login";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export default function Home() {
+  const [mainTitle, setmainTitle] = useState(" ");
+  const [count, setCount] = useState(0);
+  const completionWord = "Helper";
   const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
 
@@ -41,6 +44,26 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const typingInterval = setInterval(() => {
+      setmainTitle((prevTitleValue) => {
+        let result = prevTitleValue ? prevTitleValue + completionWord[count] : completionWord[0];
+        setCount(count + 1);
+
+        if (count >= completionWord.length) {
+          setCount(0);
+          setmainTitle("");
+        }
+
+        return result;
+      });
+    }, 300);
+
+    return () => {
+      clearInterval(typingInterval);
+    };
+  });
+
+  useEffect(() => {
     try {
       axios({
         url: "http://localhost:8123/login/success",
@@ -63,31 +86,44 @@ export default function Home() {
     }
   }, []);
   return (
-    <Wrapper>
-      <LogoWrapper>
-        <Logo src="helper.png" className="App-logo" alt="logo" />
-      </LogoWrapper>
+    <>
+      <TitleContainer>{<Title>홈트레이닝 {mainTitle}</Title>}</TitleContainer>
+      <Wrapper>
+        <LogoWrapper>
+          <Logo src="main_logo.gif" className="App-logo" alt="logo" />
+        </LogoWrapper>
 
-      {isLogin ? (
-        <>
-          <h3>{user.nickname} 님이 로그인했습니다.</h3>
-          <button onClick={logout} className="loginButton">
-            Logout
-          </button>
-        </>
-      ) : (
-        <Login setUser={setUser} setIsLogin={setIsLogin} />
-      )}
-    </Wrapper>
+        {isLogin ? (
+          <>
+            <h3>{user.nickname} 님이 로그인했습니다.</h3>
+            <button onClick={logout} className="loginButton">
+              Logout
+            </button>
+          </>
+        ) : (
+          <Login setUser={setUser} setIsLogin={setIsLogin} />
+        )}
+      </Wrapper>
+    </>
   );
 }
 
+const TitleContainer = styled.div`
+  display: flex;
+  width: 100%
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+`;
+const Title = styled.p`
+  font-size: 50px;
+`;
 const Wrapper = styled.div`
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  margin: 10px;
 `;
 
 const LogoWrapper = styled.div`

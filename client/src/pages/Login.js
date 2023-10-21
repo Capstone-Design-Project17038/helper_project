@@ -27,32 +27,34 @@ export default function Login({ setIsLogin, setUser }) {
 
   return (
     <LoginContainer>
+      <label for="inputName">이메일</label>
       <InputLogin
+        label="이메일"
         type="email"
-        placeholder="email"
+        placeholder="이메일"
         className="inputValue"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
+      <label for="inputName">비밀번호</label>
       <InputLogin
         type="password"
-        placeholder="password"
+        placeholder="비밀번호"
         className="inputValue"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
       <Button onClick={login} className="loginButton">
-        Login
+        로그인
       </Button>
       <Button onClick={() => Navigate("/SignUpPage")} className="loginButton">
-        SignUp
+        회원가입
       </Button>
     </LoginContainer>
   );
 }
 
 const LoginContainer = styled.div`
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,47 +64,36 @@ const LoginContainer = styled.div`
 
 const InputLogin = styled.input`
   display: block;
-  width: 270px;
+  width: 300px;
   height: 40px;
   margin: 6px auto;
   padding: 0 10px;
-  font-size: 14px;
+  font-size: 20px;
   &::placeholder {
-    font-size: 12px;
+    font-size: 18px;
     color: #8e8e8e;
   }
   &:focus {
-    border: 1px solid #8a8a8a;
+    border: 2px solid black;
     outline: none;
   }
 `;
 
-const Button = styled.button.attrs(() => ({
-  type: "submit",
-}))`
-  width: 268px;
-  height: 30px;
-  margin: 13px 0;
+const InputLabel = styled.label``;
+
+const Button = styled.button`
+  width: 320px;
+  height: 40px;
+  margin: 8px 0;
   background-color: #0095f6;
   border: none;
   border-radius: 3px;
   color: white;
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
 
-  &:disabled {
-    background-color: #b9dffc;
-
-    &:hover {
-      cursor: default;
-    }
-  }
-
-  &:enabled:hover {
+  &:hover {
     cursor: pointer;
-  }
-
-  &:focus {
-    outline: none;
+    background-color: #b9dffc;
   }
 `;

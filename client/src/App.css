@@ -1,8 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
 
 .App {
   text-align: center;
-  font-family: "Jua", sans-serif;
+  /*font-family: "Jua", sans-serif;*/
+  font-family: "Spoqa Han Sans Neo", "sans-serif";
+  font-weight: bold;
 }
 
 .App-logo {

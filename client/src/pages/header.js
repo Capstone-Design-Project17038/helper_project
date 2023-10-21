@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FaBars } from "react-icons/fa";
 
 const StyledHeader = styled.header`
-  background-color: #a2a2a2;
+  background: rgba(255, 255, 255, 0.2);
   width: 100%;
   padding: 10px 12px 8px 12px;
   display: flex;
@@ -20,7 +20,7 @@ const StyledHeader = styled.header`
   }
   .menuToggleBtn {
     display: none;
-    color: white;
+    color: black;
     font-size: 24px;
     position: absolute;
     right: 20px;
@@ -50,7 +50,7 @@ const NavManu = styled.ul`
   }
   .nav-menu-list {
     text-decoration: none;
-    color: white;
+    color: black;
     display: block;
     padding: 10px 10px;
   }
@@ -86,12 +86,12 @@ const Header = () => {
           </li>
           <li>
             <Link to={"/Ranking"} className="nav-menu-list">
-              Ranking
+              랭킹
             </Link>
           </li>
           <li>
             <Link to={"/MyPage"} className="nav-menu-list">
-              MyPage
+              마이페이지
             </Link>
           </li>
         </NavManu>

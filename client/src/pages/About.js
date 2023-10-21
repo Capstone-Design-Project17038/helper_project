@@ -1,43 +1,18 @@
-import React from 'react';
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Calender from 'react-calendar';
-import "./chart/Calendar.css";
-import moment from "moment";
+import React from "react";
+import styled from "styled-components";
+
 function About() {
-
-
-  useEffect(() => {
-    axios({
-      url: "http://localhost:8123/view",
-      method: "POST",
-      withCredentials: true,
-    }).then((result) => {
-      if (result.status === 200) {
-        console.log(result.data)
-      }
-    });
-  }, []);
-  const marks = [
-    "01-10-2023",
-    "03-10-2023",
-    "07-10-2023",
-    "12-10-2023",
-    "13-10-2023",
-    "15-10-2023",
-  ];
-
-  return (
-    <>
-    <Calender
-      tileContent = {({ date }) => {
-        if (marks.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
-          return "mark";
-        }
-      }}/>
-    <div>About</div>
-    </>
-  )
+  return <HeaderContainer></HeaderContainer>;
 }
+
+const HeaderContainer = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.2);
+`;
 
 export default About;
