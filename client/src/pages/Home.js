@@ -116,6 +116,7 @@ const TitleContainer = styled.div`
   align-items: center;
   margin: 0;
 `;
+
 const Title = styled.p`
   font-size: 50px;
 `;

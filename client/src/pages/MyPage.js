@@ -1,28 +1,27 @@
 //막대 그래프 : 우리가 막대는 몇개 띄울지 생각해야 할듯
-//꺾은선 그래프 
-import React, { useState } from 'react';
-import styled from 'styled-components';
+//꺾은선 그래프
+import React, { useState } from "react";
+import styled from "styled-components";
 import Header from "./header";
 import Footer from "./footer";
-import SquatChart from './chart/SquatChart';
-import ShoulderChart from './chart/ShoulderChart';
-import SideCrunchChart from './chart/SideCrunchChart';
+import SquatChart from "./chart/SquatChart";
+import ShoulderChart from "./chart/ShoulderChart";
+import SideCrunchChart from "./chart/SideCrunchChart";
 
-function MyPage(){
-
+function MyPage() {
   const [content, setContent] = useState();
 
-  const handleClickButton = e => {
+  const handleClickButton = (e) => {
     const { name } = e.target;
     console.log(name);
     setContent(name);
   };
 
   const exercises = [
-    { name: "SquatChart", id: "스쿼트"},
-    { name: "ShoulderChar", id: "숄더프레스"},
-    { name: "SideCrunchChart", id: "사이드크런치"},
-    { name: "SideCrunchChart", id: "사이드레터럴레이즈"}
+    { name: "SquatChart", id: "스쿼트" },
+    { name: "ShoulderChar", id: "숄더프레스" },
+    { name: "SideCrunchChart", id: "사이드크런치" },
+    { name: "SideCrunchChart", id: "사이드레터럴레이즈" },
   ];
 
   const selectComponent = {
@@ -31,18 +30,15 @@ function MyPage(){
     사이드크런치: <SideCrunchChart />,
   };
 
-  return(
+  return (
     <>
-    <Header />
+      <Header />
       <Content>
         <Side>
           <Menu>
-            {exercises.map(data => {
+            {exercises.map((data) => {
               return (
-                <Button
-                  onClick={handleClickButton}
-                  name={data.id}
-                >
+                <Button onClick={handleClickButton} name={data.id}>
                   {data.id}
                 </Button>
               );
@@ -54,12 +50,15 @@ function MyPage(){
       <Footer />
     </>
   );
-};
+}
 const Content = styled.div`
   display: flex;
+  height: 2000px;
 `;
 
 const Side = styled.div`
+  top: 100px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,11 +69,11 @@ const Side = styled.div`
 `;
 
 const Menu = styled.div`
-  margin-top: 30px;
+  margin-top: 300px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px; /* 각 메뉴 아이템 사이의 간격 지정 */
+  gap: 15px; /* 각 메뉴 아이템 사이의 간격 지정 */
 `;
 
 const Button = styled.button`
