@@ -53,7 +53,7 @@ const SignUpPage = () => {
             value={passwordCheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
           />
-         
+
           <SignUpBtn onClick={handleSignup} className="loginButton">
             회원가입
           </SignUpBtn>
@@ -63,11 +63,10 @@ const SignUpPage = () => {
   );
 };
 
-const TContainer = styled(Container)`
+const TContainer = styled.div`
+  top: 200px;
   width: 100%;
-  height: 85%;
-  margin: 100px 0px 0px 0px;
-  justify-content: center;
+  height: 100%;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -77,6 +76,7 @@ const TContainer = styled(Container)`
 `;
 
 const Title = styled.div`
+  margin-top: 200px;
   width: 466px;
   height: 94px;
   font-weight: 700;

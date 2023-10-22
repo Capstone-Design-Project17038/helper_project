@@ -59,7 +59,7 @@ const LoginContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 100px;
+  margin-left: 80px;
 `;
 
 const InputLogin = styled.input`

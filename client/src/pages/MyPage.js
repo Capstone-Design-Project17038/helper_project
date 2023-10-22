@@ -63,7 +63,7 @@ const Side = styled.div`
   flex-direction: column;
   align-items: center;
   width: 20%;
-  background-color: #f0f0f0; /* 사이드바 배경색 지정 */
+  background-color: #73a9ff; /* 사이드바 배경색 지정 */
   padding: 20px; /* 내부 여백 지정 */
   box-shadow: 2px 0px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
 `;

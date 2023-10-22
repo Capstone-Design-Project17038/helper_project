@@ -87,7 +87,9 @@ export default function Home() {
   }, []);
   return (
     <>
-      <TitleContainer>{<Title>홈트레이닝 {mainTitle}</Title>}</TitleContainer>
+      <TitleContainer>
+        <TitleImg src="slogan.png" />
+      </TitleContainer>
       <Wrapper>
         <LogoWrapper>
           <Logo src="main_logo.gif" className="App-logo" alt="logo" />
@@ -114,17 +116,18 @@ const TitleContainer = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   margin: 0;
 `;
 
-const Title = styled.p`
-  font-size: 50px;
+const TitleImg = styled.img`
+  width: 30%;
 `;
 const Wrapper = styled.div`
   display: flex;
-  height: 100vh;
   justify-content: center;
   align-items: center;
+  margin: 100px;
 `;
 
 const LogoWrapper = styled.div`
@@ -132,7 +135,8 @@ const LogoWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 100px;
+  margin-right: 100px;
+  margin-bottom: 50px;
 `;
 
 const Logo = styled.img`

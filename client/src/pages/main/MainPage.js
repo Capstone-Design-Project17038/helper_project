@@ -11,11 +11,8 @@ function MainPage() {
       <div className="main-page">
         <Header />
         <main className="main-main">
-          <button
-            className="btn"
-            onClick={() => Navigate("/ExerciseChoice")}
-          >
-            GET STARTED
+          <button className="btn" onClick={() => Navigate("/ExerciseChoice")}>
+            운동 시작
           </button>
           <img className="main_background" src="main.jpg"></img>
         </main>
