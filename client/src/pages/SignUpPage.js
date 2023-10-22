@@ -40,6 +40,7 @@ const SignUpPage = () => {
         <SubTitle>기본 회원 정보를 등록해주세요</SubTitle>
         <SignUpContainer>
           <LogInForm type="text" placeholder="아이디" value={loginId} onChange={(e) => setLoginId(e.target.value)} />
+          <LogInForm type="text" placeholder="닉네임" value={nickname} onChange={(e) => setNickname(e.target.value)} />
           <LogInForm
             type="password"
             placeholder="비밀번호"
@@ -52,7 +53,7 @@ const SignUpPage = () => {
             value={passwordCheck}
             onChange={(e) => setPasswordCheck(e.target.value)}
           />
-          <LogInForm type="text" placeholder="닉네임" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+         
           <SignUpBtn onClick={handleSignup} className="loginButton">
             회원가입
           </SignUpBtn>

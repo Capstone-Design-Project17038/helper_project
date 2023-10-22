@@ -283,7 +283,7 @@ function Squat() {
   };
 
   useEffect(() => {
-    if (startFlag && !resultVisible && curValue > 1) {
+    if (startFlag && curValue > 1) {
       const timerId = setInterval(() => {
         console.log(curValue);
         handleCountdown();
