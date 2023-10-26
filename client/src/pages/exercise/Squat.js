@@ -13,8 +13,11 @@ function Squat() {
   /*------------------------------------- 변수 선언부 -------------------------------------*/
   //결과값 출력 변수
   const [count, setCount] = useState(0);
-  const [timer, setTimer] = useState(100);
+  const [timer, setTimer] = useState(30);
   const [predictResult, setPredictResult] = useState("Predict result");
+
+  let widthRef = useRef();
+  let heightRef = useRef();
 
   //시작되었는지 확인하는 Flag 변수
   const [startFlag, setStartFlag] = useState(false);
@@ -79,8 +82,8 @@ function Squat() {
   const get_keyPoints = (keypoints) => {
     const arr = [];
     for (let i = 0; i < 17; i++) {
-      arr.push(keypoints[i].position.x / 1920);
-      arr.push(keypoints[i].position.y / 1080);
+      arr.push(keypoints[i].position.x);
+      arr.push(keypoints[i].position.y);
     }
 
     return arr;
@@ -90,8 +93,8 @@ function Squat() {
   const get_upper_keyPoints = (keypoints) => {
     const arr = [];
     for (let i = 5; i < 13; i++) {
-      arr.push(keypoints[i].position.x / 1920);
-      arr.push(keypoints[i].position.y / 1080);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -102,12 +105,12 @@ function Squat() {
     const arr = [];
 
     for (let i = 5; i < 7; i++) {
-      arr.push(keypoints[i].position.x / 1920);
-      arr.push(keypoints[i].position.y / 1080);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
     for (let i = 11; i < 17; i++) {
-      arr.push(keypoints[i].position.x / 1920);
-      arr.push(keypoints[i].position.y / 1080);
+      arr.push(keypoints[i].position.x / 640);
+      arr.push(keypoints[i].position.y / 480);
     }
 
     return arr;
@@ -207,18 +210,18 @@ function Squat() {
       window.open("/MainPage", "_self");
     }, 3000);
 
-    // axios({
-    //   url: "http://localhost:8123/squat",
-    //   method: "POST",
-    //   data: {
-    //     counts: count,
-    //   },
-    //   withCredentials: true,
-    // }).then((result) => {
-    //   if (result.status === 200) {
-    //     window.open("/MainPage", "_self");
-    //   }
-    // });
+    axios({
+      url: "http://localhost:8123/squat",
+      method: "POST",
+      data: {
+        counts: count,
+      },
+      withCredentials: true,
+    }).then((result) => {
+      if (result.status === 200) {
+        window.open("/MainPage", "_self");
+      }
+    });
   };
 
   const toggleResultVisible = () => {
@@ -238,9 +241,6 @@ function Squat() {
         }
       }, 1000); // 1초마다 카운트 다운
 
-      // 이전 포즈 유지 시간을 추적하기 위한 변수
-      let previousPoseDuration = 0;
-
       const startPoseEstimation = async () => {
         console.log("start pose estimate");
         setTimerFlag(true);
@@ -249,60 +249,45 @@ function Squat() {
         let previousPose = null;
         toggleResultVisible();
 
-        let squatStartTime = null; // squat 동작 시작 시간을 기록하는 변수
+        let exerciseStartTime = null; // squat 동작 시작 시간을 기록하는 변수
+        let exerciseDuration = 0;
 
         predictRef.current = setInterval(async () => {
           const pose = await net.estimateSinglePose(video);
-
           // 추정된 관절부 출력
           print_result(pose.keypoints);
 
           /* 딥러닝 모델을 이용해서 동작 판단 진행
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
-          if (pose.score >= 0.8) {
+          if (pose.score) {
             squat_model(
               calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
               console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
               if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
-                if (previousPose === "squat") {
-                  // previousPose가 "squat"이었던 경우에만 previousPoseDuration 증가
-                  previousPoseDuration += 100; // 100ms 증가 (1초)
-                  if (previousPoseDuration >= 1000) {
-                    // 1초 동안 squat 상태를 유지한 경우
-                    setCount((prevCount) => prevCount + 1);
-                    // 여기에 추가적인 동작을 수행하거나 상태를 처리할 수 있습니다.
-                  }
-                } else {
-                  // previousPose가 "squat"이 아니었던 경우 previousPoseDuration 초기화
-                  previousPoseDuration = 0;
+                if (previousPose === "squat" && exerciseDuration >= 1) {
+                  setCount((prevCount) => prevCount + 1);
+                  exerciseDuration = 0;
                 }
                 previousPose = "stand";
-                squatStartTime = null; // stand 동작으로 전환한 경우 squatStartTime 초기화
+                // stand 동작으로 전환한 경우 squatStartTime 초기화
               } else if (e[0][1] - e[0][0] >= 0.5) {
                 setPredictResult("squat");
                 previousPose = "squat";
 
-                if (squatStartTime === null) {
-                  squatStartTime = new Date(); // squat 동작이 시작된 시간 기록
+                if (exerciseStartTime === null) {
+                  exerciseStartTime = new Date(); // squat 동작이 시작된 시간 기록
                 } else {
                   // squat 동작을 유지 중이므로 squat 시작 후 시간 계산
                   const currentTime = new Date();
-                  const squatDuration = (currentTime - squatStartTime) / 1000; // 초 단위로 계산
-
-                  if (squatDuration >= 1) {
-                    // 1초 이상 squat 동작을 유지한 경우
-                    setCount((prevCount) => prevCount + 1);
-                    // 여기에 추가적인 동작을 수행하거나 상태를 처리할 수 있습니다.
-                  }
+                  exerciseDuration = (currentTime - exerciseStartTime) / 1000; // 초 단위로 계산
                 }
               }
             });
           } else {
             setPredictResult("unknown");
-            previousPoseDuration = 0; // 포즈를 인식하지 못한 경우 previousPoseDuration 초기화
-            squatStartTime = null; // 포즈를 인식하지 못한 경우 squatStartTime 초기화
+            exerciseStartTime = null; // 포즈를 인식하지 못한 경우 squatStartTime 초기화
           }
         }, 100);
       };
@@ -381,6 +366,7 @@ function Squat() {
 
   useEffect(() => {
     setupCamera();
+    console.log(videoRef);
   }, []); // 빈 배열을 전달하여 페이지가 처음 로드될 때만 실행
 
   // 타이머 useEffect
@@ -420,7 +406,7 @@ function Squat() {
       <Header />
       <div id="container">
         <div id="screen">
-          <video id="video" width={1280} height={700} ref={videoRef}></video>
+          <video id="video" width={640} height={480} ref={videoRef}></video>
         </div>
         {resultVisible && (
           <div id="showResult">
@@ -447,12 +433,13 @@ function Squat() {
             </div>
           </div>
         )}
-
-        <div id="Buttons">
-          <button id="btn_start" onClick={btn_start_click}>
-            Start
-          </button>
-        </div>
+        {!startFlag && (
+          <div id="Buttons">
+            <button id="btn_start" onClick={btn_start_click}>
+              Start
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
