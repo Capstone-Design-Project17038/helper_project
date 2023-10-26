@@ -19,7 +19,7 @@ import { Bar, Line } from "react-chartjs-2";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, PointElement, LineElement, Title, Legend);
 
-function SquatChart() {
+function SideLateralChart() {
   const [day, setDay] = useState([]); // 모든 날짜 운동 데이터
   const [month, setMonth] = useState([]); // 한달간에 운동 데이터
   const [user, setUser] = useState([]);
@@ -215,4 +215,4 @@ const ChartDiv = styled.div`
   }
 `;
 
-export default SquatChart;
+export default SideLateralChart;

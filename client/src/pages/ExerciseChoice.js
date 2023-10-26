@@ -7,8 +7,6 @@ import SideCrunchModal from "./modal/SideCrunchModal";
 import styled from "styled-components";
 import Footer from "./footer";
 
-
-
 function ExerciseChoice() {
   const [squatOpen, setSquatOpen] = useState(false);
   const [sidelateralOpen, setsidelateralOpen] = useState(false);
@@ -26,7 +24,11 @@ function ExerciseChoice() {
       <ExerciseChoiceContainer>
         <ExerciseOptionsContainer>
           <ExerciseOption>
-            <img src="/exercise_img/sidelateralIcon.png" alt="health__image" onClick={() => openModal(setsidelateralOpen)} />
+            <img
+              src="/exercise_img/sidelateralIcon.png"
+              alt="health__image"
+              onClick={() => openModal(setsidelateralOpen)}
+            />
             {sidelateralOpen && <SideLateralModal setsidelateralOpen={setsidelateralOpen} />}
             <ExerciseTitle>사이드 레터럴 레이즈</ExerciseTitle>
           </ExerciseOption>
@@ -36,12 +38,20 @@ function ExerciseChoice() {
             <ExerciseTitle>스쿼트</ExerciseTitle>
           </ExerciseOption>
           <ExerciseOption>
-            <img src="/exercise_img/pressIcon.png" alt="health__image" onClick={() => openModal(setShoulderPressOpen)} />
+            <img
+              src="/exercise_img/pressIcon.png"
+              alt="health__image"
+              onClick={() => openModal(setShoulderPressOpen)}
+            />
             {shoulderPressOpen && <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />}
             <ExerciseTitle>숄더 프레스</ExerciseTitle>
           </ExerciseOption>
           <ExerciseOption>
-            <img src="/exercise_img/sidecrunchIcon.png" alt= "health__image" onClick={() => openModal(setsidecrunchOpen)} />
+            <img
+              src="/exercise_img/sidecrunchIcon.png"
+              alt="health__image"
+              onClick={() => openModal(setsidecrunchOpen)}
+            />
             {sidecrunchOpen && <SideCrunchModal setsidecrunchOpen={setsidecrunchOpen} />}
             <ExerciseTitle>사이드 크런치</ExerciseTitle>
           </ExerciseOption>
@@ -55,7 +65,7 @@ const Title = styled.div`
   padding: 50px;
   margin: 30px;
   font-size: 30px;
-  `;
+`;
 const ExerciseChoiceContainer = styled.div`
   display: flex;
   flex-direction: column;

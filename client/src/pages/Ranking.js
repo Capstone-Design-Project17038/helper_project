@@ -1,248 +1,106 @@
-import React from 'react';
+import React from "react";
 import Header from "./header";
 import Footer from "./footer";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import styled from 'styled-components';
-import Select from 'react-select';
-
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import SquatRanking from "./ranking/SquatRanking";
+import ShoulderRanking from "./ranking/ShoulderRanking";
+import SideCrunchRanking from "./ranking/SideCrunchRanking";
+import SideLateralRanking from "./ranking/SideLateralRanking";
 
 function Ranking() {
-  const [rank, setRank] = useState([]);
-  const [selected, setSelected] = useState('view_squat_rank');
-  const [title, setTitle] = useState('');
-  const placeholder = '선택해주세요';
+  const [exercise, setExercise] = useState(1);
 
-  const options = [
-    { value: 'view_squat_rank', label: '스쿼트'},
-    { value: 'view_shoulder_rank', label: '숄더프레스'},
-    { value: 'view_crunch_rank', label: '사이드크런치'},
-    { value: 'view_lateral_raise_rank', label: '사이드레터럴레이즈'},
-  ];
+  const exercises = ["스쿼트", "숄더프레스", "사이드크런치", "사이드레터럴레이즈"];
 
-  const onChangeSelect = (e) => {
-    if(e) {
-      setSelected(e.value);
-      setTitle(e.label);
-    }
-  }
-
-  useEffect(() => {
-    axios({
-      url: `http://localhost:8123/${selected}`, //클릭하면 선택한 운동의 랭킹 데이터 가져오기
-      method: "POST",
-      withCredentials: true,
-    }).then((result) => {
-      if (result.status === 200) {
-        setRank(result.data);
-        console.log(result.data)
-      }
-    });
-  }, []);
+  const rankComponents = [<SquatRanking />, <ShoulderRanking />, <SideCrunchRanking />, <SideLateralRanking />];
 
   return (
     <>
-    <Header></Header>
-    <Container>
-    <SelectContainer>
-      <Select
-        options={options}
-        onChange={onChangeSelect}
-        placeholder= {placeholder}
-      />
-    </SelectContainer>
-    <TitleContaienr>
-          <Title>{title} 랭킹</Title>
-          <SubTitle>랭킹은 1위부터 100위까지만 표시됩니다.</SubTitle>
-          <SubTitle>랭킹은 주기적으로 초기화합니다. (보통 일주일 단위)</SubTitle>
-    </TitleContaienr>
-    <Table>
-        <THead>
-          <THeadRow>
-            <Rank>랭킹</Rank>
-            <UserName>이름</UserName>
-            <Point>점수</Point>
-          </THeadRow>
-        </THead>
-        <TBody>
-          {rank.map((data, index) => {
-            if (index + 1 === 1) {
-              return (
-                <TBodyRow key={data.time}>
-                  <Rank>🥇 {index + 1}등</Rank>
-                  <RankerUserName>{data.nickname}</RankerUserName>
-                  <RankerPoint>
-                    {data.counts}개
-                  </RankerPoint>
-                </TBodyRow>
-              );
-            }
-            if (index + 1 === 2) {
-              return (
-                <TBodyRow key={data.time}>
-                  <Rank>🥈 {index + 1}등</Rank>
-                  <RankerUserName>{data.nickname}</RankerUserName>
-                  <RankerPoint>
-                  {data.counts}개
-                  </RankerPoint>
-                </TBodyRow>
-              );
-            }
-            if (index + 1 === 3) {
-              return (
-                <TBodyRow key={data.time}>
-                  <Rank>🥉 {index + 1}등</Rank>
-                  <RankerUserName>{data.nickname}</RankerUserName>
-                  <RankerPoint>
-                    {data.counts}개
-                  </RankerPoint>
-                </TBodyRow>
-              );
-            }
-            return (
-              <TBodyRow key={data.time}>
-                <Rank>{index + 1}등</Rank>
-                <UserName>{data.nickname}</UserName>
-                <RankerPoint>
-                  {data.counts}개
-                </RankerPoint>
-              </TBodyRow>
-            );
-          })}
-        </TBody>
-      </Table>
-      </Container>
-    <Footer></Footer>
+      <Header></Header>
+      <Wrapper>
+        <ImagesContainer>
+          <ImageContainer
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setExercise(1)}
+            src="/exercise_img/squatIcon.png"
+            alt="squat"
+          />
+          <ImageContainer
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setExercise(2)}
+            src="/exercise_img/pressIcon.png"
+            alt="burpee"
+          />
+          <ImageContainer
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setExercise(3)}
+            src="/exercise_img/sidecrunchIcon.png"
+            alt="pushup"
+          />
+          <ImageContainer
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => setExercise(4)}
+            src="/exercise_img/sidelateralIcon.png"
+            alt="pushup"
+          />
+        </ImagesContainer>
+        <Title layout>{exercises[exercise - 1]}</Title>
+        <SubTitle>랭킹은 1위부터 100위까지만 표시됩니다.</SubTitle>
+        {rankComponents[exercise - 1]}
+      </Wrapper>
+      <Footer></Footer>
     </>
-  )
+  );
 }
-const Container = styled.div`
-  position: relative;
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  row-gap: 10px;
-  width: 100vw;
+  padding: 100px 0px 0px 0px;
+  min-height: 100vh;
+  overflow-y: scroll;
 `;
 
-const SelectContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
+const Title = styled(motion.p)`
+  font-size: 30px;
+  font-weight: 600;
+  margin: 20px 0;
+
+  @media (max-width: 414px) {
+    font-size: 1.5rem;
 `;
 
-const TitleContaienr = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Title = styled.h1`
-  font-size: 50px;
-`;
-
-const SubTitle = styled.h2`
-  font-size: 18px;
+const SubTitle = styled.p`
+  font-size: 14px;
   color: #b3b3b3;
+  font-weight: 600;
+
+  @media (max-width: 414px) {
+    font-size: 1rem;
 `;
 
-const HomeButton = styled.img`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 30px;
-  transition: 0.3s all ease;
-  object-fit: contain;
-  padding: 20px;
-  margin-top: 10px;
-
-  :hover {
-    cursor: pointer;
-    background-color: #eeeeee;
-  }
-`;
-
-const Table = styled.table`
-  width: 1024px;
-  text-align: center;
-
-  @media screen and (max-width: 1024px) {
-    width: 100vw;
-  }
-`;
-
-const THead = styled.thead`
-  background-color: rgba(66, 73, 255, 1);
-  color: white;
-  font-size: 18px;
-  font-weight: bold;
-
-  @media screen and (max-width: 600px) {
-    font-size: 14px;
-  }
-`;
-
-const THeadRow = styled.tr``;
-
-const TBody = styled.tbody``;
-
-const TBodyRow = styled.tr`
-  font-size: 18px;
-  border: 1px solid #eeeeee;
-  transition: 0.3s background-color ease;
-
-  @media screen and (max-width: 600px) {
-    font-size: 14px;
-  }
-
-  :hover {
-    background-color: #f8f8f8;
-  }
-`;
-
-const Rank = styled.td`
-  width: 15%;
-  padding: 20px 0px;
-`;
-
-const UserName = styled.td`
+const ImagesContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 30%;
-  padding: 20px 0px;
-  border-left: 1px solid #eeeeee;
 `;
-
-
-const Point = styled.td`
+const ImageContainer = styled(motion.img)`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0px 15px;
+  cursor: pointer;
   width: 40%;
-  padding: 20px 0px;
-  border-left: 1px solid #eeeeee;
-`;
-
-const RankerUserName = styled.td`
-  width: 30%;
-  padding: 30px 0px;
-  border-left: 1px solid #eeeeee;
-  font-weight: bold;
-  font-size: 24px;
-
-  @media screen and (max-width: 600px) {
-    font-size: 18px;
-  }
-`;
-
-const RankerPoint = styled.td`
-  width: 40%;
-  padding: 30px 0px;
-  border-left: 1px solid #eeeeee;
-  font-weight: bold;
-  font-size: 24px;
-
-  @media screen and (max-width: 600px) {
-    font-size: 18px;
+  @media (max-width: 414px) {
+    width: 90%;
+    margin: 0px 10px;
   }
 `;
 
