@@ -207,21 +207,19 @@ function SideLateralRaise() {
 
   const side_lateral_raise = () => {
     setTimeout(() => {
-      window.open("/MainPage", "_self");
+      axios({
+        url: "http://localhost:8123/side_lateral_raise",
+        method: "POST",
+        data: {
+          counts: count,
+        },
+        withCredentials: true,
+      }).then((result) => {
+        if (result.status === 200) {
+          window.open("/MainPage", "_self");
+        }
+      });
     }, 3000);
-
-    axios({
-      url: "http://localhost:8123/side_lateral_raise",
-      method: "POST",
-      data: {
-        counts: count,
-      },
-      withCredentials: true,
-    }).then((result) => {
-      if (result.status === 200) {
-        window.open("/MainPage", "_self");
-      }
-    });
   };
 
   const toggleResultVisible = () => {
