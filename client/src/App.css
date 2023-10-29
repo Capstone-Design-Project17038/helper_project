@@ -3,25 +3,33 @@
 @import url("https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css");
 
 @font-face {
-  font-family: "TheJamsil5Bold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2") format("woff2");
-  font-weight: 700;
+  font-family: "Cafe24Ssurround";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff")
+    format("woff");
+  font-weight: normal;
   font-style: normal;
 }
 .App {
   background: #e0eafc; /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #cfdef3, #e0eafc); /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    #cfdef3,
+    #e0eafc
+  ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
     to right,
     #cfdef3,
     #e0eafc
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   text-align: center;
-  /*font-family: "Jua", sans-serif;
-  font-family: "Noto Sans KR", sans-serif;
-  font-family: "Spoqa Han Sans Neo", "sans-serif";*/
-  font-weight: 900;
-  font-family: "nanumsquare";
+  /* font-family: "Jua", sans-serif; */
+  /* font-family: "Noto Sans KR", sans-serif; */
+  /* font-family: "Spoqa Han Sans Neo", "sans-serif"; */
+  /* font-weight: 900; */
+  /* font-family: "PartialSansKR-Regular";
+  font-family: "KCC-Ganpan"; */
+  font-family: "Cafe24Ssurround";
+  /* font-family: "nanumsquare"; */
 }
 
 .App-logo {
