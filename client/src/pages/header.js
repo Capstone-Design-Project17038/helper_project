@@ -63,10 +63,10 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   .nav_logo {
     padding: 0 12px;
-    margin-left: 20px;
+    margin-left: 30px;
     .nav-logo-link img {
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
     }
   }
   .menuToggleBtn {
@@ -90,7 +90,8 @@ const StyledHeader = styled.header`
 const NavManu = styled.ul`
   list-style: none;
   display: flex;
-  margin-right: 20px;
+  margin-right: 60px;
+  font-size: 18px;
 
   li {
     &:hover {
@@ -103,7 +104,7 @@ const NavManu = styled.ul`
     text-decoration: none;
     color: black;
     display: block;
-    padding: 10px 10px;
+    padding: 8px 16px;
   }
   @media screen and (max-width: 768px) {
     display: ${(props) => (props.isToggleOpen ? "block" : "none")};

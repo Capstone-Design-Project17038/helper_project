@@ -27,7 +27,7 @@ export default function Login({ setIsLogin, setUser }) {
 
   return (
     <LoginContainer>
-      <label for="inputName">이메일</label>
+      <InputLabel>이메일</InputLabel>
       <InputLogin
         label="이메일"
         type="email"
@@ -36,7 +36,7 @@ export default function Login({ setIsLogin, setUser }) {
         onChange={(e) => setEmail(e.target.value)}
         value={email}
       />
-      <label for="inputName">비밀번호</label>
+      <InputLabel>비밀번호</InputLabel>
       <InputLogin
         type="password"
         placeholder="비밀번호"
@@ -69,6 +69,10 @@ const InputLogin = styled.input`
   margin: 6px auto;
   padding: 0 10px;
   font-size: 20px;
+  border-radius: 5px;
+  border: 1.5px solid #8e8e8e;
+  font-weight: 900;
+  font-family: "nanumsquare";
   &::placeholder {
     font-size: 18px;
     color: #8e8e8e;
@@ -79,19 +83,22 @@ const InputLogin = styled.input`
   }
 `;
 
-const InputLabel = styled.label``;
-
+const InputLabel = styled.div`
+  width: 300px;
+  margin: 6px auto;
+  text-align: left;
+`;
 const Button = styled.button`
   width: 320px;
   height: 40px;
   margin: 8px 0;
   background-color: #0095f6;
   border: none;
-  border-radius: 3px;
+  border-radius: 10px;
   color: white;
   font-size: 18px;
-  font-weight: 600;
-
+  font-weight: 900;
+  font-family: "nanumsquare";
   &:hover {
     cursor: pointer;
     background-color: #b9dffc;

@@ -55,7 +55,7 @@ function MyPage() {
 }
 const Content = styled.div`
   display: flex;
-  height: 2000px;
+  height: 1700px;
 `;
 
 const Side = styled.div`
@@ -79,6 +79,8 @@ const Menu = styled.div`
 `;
 
 const Button = styled.button`
+  font-weight: 900;
+  font-family: "nanumsquare";
   background-color: #fff; /* 버튼 배경색 지정 */
   border: 1px solid #ccc; /* 버튼 테두리 스타일 지정 */
   padding: 10px 20px; /* 버튼 내부 여백 지정 */

@@ -7,18 +7,16 @@ import { useNavigate } from "react-router-dom";
 function MainPage() {
   let Navigate = useNavigate();
   return (
-    <React.Fragment>
-      <div className="main-page">
-        <Header />
-        <main className="main-main">
-          <button className="btn" onClick={() => Navigate("/ExerciseChoice")}>
-            운동 시작
-          </button>
-          <img className="main_background" src="main.jpg"></img>
-        </main>
-        <Footer />
-      </div>
-    </React.Fragment>
+    <>
+      <Header />
+      <main className="main-main">
+        <button className="btn" onClick={() => Navigate("/ExerciseChoice")}>
+          운동 시작
+        </button>
+        <img className="main_background" src="main.jpg"></img>
+      </main>
+      <Footer />
+    </>
   );
 }
 

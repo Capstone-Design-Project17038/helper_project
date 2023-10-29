@@ -92,7 +92,9 @@ export default function Home() {
       </TitleContainer>
       <Wrapper>
         <LogoWrapper>
-          <Logo src="main_logo.gif" className="App-logo" alt="logo" />
+          <Logo muted autoPlay loop>
+            <source src="main_logo.mp4" type="video/mp4" />
+          </Logo>
         </LogoWrapper>
 
         {isLogin ? (
@@ -139,6 +141,8 @@ const LogoWrapper = styled.div`
   margin-bottom: 50px;
 `;
 
-const Logo = styled.img`
+const Logo = styled.video`
   margin-bottom: 10px;
+  width: 350px;
+  height: 350px;
 `;

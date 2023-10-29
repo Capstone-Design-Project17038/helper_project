@@ -6,6 +6,7 @@ import ShoulderPressModal from "./modal/ShoulderPressModal";
 import SideCrunchModal from "./modal/SideCrunchModal";
 import styled from "styled-components";
 import Footer from "./footer";
+import { motion } from "framer-motion";
 
 function ExerciseChoice() {
   const [squatOpen, setSquatOpen] = useState(false);
@@ -20,80 +21,93 @@ function ExerciseChoice() {
   return (
     <>
       <Header />
-      <Title>운동 선택</Title>
-      <ExerciseChoiceContainer>
-        <ExerciseOptionsContainer>
-          <ExerciseOption>
-            <img
-              src="/exercise_img/sidelateralIcon.png"
-              alt="health__image"
-              onClick={() => openModal(setsidelateralOpen)}
-            />
-            {sidelateralOpen && <SideLateralModal setsidelateralOpen={setsidelateralOpen} />}
+      <Wrapper>
+        <Title>운동 선택</Title>
+        <ImagesContainer>
+          <ExerciseItem
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => openModal(setsidelateralOpen)}
+          >
+            <Image src="/exercise_img/sidelateralIcon.png" alt="health__image" />
             <ExerciseTitle>사이드 레터럴 레이즈</ExerciseTitle>
-          </ExerciseOption>
-          <ExerciseOption>
-            <img src="/exercise_img/squatIcon.png" alt="health__image" onClick={() => openModal(setSquatOpen)} />
-            {squatOpen && <SquatModal setSquatOpen={setSquatOpen} />}
+          </ExerciseItem>
+          {sidelateralOpen && <SideLateralModal setsidelateralOpen={setsidelateralOpen} />}
+
+          <ExerciseItem whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} onClick={() => openModal(setSquatOpen)}>
+            <Image src="/exercise_img/squatIcon.png" alt="health__image" />
             <ExerciseTitle>스쿼트</ExerciseTitle>
-          </ExerciseOption>
-          <ExerciseOption>
-            <img
-              src="/exercise_img/pressIcon.png"
-              alt="health__image"
-              onClick={() => openModal(setShoulderPressOpen)}
-            />
-            {shoulderPressOpen && <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />}
+          </ExerciseItem>
+          {squatOpen && <SquatModal setSquatOpen={setSquatOpen} />}
+
+          <ExerciseItem
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => openModal(setShoulderPressOpen)}
+          >
+            <Image src="/exercise_img/pressIcon.png" alt="health__image" />
             <ExerciseTitle>숄더 프레스</ExerciseTitle>
-          </ExerciseOption>
-          <ExerciseOption>
-            <img
-              src="/exercise_img/sidecrunchIcon.png"
-              alt="health__image"
-              onClick={() => openModal(setsidecrunchOpen)}
-            />
-            {sidecrunchOpen && <SideCrunchModal setsidecrunchOpen={setsidecrunchOpen} />}
+          </ExerciseItem>
+          {shoulderPressOpen && <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />}
+
+          <ExerciseItem
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => openModal(setsidecrunchOpen)}
+          >
+            <Image src="/exercise_img/sidecrunchIcon.png" alt="health__image" />
             <ExerciseTitle>사이드 크런치</ExerciseTitle>
-          </ExerciseOption>
-        </ExerciseOptionsContainer>
-      </ExerciseChoiceContainer>
+          </ExerciseItem>
+          {sidecrunchOpen && <SideCrunchModal setsidecrunchOpen={setsidecrunchOpen} />}
+        </ImagesContainer>
+      </Wrapper>
       <Footer></Footer>
     </>
   );
 }
+
 const Title = styled.div`
   padding: 50px;
   margin: 30px;
   font-size: 30px;
 `;
-const ExerciseChoiceContainer = styled.div`
+
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 100px 0px 0px 0px;
+  min-height: 100vh;
+  overflow-y: scroll;
 `;
 
-const ExerciseOptionsContainer = styled.div`
+const ImagesContainer = styled.div`
   display: flex;
-  flex-direction: row; /* 가로로 배치 */
-  justify-content: space-between; /* 옵션 사이의 간격 조절 */
-  flex-wrap: wrap; /* 컨테이너가 넘칠 경우 다음 줄로 넘어갑니다. */
-`;
-
-const ExerciseOption = styled.div`
-  display: flex;
-  flex-direction: column; /* 각 옵션을 세로로 배열 */
+  justify-content: center;
   align-items: center;
-  margin: 50px;
+  width: 70%;
+`;
 
-  img {
-    width: 300px;
-    height: 300px; /* 오타 'heigth'를 'height'로 수정했습니다. */
-    cursor: pointer;
+const ExerciseItem = styled(motion.div)`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 0px 15px;
+  cursor: pointer;
+  width: 40%;
+  @media (max-width: 414px) {
+    width: 90%;
+    margin: 0px 10px;
   }
 `;
 
+const Image = styled.img`
+  width: 100%;
+`;
+
 const ExerciseTitle = styled.div`
-  margin-top: 20px; /* 제목 위에 약간의 여백을 추가합니다. */
+  margin-top: 20px;
   font-size: 20px;
 `;
+
 export default ExerciseChoice;

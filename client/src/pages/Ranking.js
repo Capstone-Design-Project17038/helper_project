@@ -50,7 +50,7 @@ function Ranking() {
             alt="pushup"
           />
         </ImagesContainer>
-        <Title layout>{exercises[exercise - 1]}</Title>
+        <Title layout>{exercises[exercise - 1]} 랭킹</Title>
         <SubTitle>랭킹은 1위부터 100위까지만 표시됩니다.</SubTitle>
         {rankComponents[exercise - 1]}
       </Wrapper>

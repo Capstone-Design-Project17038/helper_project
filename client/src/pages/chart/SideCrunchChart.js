@@ -147,26 +147,29 @@ function SideCrunchChart() {
     ],
   };
 
+  const addContent = ({ date }) => {
+    // 해당 날짜(하루)에 추가할 컨텐츠의 배열
+    const contents = [];
+
+    // date(각 날짜)가  리스트의 날짜와 일치하면 해당 컨텐츠(이모티콘) 추가
+    if (formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))) {
+      contents.push(<>🏋</>);
+    }
+    return <div className="imoji">{contents}</div>; // 각 날짜마다 해당 요소가 들어감
+  };
+
   return (
     <>
-      <Calender
-        tileContent={({ date }) => {
-          if (formattedDateData.find((x) => x === moment(date).format("YYYY-MM-DD"))) {
-            return "mark";
-          }
-        }}
-      />
+      <InfoDiv>
+        <h2>회원정보</h2>
+        <ul>
+          <li>아이디 : {user.email}</li>
+          <li>닉네임 : {user.nickname}</li>
+        </ul>
+      </InfoDiv>
+      <Calender tileContent={addContent} />
       <Wrapper>
-        <InfoDiv>
-          <i className="fas fa-user fa-2x"></i>
-          <h2>회원정보</h2>
-          <ul>
-            <li>아이디 : {user.email}</li>
-            <li>닉네임 : {user.nickname}</li>
-          </ul>
-        </InfoDiv>
         <ChartDiv>
-          <i className="fas fa-chart-line fa-2x"></i>
           <h2>월간 정보</h2>
           <Line options={line_options} data={line_data} />
           <h2>사이드 크런치 정보</h2>
