@@ -2,9 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import "./Exercise.css";
+import "./timer.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../header";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
@@ -399,6 +401,20 @@ function Squat() {
     timerRef.current = timerId;
   }, [timerFlag, timer]); // timer 값도 감시
 
+  const renderTime = ({ remainingTime }) => {
+    if (remainingTime === 0) {
+      return <div className="timer">Too lale...</div>;
+    }
+
+    return (
+      <div className="timer">
+        <div className="text">Remaining</div>
+        <div className="value">{remainingTime}</div>
+        <div className="text">seconds</div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Header />
@@ -408,7 +424,16 @@ function Squat() {
         </div>
         {resultVisible && (
           <div id="showResult">
-            <p>Timer={timer}</p>
+            <p hidden>Timer={timer}</p>
+            <CountdownCircleTimer
+              isPlaying
+              duration={30}
+              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+              colorsTime={[10, 6, 3, 0]}
+              onComplete={() => ({ shouldRepeat: false, delay: 1 })}
+            >
+              {renderTime}
+            </CountdownCircleTimer>
             <p id="keypoints"></p>
             <p id="predict_result">{predictResult}</p>
             <p id="exercise_count">개수 : {count}</p>

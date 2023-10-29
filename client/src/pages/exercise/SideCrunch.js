@@ -5,6 +5,7 @@ import "./Exercise.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../header";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function SideCrunch() {
@@ -241,9 +242,6 @@ function SideCrunch() {
         }
       }, 1000); // 1초마다 카운트 다운
 
-      // 이전 포즈 유지 시간을 추적하기 위한 변수
-      let previousPoseDuration = 0;
-
       const startPoseEstimation = async () => {
         console.log("start pose estimate");
         setTimerFlag(true);
@@ -290,7 +288,6 @@ function SideCrunch() {
             });
           } else {
             setPredictResult("unknown");
-            previousPoseDuration = 0; // 포즈를 인식하지 못한 경우 previousPoseDuration 초기화
             exerciseStartTime = null; // 포즈를 인식하지 못한 경우 squatStartTime 초기화
           }
         }, 100);
@@ -405,6 +402,20 @@ function SideCrunch() {
     timerRef.current = timerId;
   }, [timerFlag, timer]); // timer 값도 감시
 
+  const renderTime = ({ remainingTime }) => {
+    if (remainingTime === 0) {
+      return <div className="timer">Too lale...</div>;
+    }
+
+    return (
+      <div className="timer">
+        <div className="text">Remaining</div>
+        <div className="value">{remainingTime}</div>
+        <div className="text">seconds</div>
+      </div>
+    );
+  };
+
   return (
     <>
       <Header />
@@ -414,7 +425,16 @@ function SideCrunch() {
         </div>
         {resultVisible && (
           <div id="showResult">
-            <p>Timer={timer}</p>
+            <p hidden>Timer={timer}</p>
+            <CountdownCircleTimer
+              isPlaying
+              duration={30}
+              colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+              colorsTime={[10, 6, 3, 0]}
+              onComplete={() => ({ shouldRepeat: false, delay: 1 })}
+            >
+              {renderTime}
+            </CountdownCircleTimer>
             <p id="keypoints"></p>
             <p id="predict_result">{predictResult}</p>
             <p id="exercise_count">개수 : {count}</p>
