@@ -103,6 +103,7 @@ const NavManu = styled.ul`
   .nav-menu-list {
     text-decoration: none;
     color: #fff;
+    text-shadow: -0.5px 0 #000, 0 0.5px #000, 0.5px 0 #000, 0 -0.5px #000;
     display: block;
     padding: 8px 16px;
   }
