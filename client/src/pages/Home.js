@@ -46,7 +46,9 @@ export default function Home() {
   useEffect(() => {
     const typingInterval = setInterval(() => {
       setmainTitle((prevTitleValue) => {
-        let result = prevTitleValue ? prevTitleValue + completionWord[count] : completionWord[0];
+        let result = prevTitleValue
+          ? prevTitleValue + completionWord[count]
+          : completionWord[0];
         setCount(count + 1);
 
         if (count >= completionWord.length) {
@@ -92,9 +94,7 @@ export default function Home() {
       </TitleContainer>
       <Wrapper>
         <LogoWrapper>
-          <Logo muted autoPlay loop>
-            <source src="main_logo.mp4" type="video/mp4" />
-          </Logo>
+          <Logo src="main_logo.gif" />
         </LogoWrapper>
 
         {isLogin ? (
@@ -141,7 +141,7 @@ const LogoWrapper = styled.div`
   margin-bottom: 50px;
 `;
 
-const Logo = styled.video`
+const Logo = styled.img`
   margin-bottom: 10px;
   width: 350px;
   height: 350px;
