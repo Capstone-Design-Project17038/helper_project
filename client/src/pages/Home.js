@@ -46,9 +46,7 @@ export default function Home() {
   useEffect(() => {
     const typingInterval = setInterval(() => {
       setmainTitle((prevTitleValue) => {
-        let result = prevTitleValue
-          ? prevTitleValue + completionWord[count]
-          : completionWord[0];
+        let result = prevTitleValue ? prevTitleValue + completionWord[count] : completionWord[0];
         setCount(count + 1);
 
         if (count >= completionWord.length) {

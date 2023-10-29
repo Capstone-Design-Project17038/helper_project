@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Container } from "react-bootstrap";
 import Header from "./header";
 
 const SignUpPage = () => {
@@ -80,13 +79,13 @@ const Title = styled.div`
   width: 466px;
   height: 94px;
   font-weight: 700;
-  font-size: 60px;
+  font-size: 50px;
   line-height: 47px;
 `;
 const SubTitle = styled.div`
   width: 466px;
   height: 94px;
-  font-size: 30px;
+  font-size: 28px;
   line-height: 47px;
 `;
 
@@ -99,10 +98,11 @@ const SignUpBtn = styled.button`
   height: 45px;
   background-color: #0095f6;
   border: none;
-  border-radius: 3px;
+  border-radius: 10px;
   color: white;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 900;
+  font-family: "nanumsquare";
 
   &:hover {
     cursor: pointer;
@@ -118,7 +118,9 @@ const LogInForm = styled.input`
   display: block;
   border: 0;
   border-bottom: 1px solid #e1e2e3;
-  color: #777;
+  font-weight: 900;
+  font-family: "nanumsquare";
+  font-size: 22px;
 
   &:focus {
     border-bottom: 2px solid black;
@@ -127,6 +129,10 @@ const LogInForm = styled.input`
 
   @media (min-width: 768px) {
     font-size: 25px;
+  }
+  &::placeholder {
+    font-size: 18px;
+    color: #8e8e8e;
   }
 `;
 

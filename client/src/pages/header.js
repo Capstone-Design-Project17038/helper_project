@@ -96,13 +96,13 @@ const NavManu = styled.ul`
   li {
     &:hover {
       cursor: pointer;
-      background: #555;
+      background-color: #0095f6;
       border-radius: 4px;
     }
   }
   .nav-menu-list {
     text-decoration: none;
-    color: black;
+    color: #fff;
     display: block;
     padding: 8px 16px;
   }
