@@ -7,7 +7,7 @@ const db = mysql.createPool({
   //db 설정
   host: "127.0.0.1", // 호스트
   user: "root", // 데이터베이스 계정
-  password: "1121", // 데이터베이스 비밀번호
+  password: "root", // 데이터베이스 비밀번호
   database: "helper", // 사용할 데이터베이스
 });
 
@@ -75,7 +75,7 @@ const squat = (req, res) => {
           console.log(err);
           res.status(401).json("squat data not insert DB");
         } else {
-          console.log("상민이 데이터 들어감");
+          //console.log("체크");
           res.status(200).json("squat data inserted DB");
         }
       }

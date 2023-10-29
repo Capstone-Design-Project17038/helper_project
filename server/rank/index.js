@@ -7,7 +7,7 @@ const db = mysql.createPool({
   //db 설정
   host: "127.0.0.1", // 호스트
   user: "root", // 데이터베이스 계정
-  password: "1121", // 데이터베이스 비밀번호
+  password: "root", // 데이터베이스 비밀번호
   database: "helper", // 사용할 데이터베이스
 });
 
@@ -58,7 +58,7 @@ const view_crunch_rank = (req, res) => {
 const view_lateral_raise_rank = (req, res) => {
   try {
     db.query(
-      "SELECT  side_lateral_raise.counts,side_lateral_raise.date, USER.nickname  FROM side_lateral_raise LEFT OUTER JOIN USER ON lateral_raise.user = USER.UID UNION SELECT  side_lateral_raise.counts,side_lateral_raise.date, USER.nickname  FROM side_lateral_raise RIGHT OUTER JOIN USER ON side_lateral_raise.user = USER.UID ORDER BY counts DESC LIMIT 10; ",
+      "SELECT  side_lateral_raise.counts,side_lateral_raise.date, USER.nickname  FROM side_lateral_raise LEFT OUTER JOIN USER ON side_lateral_raise.user = USER.UID UNION SELECT  side_lateral_raise.counts,side_lateral_raise.date, USER.nickname  FROM side_lateral_raise RIGHT OUTER JOIN USER ON side_lateral_raise.user = USER.UID ORDER BY counts DESC LIMIT 10; ",
       [],
       // 콜백함수
       (err, result) => {
