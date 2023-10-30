@@ -46,7 +46,9 @@ export default function Home() {
   useEffect(() => {
     const typingInterval = setInterval(() => {
       setmainTitle((prevTitleValue) => {
-        let result = prevTitleValue ? prevTitleValue + completionWord[count] : completionWord[0];
+        let result = prevTitleValue
+          ? prevTitleValue + completionWord[count]
+          : completionWord[0];
         setCount(count + 1);
 
         if (count >= completionWord.length) {
@@ -128,6 +130,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 100px;
+  margin-bottom: 0px;
 `;
 
 const LogoWrapper = styled.div`
