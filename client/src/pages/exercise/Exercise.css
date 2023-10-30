@@ -1,6 +1,7 @@
 /* Squat.css */
 #container {
   display: flex;
+  position: relative;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -8,9 +9,12 @@
 }
 
 #screen {
+  z-index: 1;
   margin: 40px;
   position: relative;
   background-color: aliceblue;
+  border-radius: 20px;
+  margin-top: 20vh;
 }
 
 #video {
@@ -49,9 +53,7 @@
   margin-top: 20px;
 }
 
-#btn_start,
-#btn_stop,
-#btn_save {
+#btn_start {
   background-color: #007bff;
   color: #fff;
   padding: 10px 20px;
@@ -61,43 +63,34 @@
   cursor: pointer;
 }
 
-#btn_start:hover,
-#btn_stop:hover,
-#btn_save:hover {
+#btn_start:hover {
   background-color: #0056b3; /* Darker blue on hover */
 }
 
 /* Add any other styling as needed */
 
-.counter {
+.active {
+  position: absolute;
+  z-index: 2;
+  left: auto;
   display: flex;
   align-items: center;
   margin: 25px;
-}
-
-.input-wrapper {
-  width: 6rem;
-  height: 6rem;
-  border-radius: 2rem;
-  background-color: #3978ef;
-  overflow: hidden;
-  box-shadow: inset 0 0 0.8rem 0.1rem rgba(15, 72, 179, 0.2),
-    0 20px 30px -10px rgba(15, 72, 179, 0.26);
-}
-
-.input {
-  height: 100%;
-  width: 100%;
-  background: none;
-  border: none;
-  text-align: center;
+  animation-name: scale;
+  animation-duration: 1.05s;
+  animation-iteration-count: 5;
   color: #fff;
-  font-weight: 900;
-  font-size: 2.3rem;
-  outline: none;
-  transition-property: transform, opacity;
-  text-transform: linear;
-  transition-duration: 0.25s;
+  margin-top: 20vh;
+}
+@keyframes scale {
+  from {
+    scale: 5;
+    opacity: 1;
+  }
+  to {
+    scale: 20;
+    opacity: 0;
+  }
 }
 
 .button {

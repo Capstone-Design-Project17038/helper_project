@@ -2,20 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as posenet from "@tensorflow-models/posenet";
 import "./Exercise.css";
-import "./timer.css";
-import { useNavigate } from "react-router-dom";
+import "./Timer.css";
 import axios from "axios";
 import Header from "../header";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
 function Squat() {
-  let Navigate = useNavigate();
-
   /*------------------------------------- 변수 선언부 -------------------------------------*/
   //결과값 출력 변수
   const [count, setCount] = useState(0);
   const [timer, setTimer] = useState(30);
+  const [counter, setCounter] = useState(5);
   const [predictResult, setPredictResult] = useState("Predict result");
 
   let widthRef = useRef();
@@ -26,14 +24,14 @@ function Squat() {
 
   //CSS 관리를 위한 변수
   const [resultVisible, setResultVisible] = useState(false);
+  const [counterVisible, setCounterVisible] = useState(false);
 
   //타이머 관련 변수
   const [timerFlag, setTimerFlag] = useState(false);
   const videoRef = useRef(null);
   const predictRef = useRef(null);
   const timerRef = useRef(0);
-  const [curValue, setCurValue] = useState(5);
-  const inputRef = useRef(null);
+  const counterRef = useRef(0);
   /*-------------------------------------------------------------------------------------*/
 
   /*------------------------------------- 카메라 세팅 -------------------------------------*/
@@ -231,7 +229,9 @@ function Squat() {
   const btn_start_click = async () => {
     if (startFlag === false) {
       setStartFlag(true);
-      let countdown = 6; // 카운트 다운 시작 값
+      setCounter(5);
+      setCounterVisible(true);
+      let countdown = 5; // 카운트 다운 시작 값
       const countdownInterval = setInterval(() => {
         console.log(`Countdown: ${countdown}`);
         countdown -= 1;
@@ -263,7 +263,6 @@ function Squat() {
             squat_model(
               calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
-              console.log(calc_body_angle(get_lower_keyPoints(pose.keypoints)));
               if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
                 if (previousPose === "squat" && exerciseDuration >= 1) {
@@ -298,75 +297,38 @@ function Squat() {
     if (startFlag === true) {
       setStartFlag(false);
       setTimerFlag(false);
-      setCurValue(5);
       toggleResultVisible();
       clearInterval(predictRef.current);
     }
   };
 
   useEffect(() => {
-    if (startFlag && curValue > 1) {
-      const timerId = setInterval(() => {
-        console.log(curValue);
-        handleCountdown();
+    let counterID;
+
+    if (startFlag) {
+      if (counterRef.current) {
+        clearInterval(counterRef.current);
+      }
+      counterID = setInterval(() => {
+        setCounter((prevCounter) => prevCounter - 1);
+        if (counter === 1) {
+          setCounterVisible(false);
+          clearInterval(counterID);
+          if (counterRef.current) {
+            clearInterval(counterRef.current);
+          }
+        }
       }, 1000);
-
-      return () => {
-        clearInterval(timerId);
-      };
-    }
-  }, [startFlag, curValue]);
-
-  const changeValue = (newValue) => {
-    setCurValue(newValue !== 100 ? newValue : 99);
-  };
-
-  const handleValueChange = (newValue, isField) => {
-    newValue = parseInt(newValue, 10);
-
-    if (!newValue) {
-      if (isField) {
-        newValue = "";
-      } else {
-        newValue = 0;
+    } else {
+      if (counterRef.current) {
+        clearInterval(counterRef.current);
       }
     }
-    if (newValue < 0) {
-      newValue = 1;
-    }
-
-    if (!isField) {
-      inputRef.current.style.transform =
-        newValue > curValue ? "translateY(-100%)" : "translateY(100%)";
-      inputRef.current.style.opacity = 0;
-
-      setTimeout(() => {
-        inputRef.current.style.transitionDuration = "0s";
-        inputRef.current.style.transform =
-          newValue > curValue ? "translateY(100%)" : "translateY(-100%)";
-        inputRef.current.style.opacity = 0;
-        changeValue(newValue);
-
-        setTimeout(() => {
-          inputRef.current.style.transitionDuration = "0.3s";
-          inputRef.current.style.transform = "translateY(0)";
-          inputRef.current.style.opacity = 1;
-        }, 20);
-      }, 250);
-    } else {
-      changeValue(newValue);
-    }
-  };
-
-  const handleCountdown = () => {
-    if (curValue >= 0) {
-      handleValueChange(curValue - 1);
-    }
-  };
+    counterRef.current = counterID;
+  }, [startFlag, counter]);
 
   useEffect(() => {
     setupCamera();
-    console.log(videoRef);
   }, []); // 빈 배열을 전달하여 페이지가 처음 로드될 때만 실행
 
   // 타이머 useEffect
@@ -434,36 +396,21 @@ function Squat() {
             >
               {renderTime}
             </CountdownCircleTimer>
-            <p id="keypoints"></p>
             <p id="predict_result">{predictResult}</p>
             <p id="exercise_count">개수 : {count}</p>
           </div>
         )}
-        {!resultVisible && (
-          <div className="counter">
-            <div className="input-wrapper">
-              <input
-                disabled
-                className="input"
-                onChange={(e) => {
-                  e.preventDefault();
-                  handleValueChange(e.target.value, true);
-                }}
-                ref={inputRef}
-                type="text"
-                value={curValue}
-              />
-            </div>
-          </div>
-        )}
-        {!startFlag && (
-          <div id="Buttons">
-            <button id="btn_start" onClick={btn_start_click}>
-              Start
-            </button>
-          </div>
+        {counterVisible && (
+          <div className={startFlag ? "active" : ""}>{counter}</div>
         )}
       </div>
+      {!startFlag && (
+        <div id="Buttons">
+          <button id="btn_start" onClick={btn_start_click}>
+            Start
+          </button>
+        </div>
+      )}
     </>
   );
 }
