@@ -201,8 +201,6 @@ function SideCrunch() {
     model.dispose();
     predict.dispose();
 
-    console.log(result);
-
     return result;
   };
   /*-------------------------------------------------------------------------------------*/
@@ -253,6 +251,7 @@ function SideCrunch() {
 
         let exerciseStartTime = null; // squat 동작 시작 시간을 기록하는 변수
         let exerciseDuration = 0;
+        let currentTime = null;
 
         predictRef.current = setInterval(async () => {
           const pose = await net.estimateSinglePose(video);
@@ -267,28 +266,33 @@ function SideCrunch() {
             ).then((e) => {
               if (e[0][0] - e[0][1] >= 0.5) {
                 setPredictResult("stand");
-                if (previousPose === "crunch" && exerciseDuration >= 1) {
-                  setCount((prevCount) => prevCount + 1);
-                  exerciseDuration = 0;
+                if (previousPose === "crunch") {
+                  currentTime = new Date();
+                  exerciseDuration = (currentTime - exerciseStartTime) / 1000;
+                  console.log(exerciseDuration);
+                  if (exerciseDuration >= 1) {
+                    setCount((prevCount) => prevCount + 1);
+                    exerciseDuration = 0;
+                    currentTime = null;
+                    exerciseStartTime = null;
+                  }
                 }
                 previousPose = "stand";
                 // stand 동작으로 전환한 경우 squatStartTime 초기화
               } else if (e[0][1] - e[0][0] >= 0.5) {
+                if (previousPose === "stand") {
+                  exerciseStartTime = new Date();
+                  console.log(exerciseStartTime);
+                }
                 setPredictResult("crunch");
                 previousPose = "crunch";
-
-                if (exerciseStartTime === null) {
-                  exerciseStartTime = new Date(); // squat 동작이 시작된 시간 기록
-                } else {
-                  // squat 동작을 유지 중이므로 squat 시작 후 시간 계산
-                  const currentTime = new Date();
-                  exerciseDuration = (currentTime - exerciseStartTime) / 1000; // 초 단위로 계산
-                }
               }
             });
           } else {
             setPredictResult("unknown");
             exerciseStartTime = null; // 포즈를 인식하지 못한 경우 squatStartTime 초기화
+            currentTime = null;
+            exerciseStartTime = null;
           }
         }, 100);
       };
@@ -328,10 +332,6 @@ function SideCrunch() {
     }
     counterRef.current = counterID;
   }, [startFlag, counter]);
-
-  useEffect(() => {
-    setupCamera();
-  }, []); // 빈 배열을 전달하여 페이지가 처음 로드될 때만 실행
 
   useEffect(() => {
     setupCamera();
