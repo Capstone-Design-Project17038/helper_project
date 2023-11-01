@@ -71,8 +71,8 @@ const InputLogin = styled.input`
   font-size: 20px;
   border-radius: 5px;
   border: 1.5px solid #8e8e8e;
-  font-weight: 900;
-  font-family: "nanumsquare";
+  font-weight: normal;
+  font-family: "Cafe24Ssurround";
   &::placeholder {
     font-size: 18px;
     color: #8e8e8e;
@@ -97,8 +97,8 @@ const Button = styled.button`
   border-radius: 10px;
   color: white;
   font-size: 18px;
-  font-weight: 900;
-  font-family: "nanumsquare";
+  font-weight: normal;
+  font-family: "Cafe24Ssurround";
   &:hover {
     cursor: pointer;
     background-color: #b9dffc;

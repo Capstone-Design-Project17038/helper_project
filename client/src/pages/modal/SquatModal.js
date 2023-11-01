@@ -13,7 +13,7 @@ function SquatModal({ setSquatOpen }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
-      <h1>Squat</h1>
+      <h2>스쿼트</h2>
       <div className={styles.exercise}>
         <div className={styles.exercise_img}>
           <img src="/exercise_img/squat.gif" />

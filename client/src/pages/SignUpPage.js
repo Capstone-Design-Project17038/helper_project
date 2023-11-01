@@ -101,8 +101,8 @@ const SignUpBtn = styled.button`
   border-radius: 10px;
   color: white;
   font-size: 20px;
-  font-weight: 900;
-  font-family: "nanumsquare";
+  font-weight: normal;
+  font-family: "Cafe24Ssurround";
 
   &:hover {
     cursor: pointer;
@@ -118,8 +118,8 @@ const LogInForm = styled.input`
   display: block;
   border: 0;
   border-bottom: 1px solid #e1e2e3;
-  font-weight: 900;
-  font-family: "nanumsquare";
+  font-weight: normal;
+  font-family: "Cafe24Ssurround";
   font-size: 22px;
 
   &:focus {

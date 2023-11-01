@@ -13,7 +13,7 @@ function SideCrunchModalModal({ setsidecrunchOpen }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
-      <h1>Side Crunch</h1>
+      <h2>사이드 크런치</h2>
       <div className={styles.exercise}>
         <div className={styles.exercise_img}>
           <img src="/exercise_img/sidecrunch1.gif" />

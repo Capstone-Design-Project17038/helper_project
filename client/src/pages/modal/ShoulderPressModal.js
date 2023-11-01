@@ -13,7 +13,7 @@ function ShoulderPressModal({ setShoulderPressOpen }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
-      <h1>ShoulderPress</h1>
+      <h2>숄더 프레스</h2>
       <div className={styles.exercise}>
         <div className={styles.exercise_img}>
           <img src="/exercise_img/shoulderpress.gif" />

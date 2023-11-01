@@ -13,7 +13,7 @@ function SideLateralModal({ setsidelateralOpen }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
-      <h1>Side Lateral Raise</h1>
+      <h2>스쿼트</h2>
       <div className={styles.exercise}>
         <div className={styles.exercise_img}>
           <img src="/exercise_img/sidelateral.gif" />
