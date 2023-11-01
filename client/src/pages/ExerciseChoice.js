@@ -29,12 +29,21 @@ function ExerciseChoice() {
             whileTap={{ scale: 0.9 }}
             onClick={() => openModal(setsidelateralOpen)}
           >
-            <Image src="/exercise_img/sidelateralIcon.png" alt="health__image" />
+            <Image
+              src="/exercise_img/sidelateralIcon.png"
+              alt="health__image"
+            />
             <ExerciseTitle>사이드 레터럴 레이즈</ExerciseTitle>
           </ExerciseItem>
-          {sidelateralOpen && <SideLateralModal setsidelateralOpen={setsidelateralOpen} />}
+          {sidelateralOpen && (
+            <SideLateralModal setsidelateralOpen={setsidelateralOpen} />
+          )}
 
-          <ExerciseItem whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} onClick={() => openModal(setSquatOpen)}>
+          <ExerciseItem
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => openModal(setSquatOpen)}
+          >
             <Image src="/exercise_img/squatIcon.png" alt="health__image" />
             <ExerciseTitle>스쿼트</ExerciseTitle>
           </ExerciseItem>
@@ -48,7 +57,9 @@ function ExerciseChoice() {
             <Image src="/exercise_img/pressIcon.png" alt="health__image" />
             <ExerciseTitle>숄더 프레스</ExerciseTitle>
           </ExerciseItem>
-          {shoulderPressOpen && <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />}
+          {shoulderPressOpen && (
+            <ShoulderPressModal setShoulderPressOpen={setShoulderPressOpen} />
+          )}
 
           <ExerciseItem
             whileHover={{ scale: 1.2 }}
@@ -58,7 +69,9 @@ function ExerciseChoice() {
             <Image src="/exercise_img/sidecrunchIcon.png" alt="health__image" />
             <ExerciseTitle>사이드 크런치</ExerciseTitle>
           </ExerciseItem>
-          {sidecrunchOpen && <SideCrunchModal setsidecrunchOpen={setsidecrunchOpen} />}
+          {sidecrunchOpen && (
+            <SideCrunchModal setsidecrunchOpen={setsidecrunchOpen} />
+          )}
         </ImagesContainer>
       </Wrapper>
       <Footer></Footer>

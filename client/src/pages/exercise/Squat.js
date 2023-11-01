@@ -6,9 +6,10 @@ import "./Timer.css";
 import axios from "axios";
 import Header from "../header";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import ShowResultModal from "../modal/ShowResultModal";
 //import { drawKeypoints, drawSkeleton } from "./Draw";
 
-function Squat() {
+export function Squat() {
   /*------------------------------------- 변수 선언부 -------------------------------------*/
   //결과값 출력 변수
   const [count, setCount] = useState(0);
@@ -25,6 +26,8 @@ function Squat() {
   //CSS 관리를 위한 변수
   const [resultVisible, setResultVisible] = useState(false);
   const [counterVisible, setCounterVisible] = useState(false);
+  const [showResultVisible, setShowResultVisible] = useState(false);
+  const [btnVisible, setBtnVisible] = useState(true);
 
   //타이머 관련 변수
   const [timerFlag, setTimerFlag] = useState(false);
@@ -32,6 +35,7 @@ function Squat() {
   const predictRef = useRef(null);
   const timerRef = useRef(0);
   const counterRef = useRef(0);
+
   /*-------------------------------------------------------------------------------------*/
 
   /*------------------------------------- 카메라 세팅 -------------------------------------*/
@@ -205,23 +209,6 @@ function Squat() {
   };
   /*-------------------------------------------------------------------------------------*/
 
-  const squat = () => {
-    setTimeout(() => {
-      axios({
-        url: "http://localhost:8123/squat",
-        method: "POST",
-        data: {
-          counts: count,
-        },
-        withCredentials: true,
-      }).then((result) => {
-        if (result.status === 200) {
-          window.open("/MainPage", "_self");
-        }
-      });
-    }, 3000);
-  };
-
   const toggleResultVisible = () => {
     setResultVisible(!resultVisible);
   };
@@ -231,9 +218,9 @@ function Squat() {
       setStartFlag(true);
       setCounter(5);
       setCounterVisible(true);
+      setBtnVisible(false);
       let countdown = 5; // 카운트 다운 시작 값
       const countdownInterval = setInterval(() => {
-        console.log(`Countdown: ${countdown}`);
         countdown -= 1;
         if (countdown === 0) {
           clearInterval(countdownInterval);
@@ -350,7 +337,7 @@ function Squat() {
       timerId = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
         if (timer === 0) {
-          squat(); // timer가 0이 되면 squat 함수 호출
+          setShowResultVisible(true);
           btn_stop_click();
           clearInterval(timerId); // 타이머 해제
           if (timerRef.current) {
@@ -409,8 +396,11 @@ function Squat() {
         {counterVisible && (
           <div className={startFlag ? "active" : ""}>{counter}</div>
         )}
+        {showResultVisible && (
+          <ShowResultModal count={count} workOutType={"Squat"} />
+        )}
       </div>
-      {!startFlag && (
+      {btnVisible && (
         <div id="Buttons">
           <button id="btn_start" onClick={btn_start_click}>
             Start
