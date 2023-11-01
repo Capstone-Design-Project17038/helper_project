@@ -17,7 +17,16 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, PointElement, LineElement, Title, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+  PointElement,
+  LineElement,
+  Title,
+  Legend
+);
 
 function ShoulderChart() {
   const [day, setDay] = useState([]); // 모든 날짜 운동 데이터
@@ -81,13 +90,13 @@ function ShoulderChart() {
       x: {
         title: {
           display: true,
-          text: "Date",
+          text: "일",
         },
       },
       y: {
         title: {
           display: true,
-          text: "Count",
+          text: "운동횟수",
         },
       },
     },
@@ -107,13 +116,13 @@ function ShoulderChart() {
       x: {
         title: {
           display: true,
-          text: "Month",
+          text: "월",
         },
       },
       y: {
         title: {
           display: true,
-          text: "Count",
+          text: "운동횟수",
         },
       },
     },
@@ -152,7 +161,9 @@ function ShoulderChart() {
     const contents = [];
 
     // date(각 날짜)가  리스트의 날짜와 일치하면 해당 컨텐츠(이모티콘) 추가
-    if (formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))) {
+    if (
+      formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))
+    ) {
       contents.push(<>🏋</>);
     }
     return <div className="imoji">{contents}</div>; // 각 날짜마다 해당 요소가 들어감
@@ -171,9 +182,9 @@ function ShoulderChart() {
       <Wrapper>
         <ChartDiv>
           <i className="fas fa-chart-line fa-2x"></i>
-          <h2>월간 정보</h2>
+          <h2>월별 횟수</h2>
           <Line options={line_options} data={line_data} />
-          <h2>숄더프레스 정보</h2>
+          <h2>일별 횟수</h2>
           <Bar options={bar_options} data={bar_data} />
         </ChartDiv>
       </Wrapper>

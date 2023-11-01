@@ -79,8 +79,8 @@ const Menu = styled.div`
 `;
 
 const Button = styled.button`
-  font-weight: 900;
-  font-family: "nanumsquare";
+  font-weight: normal;
+  font-family: "Cafe24Ssurround";
   background-color: #fff; /* 버튼 배경색 지정 */
   border: 1px solid #ccc; /* 버튼 테두리 스타일 지정 */
   padding: 10px 20px; /* 버튼 내부 여백 지정 */
