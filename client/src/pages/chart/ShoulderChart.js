@@ -17,7 +17,16 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, PointElement, LineElement, Title, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+  PointElement,
+  LineElement,
+  Title,
+  Legend
+);
 
 function ShoulderChart() {
   const [day, setDay] = useState([]); // 모든 날짜 운동 데이터
@@ -152,7 +161,9 @@ function ShoulderChart() {
     const contents = [];
 
     // date(각 날짜)가  리스트의 날짜와 일치하면 해당 컨텐츠(이모티콘) 추가
-    if (formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))) {
+    if (
+      formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))
+    ) {
       contents.push(<>🏋</>);
     }
     return <div className="imoji">{contents}</div>; // 각 날짜마다 해당 요소가 들어감
@@ -163,8 +174,8 @@ function ShoulderChart() {
       <InfoDiv>
         <h2>회원정보</h2>
         <ul>
-          <li>아이디 : {user.email}</li>
-          <li>닉네임 : {user.nickname}</li>
+          {/* <li>아이디 : {user.email}</li> */}
+          <li>🏃{user.nickname}님의 운동 기록입니다</li>
         </ul>
       </InfoDiv>
       <Calender tileContent={addContent} />

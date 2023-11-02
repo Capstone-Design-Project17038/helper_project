@@ -174,8 +174,8 @@ function SideCrunchChart() {
       <InfoDiv>
         <h2>회원정보</h2>
         <ul>
-          <li>아이디 : {user.email}</li>
-          <li>닉네임 : {user.nickname}</li>
+          {/* <li>아이디 : {user.email}</li> */}
+          <li>🏃{user.nickname}님의 운동 기록입니다</li>
         </ul>
       </InfoDiv>
       <Calender tileContent={addContent} />
