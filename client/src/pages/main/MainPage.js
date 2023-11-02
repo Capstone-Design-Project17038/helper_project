@@ -21,7 +21,6 @@ function MainPage() {
           <StartImage2 src="main_logo2.png" />
           <StartButton onClick={StartClick}>운동 시작하기</StartButton>
         </SectionOne>
-        <SectionTwo></SectionTwo>
       </MainContainer>
       <Footer />
     </>
@@ -33,19 +32,9 @@ const SectionOne = styled.section`
   height: max-content;
   display: flex;
   flex-direction: Column;
-  margin-top: 20vh;
+  margin-top: 30vh;
   justify-content: center;
   align-items: center;
-`;
-const SectionTwo = styled.section`
-  width: 100vw;
-  height: calc(100vh);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding-top: 80px;
-  background: linear-gradient(${(props) => props.theme.light}, white);
 `;
 
 const MainContainer = styled.div`
