@@ -17,16 +17,7 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Tooltip,
-  PointElement,
-  LineElement,
-  Title,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, PointElement, LineElement, Title, Legend);
 
 function SideLateralChart() {
   const [day, setDay] = useState([]); // 모든 날짜 운동 데이터
@@ -35,7 +26,7 @@ function SideLateralChart() {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:8123/view_squat_daily",
+      url: "http://localhost:8123/view_lateral_raise_daily",
       method: "POST",
       withCredentials: true,
     }).then((result) => {
@@ -47,7 +38,7 @@ function SideLateralChart() {
 
   useEffect(() => {
     axios({
-      url: "http://localhost:8123/view_squat_month",
+      url: "http://localhost:8123/view_lateral_raise_month",
       method: "POST",
       withCredentials: true,
     }).then((result) => {
@@ -161,9 +152,7 @@ function SideLateralChart() {
     const contents = [];
 
     // date(각 날짜)가  리스트의 날짜와 일치하면 해당 컨텐츠(이모티콘) 추가
-    if (
-      formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))
-    ) {
+    if (formattedDateData.find((day) => day === moment(date).format("YYYY-MM-DD"))) {
       contents.push(<>🏋</>);
     }
     return <div className="imoji">{contents}</div>; // 각 날짜마다 해당 요소가 들어감

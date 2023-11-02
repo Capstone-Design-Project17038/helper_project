@@ -2,9 +2,7 @@ import React from "react";
 import Footer from "../footer";
 import Header from "../header";
 import { useNavigate } from "react-router-dom";
-import startWorkOut from "./startWorkOut.gif";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
 function MainPage() {
   let navigate = useNavigate();
