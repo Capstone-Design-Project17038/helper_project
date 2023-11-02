@@ -247,7 +247,7 @@ export function Squat() {
 
           /* 딥러닝 모델을 이용해서 동작 판단 진행
              Stand = 0 (e[0][0]), Squat = 1 (e[0][1]) */
-          if (pose.score) {
+          if (pose.score >= 0.85) {
             squat_model(
               calc_body_angle(get_lower_keyPoints(pose.keypoints))
             ).then((e) => {
@@ -257,7 +257,7 @@ export function Squat() {
                   currentTime = new Date();
                   exerciseDuration = (currentTime - exerciseStartTime) / 1000;
                   console.log(exerciseDuration);
-                  if (exerciseDuration >= 1) {
+                  if (exerciseDuration >= 2) {
                     setCount((prevCount) => prevCount + 1);
                     exerciseDuration = 0;
                     currentTime = null;
@@ -358,7 +358,7 @@ export function Squat() {
 
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
-      return <div className="timer">Too lale...</div>;
+      return <div className="timer">결과 집계중</div>;
     }
 
     return (

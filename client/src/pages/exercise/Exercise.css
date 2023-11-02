@@ -50,16 +50,17 @@
 #Buttons {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #btn_start {
-  background-color: #007bff;
+  background-color: #1586ff;
   color: #fff;
-  padding: 10px 20px;
+  padding: 15px 30px;
   font-size: 16px;
   border: none;
-  margin: 0 10px;
+  border-radius: 7px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
@@ -105,4 +106,21 @@
 }
 .button:hover {
   color: #3978ef;
+}
+
+.start_img {
+  position: absolute;
+  z-index: 2;
+  left: auto;
+  display: flex;
+  align-items: center;
+  margin: 25px;
+  width: 20%;
+  height: auto;
+  opacity: 0.8;
+}
+
+.start_img:hover {
+  width: 25%;
+  height: auto;
 }
