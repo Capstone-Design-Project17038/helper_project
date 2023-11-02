@@ -28,7 +28,9 @@ function SquatModal({ setSquatOpen }) {
           </ol>
         </div>
       </div>
-      <button onClick={() => Navigate("/Squat")}>운동 시작</button>
+      <button className={styles.start_button} onClick={() => Navigate("/Squat")}>
+        운동 시작
+      </button>
     </div>
   );
 }

@@ -28,7 +28,9 @@ function SideCrunchModalModal({ setsidecrunchOpen }) {
           </ol>
         </div>
       </div>
-      <button onClick={() => Navigate("/SideCrunch")}>운동 시작</button>
+      <button className={styles.start_button} onClick={() => Navigate("/SideCrunch")}>
+        운동 시작
+      </button>
     </div>
   );
 }

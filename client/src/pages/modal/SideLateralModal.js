@@ -13,7 +13,7 @@ function SideLateralModal({ setsidelateralOpen }) {
       <button className={styles.close} onClick={closeModal}>
         X
       </button>
-      <h2>스쿼트</h2>
+      <h2>사이드 레터럴 레이즈</h2>
       <div className={styles.exercise}>
         <div className={styles.exercise_img}>
           <img src="/exercise_img/sidelateral.gif" />
@@ -31,7 +31,9 @@ function SideLateralModal({ setsidelateralOpen }) {
           </ol>
         </div>
       </div>
-      <button onClick={() => Navigate("/SideLateralRaise")}>운동 시작</button>
+      <button className={styles.start_button} onClick={() => Navigate("/SideLateralRaise")}>
+        운동 시작
+      </button>
     </div>
   );
 }

@@ -146,3 +146,22 @@ h2 {
     font-size: 18px;
   }
 }
+
+.start_button {
+  width: 120px;
+  height: 40px;
+  margin: 8px 0;
+  background-color: transparent;
+  border: 1.5px solid #555;
+
+  border-radius: 10px;
+  color: #555;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "Cafe24Ssurround";
+}
+.start_button:hover {
+  cursor: pointer;
+  color: whitesmoke;
+  background-color: #555;
+}

@@ -28,7 +28,9 @@ function ShoulderPressModal({ setShoulderPressOpen }) {
           </ol>
         </div>
       </div>
-      <button onClick={() => Navigate("/ShoulderPress")}>운동 시작</button>
+      <button className={styles.start_button} onClick={() => Navigate("/ShoulderPress")}>
+        운동 시작
+      </button>
     </div>
   );
 }
